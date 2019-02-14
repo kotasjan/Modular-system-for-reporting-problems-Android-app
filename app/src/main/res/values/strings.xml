@@ -1,0 +1,31 @@
+<resources>
+    <!-- General app strings -->
+    <string name="app_name">Bakalářka</string>
+    <string name="title_activity_login">Přihlášení</string>
+
+    <!-- Strings related to welcome -->
+    <string name="welcome_header">Vítejte!</string>
+    <string name="welcome_text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Fusce tellus odio, dapibus id
+        fermentum quis, suscipit id erat. Cras pede libero, dapibus nec, pretium sit amet, tempor quis. Etiam sapien
+        elit, consequat eget, tristique non, venenatis quis, ante.
+    </string>
+    <string name="sign_in_welcome">Přihlásit se</string>
+    <string name="sign_up_welcome">Registrovat se</string>
+
+    <!-- Strings related to login -->
+    <string name="email">Email</string>
+    <string name="password">Heslo</string>
+    <string name="forgotten_password">Zapomněli jste heslo?</string>
+    <string name="action_sign_in">Přihlásit se</string>
+    <string name="or">nebo</string>
+    <string name="facebook">Log in with Facebook</string>
+    <string name="google">Log in with Google+</string>
+    <string name="not_having_account">Nemáte účet?</string>
+    <string name="create_new_account">Zaregistrujte se!</string>
+    <string name="error_invalid_email_or_password">Nesprávné přihlašovací údaje</string>
+    <string name="error_field_required">Tohle pole je povinné</string>
+
+    <!-- Strings related to registration -->
+    <string name="action_sign_up">Registrovat se</string>
+
+</resources>
