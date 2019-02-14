@@ -1,4 +1,4 @@
-package com.example.bakalarka
+package cz.jankotas.bakalarka
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
