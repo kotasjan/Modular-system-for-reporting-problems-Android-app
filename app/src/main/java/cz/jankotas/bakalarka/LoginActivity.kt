@@ -1,15 +1,10 @@
-package com.example.bakalarka
+package cz.jankotas.bakalarka
 
-import android.annotation.SuppressLint
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
-import java.util.regex.Pattern
-
 
 /**
  * A login screen that offers login via email/password.

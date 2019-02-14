@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:dist="http://schemas.android.com/apk/distribution"
-          package="com.example.bakalarka">
+          package="cz.jankotas.bakalarka">
+
     <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
-    <uses-permission android:name="android.permission.READ_PROFILE"/>
-    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <dist:module dist:instant="true"/>
 
@@ -16,13 +16,13 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".RegisterActivity">
+        <activity android:name="cz.jankotas.bakalarka.RegisterActivity">
         </activity>
         <activity
-                android:name=".LoginActivity"
+                android:name="cz.jankotas.bakalarka.LoginActivity"
                 android:label="@string/title_activity_login">
         </activity>
-        <activity android:name=".WelcomeActivity">
+        <activity android:name="cz.jankotas.bakalarka.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
