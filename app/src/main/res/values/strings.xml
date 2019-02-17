@@ -1,8 +1,7 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- General app strings -->
     <string name="app_name">Bakalářka</string>
     <string name="title_activity_login">Přihlášení</string>
-
     <!-- Strings related to welcome -->
     <string name="welcome_header">Vítejte!</string>
     <string name="welcome_text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Fusce tellus odio, dapibus id
@@ -27,5 +26,10 @@
 
     <!-- Strings related to registration -->
     <string name="action_sign_up">Registrovat se</string>
+
+    <!-- Errors -->
+    <string name="err_login_1">Neplatný email</string>
+    <string name="err_login_2">Heslo není vyplněno</string>
+    <string name="err_login_3">Neexistující přihlašovací údaje</string>
 
 </resources>
