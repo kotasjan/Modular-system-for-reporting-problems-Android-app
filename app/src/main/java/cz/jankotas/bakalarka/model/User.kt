@@ -1,11 +1,9 @@
 package cz.jankotas.bakalarka.model
 
-import java.math.BigInteger
-
 class User {
 
     var id: Int = 0
-    var avatarUR: String = ""
+    var avatarURL: String = ""
     var name: String = ""
     var email: String = ""
     var email_verified_at: String = ""

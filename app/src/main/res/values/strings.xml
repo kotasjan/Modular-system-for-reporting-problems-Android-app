@@ -17,19 +17,43 @@
     <string name="forgotten_password">Zapomněli jste heslo?</string>
     <string name="action_sign_in">Přihlásit se</string>
     <string name="or">nebo</string>
-    <string name="facebook">Log in with Facebook</string>
-    <string name="google">Log in with Google+</string>
+    <string name="login_facebook">Log in with Facebook</string>
+    <string name="login_google">Log in with Google+</string>
     <string name="not_having_account">Nemáte účet?</string>
-    <string name="create_new_account">Zaregistrujte se!</string>
+    <string name="create_new_account">Zaregistrujte se</string>
     <string name="error_invalid_email_or_password">Nesprávné přihlašovací údaje</string>
     <string name="error_field_required">Tohle pole je povinné</string>
 
     <!-- Strings related to registration -->
+    <string name="telephone">Telefonní číslo</string>
+    <string name="password_confirm">Potvrzení hesla</string>
     <string name="action_sign_up">Registrovat se</string>
+    <string name="sign_up_facebook">Sign up with Facebook</string>
+    <string name="sign_up_google">Sign up with Google+</string>
+    <string name="having_account">Již máte účet?</string>
+    <string name="having_account_login">Přihlašte se</string>
+    <string name="name">Jméno</string>
+    <string name="sign_up_checkbox_text">Souhlasím se zpracováním osobních údajů a s obecnými podmínkami aplikace XXX.
+    </string>
+
+
+    <!-- Strings related to main activity -->
+
+    <string name="successful_logout">Uživatel úspěšně odhlášen</string>
 
     <!-- Errors -->
     <string name="err_login_1">Neplatný email</string>
     <string name="err_login_2">Heslo není vyplněno</string>
     <string name="err_login_3">Neexistující přihlašovací údaje</string>
+    <string name="err_login_4">Neznámá chyba</string>
+    <string name="title_activity_register">Registrace</string>
+    <string name="title_activity_main">Podněty</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
 
 </resources>
