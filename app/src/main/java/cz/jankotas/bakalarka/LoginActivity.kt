@@ -10,6 +10,7 @@ import android.widget.Toast
 import com.google.gson.Gson
 import cz.jankotas.bakalarka.common.Common
 import cz.jankotas.bakalarka.model.APIResponse
+import cz.jankotas.bakalarka.model.DownloadAndSaveImageTask
 import cz.jankotas.bakalarka.model.User
 import cz.jankotas.bakalarka.remote.IMyAPI
 import kotlinx.android.synthetic.main.activity_login.*
@@ -26,6 +27,8 @@ class LoginActivity : AppCompatActivity() {
     val PREFS_FILE = "cz.jankotas.bakalarka.prefs"
 
     val ACCESS_TOKEN = "access_token"
+
+    val LAST_IMG_URL = "last_img_url"
 
     var prefs: SharedPreferences? = null
 
@@ -83,13 +86,13 @@ class LoginActivity : AppCompatActivity() {
 
                     override fun onResponse(call: Call<APIResponse>?, response: Response<APIResponse>?) {
 
-                        hideDialog()
 
                         when {
                             response!!.code() == 401 -> {
 
                                 editText_email_sign_in_input?.error = getString(R.string.err_login_3)
                                 editText_password_sign_in_input?.setText("")
+                                hideDialog()
 
                             }
                             response.isSuccessful -> {
@@ -105,13 +108,17 @@ class LoginActivity : AppCompatActivity() {
                                     editor.putString("email", email)
                                     editor.putString("password", password)
                                     editor.apply()
+                                    hideDialog()
 
                                     startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                                 }
                             }
-                            else -> Toast.makeText(this@LoginActivity,
-                                getString(R.string.err_login_4),
-                                Toast.LENGTH_SHORT).show()
+                            else -> {
+                                Toast.makeText(this@LoginActivity,
+                                    getString(R.string.err_login_4),
+                                    Toast.LENGTH_SHORT).show()
+                                hideDialog()
+                            }
                         }
                     }
                 })
@@ -146,10 +153,22 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun saveUser(user: User) {
+
         val prefsEditor = prefs!!.edit()
+
+        if(prefs!!.contains(LAST_IMG_URL)){
+            if (prefs!!.getString(LAST_IMG_URL, null) != user.avatarURL){
+                DownloadAndSaveImageTask(this@LoginActivity).execute("user_avatar", user.avatarURL)
+                prefsEditor.putString(LAST_IMG_URL, user.avatarURL)
+            }
+        } else {
+            DownloadAndSaveImageTask(this@LoginActivity).execute("user_avatar", user.avatarURL)
+            prefsEditor.putString(LAST_IMG_URL, user.avatarURL)
+        }
+
         val gson = Gson()
         val json = gson.toJson(user)
-        prefsEditor.putString("User", json)
+        prefsEditor.putString("user", json)
         prefsEditor.apply()
         Log.d("Bakalarka", "User saved: $json")
     }

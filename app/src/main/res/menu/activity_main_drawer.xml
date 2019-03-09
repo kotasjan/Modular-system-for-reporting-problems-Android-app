@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+                android:id="@+id/menu_home"
+                android:icon="@drawable/ic_menu_home"
+                android:title="@string/menu_home"/>
+        <item
+                android:id="@+id/menu_map"
+                android:icon="@drawable/ic_menu_map"
+                android:title="@string/menu_map"/>
+        <item
+                android:id="@+id/menu_stats"
+                android:icon="@drawable/ic_menu_stats"
+                android:title="@string/menu_stats"/>
+        <item
+                android:id="@+id/menu_profile"
+                android:icon="@drawable/ic_menu_person"
+                android:title="@string/menu_profile"/>
+        <item
+                android:id="@+id/menu_messages"
+                android:icon="@drawable/ic_menu_question_answer"
+                android:title="@string/menu_messages"/>
+    </group>
+
+    <item android:title="@string/menu_others">
+        <menu>
+            <item
+                    android:id="@+id/menu_settings"
+                    android:icon="@drawable/ic__menu_settings"
+                    android:title="@string/menu_settings"/>
+            <item
+                    android:id="@+id/menu_help"
+                    android:icon="@drawable/ic_menu_help"
+                    android:title="@string/menu_help"/>
+            <item
+                    android:id="@+id/menu_report_bug"
+                    android:icon="@drawable/ic_menu_bug_report"
+                    android:title="@string/menu_report_bug"/>
+        </menu>
+    </item>
+
+</menu>

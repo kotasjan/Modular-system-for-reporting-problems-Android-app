@@ -16,18 +16,29 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity
+                android:name=".Main2Activity"
+                android:label="@string/title_activity_main2"
+                android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
                 android:name=".MainActivity"
-                android:label="@string/title_activity_main">
+                android:label="@string/title_activity_main"
+                android:screenOrientation="sensorPortrait"
+                android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
                 android:name=".RegisterActivity"
-                android:label="@string/title_activity_register">
+                android:label="@string/title_activity_register"
+                android:screenOrientation="sensorPortrait">
         </activity>
         <activity
                 android:name=".LoginActivity"
-                android:label="@string/title_activity_login">
+                android:label="@string/title_activity_login"
+                android:screenOrientation="sensorPortrait">
         </activity>
-        <activity android:name=".WelcomeActivity">
+        <activity
+                android:name=".WelcomeActivity"
+                android:screenOrientation="sensorPortrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
