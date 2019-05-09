@@ -2,17 +2,15 @@ package cz.jankotas.bakalarka
 
 import android.app.Dialog
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Toast
-import com.google.gson.Gson
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
 import cz.jankotas.bakalarka.common.Common
-import cz.jankotas.bakalarka.model.APIResponse
-import cz.jankotas.bakalarka.model.DownloadAndSaveImageTask
-import cz.jankotas.bakalarka.model.User
-import cz.jankotas.bakalarka.remote.IMyAPI
+import cz.jankotas.bakalarka.models.APIResponse
+import cz.jankotas.bakalarka.services.imagedownloader.DownloadAndSaveImageTask
+import cz.jankotas.bakalarka.viewmodels.UserViewModel
 import kotlinx.android.synthetic.main.activity_login.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -24,28 +22,13 @@ import retrofit2.Response
  */
 class LoginActivity : AppCompatActivity() {
 
-    val PREFS_FILE = "cz.jankotas.bakalarka.prefs"
-
-    val ACCESS_TOKEN = "access_token"
-
-    val LAST_IMG_URL = "last_img_url"
-
-    var prefs: SharedPreferences? = null
-
     lateinit var dialog: Dialog
-
-    private lateinit var mService: IMyAPI
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        prefs = this.getSharedPreferences(PREFS_FILE, 0)
-
         dialog = Dialog(this, android.R.style.Theme_Translucent_NoTitleBar)
-
-        mService = Common.api
 
         button_login_login.setOnClickListener {
             loginUser(editText_email_sign_in_input.text.toString(), editText_password_sign_in_input.text.toString())
@@ -56,8 +39,11 @@ class LoginActivity : AppCompatActivity() {
         }
 
         if (intent.extras != null) {
-            editText_email_sign_in_input.setText(intent.getStringExtra("email"))
-            editText_password_sign_in_input.setText(intent.getStringExtra("password"))
+            val email = intent.getStringExtra("email")
+            val password = intent.getStringExtra("password")
+            editText_email_sign_in_input.setText(email)
+            editText_password_sign_in_input.setText(password)
+            loginUser(email, password)
         }
     }
 
@@ -75,7 +61,7 @@ class LoginActivity : AppCompatActivity() {
 
                 showDialog()
 
-                mService.loginUser(email, password).enqueue(object : Callback<APIResponse> {
+                Common.api.loginUser(email, password).enqueue(object : Callback<APIResponse> {
                     override fun onFailure(call: Call<APIResponse>?, t: Throwable?) {
 
                         hideDialog()
@@ -85,7 +71,6 @@ class LoginActivity : AppCompatActivity() {
                     }
 
                     override fun onResponse(call: Call<APIResponse>?, response: Response<APIResponse>?) {
-
 
                         when {
                             response!!.code() == 401 -> {
@@ -99,18 +84,24 @@ class LoginActivity : AppCompatActivity() {
 
                                 Toast.makeText(this@LoginActivity, response.body()!!.message, Toast.LENGTH_SHORT).show()
 
-                                if (response.body()!!.access_token != null) {
-                                    saveToken("Bearer " + response.body()!!.access_token!!)
+                                val user = response.body()!!.user
+                                user.password = password
 
-                                    saveUser(response.body()!!.user!!)
+                                ViewModelProviders.of(this@LoginActivity).get(UserViewModel::class.java).insert(user)
 
-                                    val editor = prefs!!.edit()
-                                    editor.putString("email", email)
-                                    editor.putString("password", password)
-                                    editor.apply()
-                                    hideDialog()
+                                Common.token = "Bearer " + response.body()!!.access_token
 
-                                    startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                                Common.login = true
+
+                                DownloadAndSaveImageTask(this@LoginActivity).execute("user_avatar", user.avatarURL)
+
+                                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+
+                                hideDialog()
+
+                                if (Common.login) {
+                                    Log.d(Common.APP_NAME, "Finishing app")
+                                    finish()
                                 }
                             }
                             else -> {
@@ -145,35 +136,7 @@ class LoginActivity : AppCompatActivity() {
         return false
     }
 
-    fun saveToken(token: String) {
-        val editor = prefs!!.edit()
-        editor.putString(ACCESS_TOKEN, token)
-        editor.apply()
-        Log.d("Bakalarka", "Token saved: $token")
-    }
-
-    fun saveUser(user: User) {
-
-        val prefsEditor = prefs!!.edit()
-
-        if(prefs!!.contains(LAST_IMG_URL)){
-            if (prefs!!.getString(LAST_IMG_URL, null) != user.avatarURL){
-                DownloadAndSaveImageTask(this@LoginActivity).execute("user_avatar", user.avatarURL)
-                prefsEditor.putString(LAST_IMG_URL, user.avatarURL)
-            }
-        } else {
-            DownloadAndSaveImageTask(this@LoginActivity).execute("user_avatar", user.avatarURL)
-            prefsEditor.putString(LAST_IMG_URL, user.avatarURL)
-        }
-
-        val gson = Gson()
-        val json = gson.toJson(user)
-        prefsEditor.putString("user", json)
-        prefsEditor.apply()
-        Log.d("Bakalarka", "User saved: $json")
-    }
-
-    fun showDialog() {
+    private fun showDialog() {
         val view = this.layoutInflater.inflate(R.layout.full_view_progress_bar, null)
         dialog.setContentView(view)
         dialog.setCancelable(false)

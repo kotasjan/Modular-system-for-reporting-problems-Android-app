@@ -1,41 +1,41 @@
 package cz.jankotas.bakalarka
 
 import android.content.Intent
-import android.content.SharedPreferences
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
+import cz.jankotas.bakalarka.common.SharedPrefs
+import cz.jankotas.bakalarka.models.User
+import cz.jankotas.bakalarka.viewmodels.UserViewModel
 import kotlinx.android.synthetic.main.activity_welcome.*
 
 class WelcomeActivity : AppCompatActivity() {
-
-    val PREFS_FILE = "cz.jankotas.bakalarka.prefs"
-
-    var prefs: SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
 
-        prefs = this.getSharedPreferences(PREFS_FILE, 0)
+        SharedPrefs.initializeSharedPreferences(this)
 
-        val email = prefs!!.getString("email", null)
-        val password = prefs!!.getString("password", null)
+        ViewModelProviders.of(this).get(UserViewModel::class.java).getUser().observe(this,
+            androidx.lifecycle.Observer<User> { user ->
+                if (user == null) return@Observer
 
-        if  (email != null && password != null) {
+                val intent = Intent(this, LoginActivity::class.java)
+                intent.putExtra("email", user.email)
+                intent.putExtra("password", user.password)
+
+                startActivity(intent)
+                finish()
+            })
+
+        button_login_welcome.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
-            intent.putExtra("email", email)
-            intent.putExtra("password", password)
             startActivity(intent)
             finish()
         }
 
-        button_login_welcome.setOnClickListener{
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
-
-        button_register_welcome.setOnClickListener{
+        button_register_welcome.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
             finish()

@@ -1,4 +1,4 @@
-package cz.jankotas.bakalarka.model
+package cz.jankotas.bakalarka.services.imagedownloader
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -11,6 +11,9 @@ import com.bumptech.glide.request.RequestOptions
 import java.lang.ref.WeakReference
 import android.graphics.BitmapFactory
 import android.net.Uri
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
+import cz.jankotas.bakalarka.viewmodels.UserViewModel
 import java.io.*
 
 
@@ -34,7 +37,6 @@ class DownloadAndSaveImageTask(context: Context) : AsyncTask<String, Unit, Unit>
             val bitmap = Glide.with(it).asBitmap().load(url).apply(requestOptions).submit().get()
 
             saveFile(it, bitmap, "profile.jpg")
-
         }
     }
 

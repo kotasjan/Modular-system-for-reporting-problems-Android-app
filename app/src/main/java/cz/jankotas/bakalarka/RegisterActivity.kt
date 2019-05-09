@@ -2,16 +2,11 @@ package cz.jankotas.bakalarka
 
 import android.app.Dialog
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.widget.Toast
-import com.google.gson.Gson
+import androidx.appcompat.app.AppCompatActivity
 import cz.jankotas.bakalarka.common.Common
-import cz.jankotas.bakalarka.model.APIResponse
-import cz.jankotas.bakalarka.model.User
-import cz.jankotas.bakalarka.remote.IMyAPI
+import cz.jankotas.bakalarka.models.APIResponse
 import kotlinx.android.synthetic.main.activity_register.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -21,15 +16,11 @@ class RegisterActivity : AppCompatActivity() {
 
     lateinit var dialog: Dialog
 
-    private lateinit var mService: IMyAPI
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
         dialog = Dialog(this, android.R.style.Theme_Translucent_NoTitleBar)
-
-        mService = Common.api
 
         button_register_sign_in.setOnClickListener {
             registerUser(editText_name_sign_up_input.text.toString(),
@@ -54,7 +45,7 @@ class RegisterActivity : AppCompatActivity() {
 
                 showDialog()
 
-                mService.registerUser(name, email, telephone.toInt(), password, password_confirmation).enqueue(object :
+                Common.api.registerUser(name, email, telephone.toInt(), password, password_confirmation).enqueue(object :
                     Callback<APIResponse> {
                     override fun onFailure(call: Call<APIResponse>?, t: Throwable?) {
 

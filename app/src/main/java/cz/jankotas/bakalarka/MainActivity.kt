@@ -1,29 +1,31 @@
 package cz.jankotas.bakalarka
 
-import android.content.SharedPreferences
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.support.design.widget.NavigationView
-import android.support.design.widget.Snackbar
-import android.support.design.widget.TabLayout
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
-import android.support.v4.view.GravityCompat
-import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import com.google.gson.Gson
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.tabs.TabLayout
 import cz.jankotas.bakalarka.common.Common
+import cz.jankotas.bakalarka.common.SharedPrefs
 import cz.jankotas.bakalarka.fragments.MainTabClosed
 import cz.jankotas.bakalarka.fragments.MainTabCurrent
 import cz.jankotas.bakalarka.fragments.MainTabOwn
-import cz.jankotas.bakalarka.model.APIResponse
-import cz.jankotas.bakalarka.model.User
-import cz.jankotas.bakalarka.remote.IMyAPI
+import cz.jankotas.bakalarka.models.APIResponse
+import cz.jankotas.bakalarka.models.User
+import cz.jankotas.bakalarka.viewmodels.UserViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
@@ -34,55 +36,18 @@ import java.io.File
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    private val PREFS_FILE = "cz.jankotas.bakalarka.prefs"
-
-    private val ACCESS_TOKEN = "access_token"
-
-    var prefs: SharedPreferences? = null
-
-    private var token: String? = null
-
-    private lateinit var mService: IMyAPI
-
     private var mSectionsPageAdapter: SectionsPageAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         setSupportActionBar(toolbar)
 
-        prefs = this.getSharedPreferences(PREFS_FILE, 0)
-        token = prefs!!.getString(ACCESS_TOKEN, null)
+        setNavigationDrawer(nav_view.getHeaderView(0))
 
-        if (token == null) {
-            Toast.makeText(this@MainActivity, "Chybějící token", Toast.LENGTH_SHORT).show()
-            finish()
-        }
-
-        val gson = Gson()
-        val json = prefs!!.getString("user", "")
-        val user = gson.fromJson<User>(json, User::class.java)
-
-        // Change hamburger menu header details (username and email)
-        val headerView: View = nav_view.getHeaderView(0)
-
-        // Load image from internal storage
-        val file = File(this.filesDir, "profile.jpg")
-
-        // Set current profile image of authorized user
-        headerView.profile_image.setImageDrawable(Drawable.createFromPath(file.toString()))
-
-        // Set username and user email
-        headerView.username_hamburger.text = user.name
-        headerView.email_hamburger.text = user.email
-
-        mService = Common.api
-
-
-        mSectionsPageAdapter = SectionsPageAdapter(supportFragmentManager)
-
-        viewpager_main.adapter = mSectionsPageAdapter
-
+        // Adapter for connecting viewPager with tabs
+        viewpager_main.adapter = SectionsPageAdapter(supportFragmentManager)
         viewpager_main.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs_main))
         tabs_main.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(viewpager_main))
         tabs_main.setupWithViewPager(viewpager_main)
@@ -91,44 +56,36 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show()
         }
-
-        // Toggle button for menu drawer
-        val toggle = ActionBarDrawerToggle(this,
-            drawer_layout,
-            toolbar,
-            R.string.navigation_drawer_open,
-            R.string.navigation_drawer_close)
-        drawer_layout.addDrawerListener(toggle)
-        toggle.syncState()
-
-        nav_view.setNavigationItemSelectedListener(this)
     }
 
-    override fun onBackPressed() {
-        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
-            drawer_layout.closeDrawer(GravityCompat.START)
-        } else {
-            // TODO logout pripadne ukonceni aplikace v pripade, ze se jedna o posledni aktivitu pred loginem
-            super.onBackPressed()
-        }
+    override fun onStop() {
+        super.onStop()
+        Log.d(Common.APP_NAME, "onStop()")
+        SharedPrefs.saveAccessToken()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(Common.APP_NAME, "onDestroy()")
+        SharedPrefs.saveAccessToken()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        // Inflate the menu. This adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+        /* Handle action bar item clicks here. The action bar will
+         * automatically handle clicks on the Home/Up button, so long
+         * as you specify a parent activity in AndroidManifest.xml.*/
         return when (item.itemId) {
             R.id.action_filter -> true
             R.id.action_sort -> true
             R.id.action_refresh -> true
             R.id.action_logout -> {
-                logoutUser(token!!)
+                logoutUser(Common.token)
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -168,18 +125,44 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    // Logout function
+    private fun setNavigationDrawer(headerView: View) {
+
+        // ViewModel setting observer for User changes
+        ViewModelProviders.of(this).get(UserViewModel::class.java).getUser().observe(this, androidx.lifecycle.Observer<User> {user ->
+            // Load image from internal storage
+            val file = File(this.filesDir, "profile.jpg")
+            // Set current profile image of authorized user
+            headerView.profile_image.setImageDrawable(Drawable.createFromPath(file.toString()))
+            // Set username and user email
+            headerView.username_hamburger.text = user.name
+            headerView.email_hamburger.text = user.email
+        })
+
+        // Toggle button for menu drawer
+        val toggle = ActionBarDrawerToggle(this,
+            drawer_layout,
+            toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close)
+        drawer_layout.addDrawerListener(toggle)
+        toggle.syncState()
+
+        // Setting active menu item
+        nav_view.setNavigationItemSelectedListener(this)
+    }
 
     private fun logoutUser(token: String) {
-        mService.logoutUser(token).enqueue(object : Callback<APIResponse> {
+        Common.api.logoutUser(token).enqueue(object : Callback<APIResponse> {
             override fun onFailure(call: Call<APIResponse>, t: Throwable) {
                 Toast.makeText(this@MainActivity, t.message, Toast.LENGTH_LONG).show()
             }
 
             override fun onResponse(call: Call<APIResponse>, response: Response<APIResponse>) {
 
+                // If response code is success, logout was successful
                 if (response.code() == 200) {
 
+                    Common.login = false
                     Toast.makeText(this@MainActivity, getString(R.string.successful_logout), Toast.LENGTH_LONG).show()
                     finish()
 
@@ -193,7 +176,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     inner class SectionsPageAdapter(fm: FragmentManager?) : FragmentPagerAdapter(fm) {
 
         override fun getPageTitle(position: Int): CharSequence? {
-            return when(position) {
+            return when (position) {
                 0 -> getString(R.string.currrentTabTitle)
                 1 -> getString(R.string.closedTabTitle)
                 2 -> getString(R.string.ownTabTitle)
@@ -213,6 +196,5 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         override fun getCount(): Int {
             return 3
         }
-
     }
 }

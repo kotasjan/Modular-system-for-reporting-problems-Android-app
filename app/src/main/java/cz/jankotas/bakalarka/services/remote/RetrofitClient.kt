@@ -1,4 +1,4 @@
-package cz.jankotas.bakalarka.remote
+package cz.jankotas.bakalarka.services.remote
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

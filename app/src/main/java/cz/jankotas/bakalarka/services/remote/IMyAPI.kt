@@ -1,7 +1,7 @@
-package cz.jankotas.bakalarka.remote;
+package cz.jankotas.bakalarka.services.remote;
 
 
-import cz.jankotas.bakalarka.model.APIResponse
+import cz.jankotas.bakalarka.models.APIResponse
 import retrofit2.Call
 import retrofit2.http.*
 
