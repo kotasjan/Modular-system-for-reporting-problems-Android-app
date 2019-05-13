@@ -79,4 +79,16 @@
     <string name="title_activity_main2">Main2Activity</string>
     <string name="section_format">Hello World from section: %1$d</string>
 
+
+
+
+
+
+    <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
+    <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
+    <string name="category_icon">category_icon</string>
+    <string name="more_ico_button">more_ico_button</string>
+    <string name="dot_divider">&#160;•&#160;</string>
+    <string name="report_image">Report image</string>
+
 </resources>

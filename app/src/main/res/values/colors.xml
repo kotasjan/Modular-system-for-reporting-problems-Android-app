@@ -11,6 +11,8 @@
     <color name="colorSecondaryText">#757575</color>
     <color name="colorDivider">#BDBDBD</color>
 
+    <color name="colorCardTextHeader">#212121</color>
+
     <color name="colorGoogle">#DD4B39</color>
     <color name="colorFacebook">#3B5998</color>
 </resources>

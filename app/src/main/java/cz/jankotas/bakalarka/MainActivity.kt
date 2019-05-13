@@ -36,8 +36,6 @@ import java.io.File
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    private var mSectionsPageAdapter: SectionsPageAdapter? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -48,9 +46,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         // Adapter for connecting viewPager with tabs
         viewpager_main.adapter = SectionsPageAdapter(supportFragmentManager)
-        viewpager_main.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs_main))
-        tabs_main.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(viewpager_main))
-        tabs_main.setupWithViewPager(viewpager_main)
+        viewpager_main.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
+        tabs.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(viewpager_main))
+        tabs.setupWithViewPager(viewpager_main)
 
         // Set onClickListener for add floating button
         fab.setOnClickListener { view ->

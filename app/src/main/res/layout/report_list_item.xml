@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="wrap_content"
+                                   android:layout_marginStart="10dp"
+                                   android:layout_marginEnd="10dp"
+                                   android:layout_marginTop="5dp"
+                                   android:layout_marginBottom="5dp"
+                                   android:orientation="vertical">
+
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+        
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            <LinearLayout
+                    android:id="@+id/cardView_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                <ImageView android:id="@+id/card_icon"
+                           android:layout_width="45dp"
+                           android:layout_height="45dp"
+                           android:contentDescription="@string/category_icon"
+                           android:layout_margin="8dp"
+                           android:scaleType="fitStart"/>
+
+                <LinearLayout android:layout_width="0dp"
+                              android:layout_height="wrap_content"
+                              android:layout_weight="1"
+                              android:orientation="vertical">
+
+                    <TextView
+                            android:id="@+id/card_headline"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="18sp"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:layout_marginTop="8dp"
+                            android:textColor="@color/colorCardTextHeader"
+                            android:fontFamily="@font/roboto"/>
+
+                    <LinearLayout android:layout_width="match_parent"
+                                  android:layout_height="wrap_content"
+                                  android:orientation="horizontal">
+                        <TextView
+                                android:id="@+id/card_city"
+                                android:gravity="center_vertical"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"/>
+                        <TextView
+                                android:id="@+id/card_dot_divider"
+                                android:gravity="center_vertical"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="@string/dot_divider"/>
+                        <TextView
+                                android:id="@+id/card_elapsed_time"
+                                android:gravity="center_vertical"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <ImageButton
+                        android:id="@+id/card_more_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_more_vertical_black_24dp"
+                        android:background="@null"
+                        android:layout_marginTop="8dp"
+                        android:layout_gravity="top|end"
+                        android:contentDescription="@string/more_ico_button"/>
+                <!--android:onClick="showPopup"-->
+
+            </LinearLayout>
+
+
+            <ImageView
+                    android:id="@+id/report_card_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="170dp"
+                    android:scaleType="centerCrop"
+                    android:contentDescription="@string/report_image"/>
+
+            <!-- TODO doplnit likes a comments-->
+
+
+        </LinearLayout>
+
+        <ProgressBar
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/cardProgressDialog"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"/>
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
