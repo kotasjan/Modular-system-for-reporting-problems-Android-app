@@ -8,8 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import cz.jankotas.bakalarka.common.Common
-import cz.jankotas.bakalarka.models.APIResponse
-import cz.jankotas.bakalarka.services.imagedownloader.DownloadAndSaveImageTask
+import cz.jankotas.bakalarka.models.APILoginResponse
 import cz.jankotas.bakalarka.viewmodels.UserViewModel
 import kotlinx.android.synthetic.main.activity_login.*
 import retrofit2.Call
@@ -61,8 +60,8 @@ class LoginActivity : AppCompatActivity() {
 
                 showDialog()
 
-                Common.api.loginUser(email, password).enqueue(object : Callback<APIResponse> {
-                    override fun onFailure(call: Call<APIResponse>?, t: Throwable?) {
+                Common.api.loginUser(email, password).enqueue(object : Callback<APILoginResponse> {
+                    override fun onFailure(call: Call<APILoginResponse>?, t: Throwable?) {
 
                         hideDialog()
 
@@ -70,7 +69,7 @@ class LoginActivity : AppCompatActivity() {
 
                     }
 
-                    override fun onResponse(call: Call<APIResponse>?, response: Response<APIResponse>?) {
+                    override fun onResponse(call: Call<APILoginResponse>?, response: Response<APILoginResponse>?) {
 
                         when {
                             response!!.code() == 401 -> {
@@ -92,8 +91,6 @@ class LoginActivity : AppCompatActivity() {
                                 Common.token = "Bearer " + response.body()!!.access_token
 
                                 Common.login = true
-
-                                DownloadAndSaveImageTask(this@LoginActivity).execute("user_avatar", user.avatarURL)
 
                                 startActivity(Intent(this@LoginActivity, MainActivity::class.java))
 

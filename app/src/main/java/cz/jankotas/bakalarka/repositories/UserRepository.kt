@@ -35,14 +35,4 @@ class UserRepository(application: Application) {
             userDao.insert(p0[0]!!)
         }
     }
-
-
-    /*
-    private class asyncTask internal constructor(private val userDao: UserDao) : AsyncTask<Void, Void, LiveData<User>>() {
-
-        override fun doInBackground(vararg params: Void): LiveData<User> {
-            return userDao.getUser()
-        }
-    }
-    */
 }

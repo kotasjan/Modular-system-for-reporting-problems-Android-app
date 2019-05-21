@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import cz.jankotas.bakalarka.common.Common
-import cz.jankotas.bakalarka.models.APIResponse
+import cz.jankotas.bakalarka.models.APILoginResponse
 import kotlinx.android.synthetic.main.activity_register.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -46,8 +46,8 @@ class RegisterActivity : AppCompatActivity() {
                 showDialog()
 
                 Common.api.registerUser(name, email, telephone.toInt(), password, password_confirmation).enqueue(object :
-                    Callback<APIResponse> {
-                    override fun onFailure(call: Call<APIResponse>?, t: Throwable?) {
+                    Callback<APILoginResponse> {
+                    override fun onFailure(call: Call<APILoginResponse>?, t: Throwable?) {
 
                         hideDialog()
 
@@ -55,7 +55,7 @@ class RegisterActivity : AppCompatActivity() {
 
                     }
 
-                    override fun onResponse(call: Call<APIResponse>?, response: Response<APIResponse>?) {
+                    override fun onResponse(call: Call<APILoginResponse>?, response: Response<APILoginResponse>?) {
 
                         hideDialog()
 

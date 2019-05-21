@@ -93,12 +93,14 @@
 
         </LinearLayout>
 
+        <!--
         <ProgressBar
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:id="@+id/cardProgressDialog"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"/>
+                -->
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

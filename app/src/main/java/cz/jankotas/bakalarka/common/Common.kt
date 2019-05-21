@@ -1,23 +1,25 @@
 package cz.jankotas.bakalarka.common
 
+import cz.jankotas.bakalarka.models.Location
 import cz.jankotas.bakalarka.models.Report
-import cz.jankotas.bakalarka.models.User
-import cz.jankotas.bakalarka.services.remote.IMyAPI
-import cz.jankotas.bakalarka.services.remote.RetrofitClient
+import cz.jankotas.bakalarka.services.IMyAPI
+import cz.jankotas.bakalarka.services.RetrofitClient
 
 object Common {
 
-    internal const val APP_NAME = "WeatherApp"
+    internal const val APP_NAME = "Bakalarka"
 
     // Kolpinghaus
     // private const val BASE_URL = "http://192.168.10.193/api/"
 
     // Uni
-    private const val BASE_URL = "http://172.22.9.223/api/"
+    private const val BASE_URL = "http://172.22.9.112/api/"
 
     internal var login: Boolean = false
 
     internal lateinit var token: String
+
+    internal var location = Location(49.9384738, 64.293848)
 
     //lateinit var mUser: User
 

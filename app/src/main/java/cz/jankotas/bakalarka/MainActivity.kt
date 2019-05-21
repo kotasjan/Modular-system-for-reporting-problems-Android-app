@@ -13,8 +13,8 @@ import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
@@ -23,7 +23,7 @@ import cz.jankotas.bakalarka.common.SharedPrefs
 import cz.jankotas.bakalarka.fragments.MainTabClosed
 import cz.jankotas.bakalarka.fragments.MainTabCurrent
 import cz.jankotas.bakalarka.fragments.MainTabOwn
-import cz.jankotas.bakalarka.models.APIResponse
+import cz.jankotas.bakalarka.models.APILoginResponse
 import cz.jankotas.bakalarka.models.User
 import cz.jankotas.bakalarka.viewmodels.UserViewModel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -130,7 +130,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             // Load image from internal storage
             val file = File(this.filesDir, "profile.jpg")
             // Set current profile image of authorized user
-            headerView.profile_image.setImageDrawable(Drawable.createFromPath(file.toString()))
+            //headerView.profile_image.setImageDrawable(Drawable.createFromPath(file.toString()))
+
+            Glide.with(this).load(user.avatarURL).into(headerView.profile_image)
+
             // Set username and user email
             headerView.username_hamburger.text = user.name
             headerView.email_hamburger.text = user.email
@@ -150,12 +153,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun logoutUser(token: String) {
-        Common.api.logoutUser(token).enqueue(object : Callback<APIResponse> {
-            override fun onFailure(call: Call<APIResponse>, t: Throwable) {
+        Common.api.logoutUser(token).enqueue(object : Callback<APILoginResponse> {
+            override fun onFailure(call: Call<APILoginResponse>, t: Throwable) {
                 Toast.makeText(this@MainActivity, t.message, Toast.LENGTH_LONG).show()
             }
 
-            override fun onResponse(call: Call<APIResponse>, response: Response<APIResponse>) {
+            override fun onResponse(call: Call<APILoginResponse>, response: Response<APILoginResponse>) {
 
                 // If response code is success, logout was successful
                 if (response.code() == 200) {
