@@ -18,8 +18,8 @@ import cz.jankotas.bakalarka.models.Report
 import java.text.SimpleDateFormat
 import java.util.*
 
-
-class ReportAllAdapter(private var mCtx: Context) : PagedListAdapter<Report, ReportAllAdapter.ReportViewHolder>(DIFF_CALLBACK) {
+class ReportAllAdapter(private var mCtx: Context,
+                       private val onClickListener: (View, Report) -> Unit) : PagedListAdapter<Report, ReportAllAdapter.ReportViewHolder>(DIFF_CALLBACK) {
 
     @NonNull
     override fun onCreateViewHolder(@NonNull parent: ViewGroup, viewType: Int): ReportViewHolder {
@@ -38,8 +38,11 @@ class ReportAllAdapter(private var mCtx: Context) : PagedListAdapter<Report, Rep
             holder.city.text = report.address
             holder.date.text = getDate(report.created_at)
 
-            if(report.photos!!.isNotEmpty())
-                Glide.with(mCtx).load(report.photos[0]).into(holder.image)
+            if (report.photos!!.isNotEmpty()) Glide.with(mCtx).load(report.photos[0]).into(holder.image)
+
+            holder.itemView.setOnClickListener { view ->
+                onClickListener.invoke(view, report)
+            }
 
         } else {
             Toast.makeText(mCtx, "Item is null", Toast.LENGTH_LONG).show()
@@ -47,11 +50,14 @@ class ReportAllAdapter(private var mCtx: Context) : PagedListAdapter<Report, Rep
 
     }
 
-    private fun setIcon(report: Report,holder: ReportViewHolder) {
+    private fun setIcon(report: Report, holder: ReportViewHolder) {
         when (report.category_id) {
-            1 -> holder.icon.setImageDrawable(ContextCompat.getDrawable(holder.icon.context, R.drawable.ic_avatar_environment))
-            2 -> holder.icon.setImageDrawable(ContextCompat.getDrawable(holder.icon.context, R.drawable.ic_avatar_garbage))
-            3 -> holder.icon.setImageDrawable(ContextCompat.getDrawable(holder.icon.context, R.drawable.ic_avatar_traffic))
+            1 -> holder.icon.setImageDrawable(ContextCompat.getDrawable(holder.icon.context,
+                R.drawable.ic_avatar_environment))
+            2 -> holder.icon.setImageDrawable(ContextCompat.getDrawable(holder.icon.context,
+                R.drawable.ic_avatar_garbage))
+            3 -> holder.icon.setImageDrawable(ContextCompat.getDrawable(holder.icon.context,
+                R.drawable.ic_avatar_traffic))
         }
     }
 

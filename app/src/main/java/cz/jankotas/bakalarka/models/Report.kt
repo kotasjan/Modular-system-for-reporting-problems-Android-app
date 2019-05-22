@@ -1,9 +1,12 @@
 package cz.jankotas.bakalarka.models
 
+import android.os.Parcelable
 import androidx.annotation.NonNull
 import androidx.annotation.Nullable
+import kotlinx.android.parcel.Parcelize
 import java.util.*
 
+@Parcelize
 data class Report constructor(@NonNull val id: Int,
                               @NonNull val created_at: Date,
                               @NonNull val updated_at: Date,
@@ -21,4 +24,4 @@ data class Report constructor(@NonNull val id: Int,
                               @NonNull val location: Location,
                               @NonNull val comments: Int,
                               @NonNull val likes: Int,
-                              @NonNull val userLike: Boolean)
+                              @NonNull val userLike: Boolean) : Parcelable

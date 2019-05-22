@@ -1,5 +1,6 @@
 package cz.jankotas.bakalarka.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,8 @@ import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cz.jankotas.bakalarka.R
+import cz.jankotas.bakalarka.ReportActivity
+import cz.jankotas.bakalarka.adapters.ReportAllAdapter
 import cz.jankotas.bakalarka.adapters.ReportClosedAdapter
 import cz.jankotas.bakalarka.models.Report
 import cz.jankotas.bakalarka.viewmodels.ReportClosedViewModel
@@ -26,7 +29,13 @@ class MainTabClosed : Fragment() {
         mRecyclerView.layoutManager = LinearLayoutManager(view.context, RecyclerView.VERTICAL, false)
         mRecyclerView.setHasFixedSize(true)
 
-        val adapter = ReportClosedAdapter(view.context)
+        val adapter = ReportClosedAdapter(view.context, onClickListener = { viewCard, report ->
+            run {
+                val intent = Intent(viewCard.context, ReportActivity::class.java)
+                intent.putExtra("report", report)
+                startActivity(intent)
+            }
+        })
 
         val reportViewModel = ViewModelProviders.of(this).get(ReportClosedViewModel::class.java)
 

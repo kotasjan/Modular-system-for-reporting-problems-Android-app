@@ -1,6 +1,5 @@
 package cz.jankotas.bakalarka.adapters
 
-
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -19,8 +18,8 @@ import cz.jankotas.bakalarka.models.Report
 import java.text.SimpleDateFormat
 import java.util.*
 
-
-class ReportClosedAdapter(private var mCtx: Context) : PagedListAdapter<Report, ReportClosedAdapter.ReportViewHolder>(DIFF_CALLBACK) {
+class ReportClosedAdapter(private var mCtx: Context,
+                       private val onClickListener: (View, Report) -> Unit) : PagedListAdapter<Report, ReportClosedAdapter.ReportViewHolder>(DIFF_CALLBACK) {
 
     @NonNull
     override fun onCreateViewHolder(@NonNull parent: ViewGroup, viewType: Int): ReportViewHolder {
