@@ -7,17 +7,16 @@ import androidx.paging.PageKeyedDataSource
 import androidx.paging.PagedList
 import cz.jankotas.bakalarka.common.Common
 import cz.jankotas.bakalarka.models.Report
-import cz.jankotas.bakalarka.services.reportFetcher.ReportAllDataSource
-import cz.jankotas.bakalarka.services.reportFetcher.factories.ReportAllDataSourceFactory
+import cz.jankotas.bakalarka.services.reportFetcher.factories.ReportClosedDataSourceFactory
 
-class ReportAllViewModel : ViewModel() {
+class ReportClosedViewModel : ViewModel() {
 
     internal var itemPagedList: LiveData<PagedList<Report>>
     private var liveDataSource: LiveData<PageKeyedDataSource<Int, Report>>
 
     init {
 
-        val itemDataSourceFactory = ReportAllDataSourceFactory()
+        val itemDataSourceFactory = ReportClosedDataSourceFactory()
         liveDataSource = itemDataSourceFactory.reportLiveDataSource
 
         val config = PagedList.Config.Builder().setEnablePlaceholders(false).setPageSize(Common.PAGE_SIZE).build()

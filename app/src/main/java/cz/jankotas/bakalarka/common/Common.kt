@@ -15,9 +15,13 @@ object Common {
     // Uni
     private const val BASE_URL = "http://172.22.9.112/api/"
 
+    internal const val PAGE_SIZE = 5
+
     internal var login: Boolean = false
 
     internal lateinit var token: String
+
+    internal var userID : Int? = null
 
     internal var location = Location(49.9384738, 64.293848)
 

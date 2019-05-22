@@ -89,7 +89,7 @@ class LoginActivity : AppCompatActivity() {
                                 ViewModelProviders.of(this@LoginActivity).get(UserViewModel::class.java).insert(user)
 
                                 Common.token = "Bearer " + response.body()!!.access_token
-
+                                Common.userID = user.id
                                 Common.login = true
 
                                 startActivity(Intent(this@LoginActivity, MainActivity::class.java))

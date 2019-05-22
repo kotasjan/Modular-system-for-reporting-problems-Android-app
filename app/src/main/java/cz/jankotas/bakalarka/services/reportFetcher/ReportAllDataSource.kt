@@ -10,13 +10,13 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ReportDataSource : PageKeyedDataSource<Int, Report>() {
+class ReportAllDataSource : PageKeyedDataSource<Int, Report>() {
 
-    private val FIRST_PAGE = 1
+    private val FIRST_PAGE = 0
 
     override fun loadInitial(@NonNull params: LoadInitialParams<Int>, @NonNull callback: LoadInitialCallback<Int, Report>) {
 
-        Common.api.getReports(Common.token, Common.location, FIRST_PAGE, null).enqueue(object : Callback<APIReportResponse> {
+        Common.api.getReports(Common.token, Common.location, FIRST_PAGE, null, null).enqueue(object : Callback<APIReportResponse> {
             override fun onResponse(call: Call<APIReportResponse>, response: Response<APIReportResponse>) {
 
                 if (response.body() != null) {
@@ -36,7 +36,7 @@ class ReportDataSource : PageKeyedDataSource<Int, Report>() {
 
     override fun loadBefore(@NonNull params: LoadParams<Int>, @NonNull callback: LoadCallback<Int, Report>) {
 
-        Common.api.getReports(Common.token, Common.location, params.key, null).enqueue(object :
+        Common.api.getReports(Common.token, Common.location, params.key, null, null).enqueue(object :
             Callback<APIReportResponse> {
             override fun onResponse(call: Call<APIReportResponse>, response: Response<APIReportResponse>) {
 
@@ -58,7 +58,7 @@ class ReportDataSource : PageKeyedDataSource<Int, Report>() {
 
     override fun loadAfter(@NonNull params: LoadParams<Int>, @NonNull callback: LoadCallback<Int, Report>) {
 
-        Common.api.getReports(Common.token, Common.location, params.key, null).enqueue(object :
+        Common.api.getReports(Common.token, Common.location, params.key, null, null).enqueue(object :
             Callback<APIReportResponse> {
             override fun onResponse(call: Call<APIReportResponse>, response: Response<APIReportResponse>) {
 
@@ -75,9 +75,5 @@ class ReportDataSource : PageKeyedDataSource<Int, Report>() {
                 t.printStackTrace()
             }
         })
-    }
-
-    companion object {
-        const val PAGE_SIZE = 5
     }
 }

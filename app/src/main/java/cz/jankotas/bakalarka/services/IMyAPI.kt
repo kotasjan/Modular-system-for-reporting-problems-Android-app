@@ -37,7 +37,8 @@ interface IMyAPI {
         @Header("Authorization") auth_token: String,
         @Query("location") location: Location,
         @Query("page") page: Int,
-        @Query("user") user: User?
+        @Query("user") user: Int?,
+        @Query("closed") closed: Boolean?
     ): Call<APIReportResponse>
 
 }
