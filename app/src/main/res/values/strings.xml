@@ -87,5 +87,10 @@
     <string name="dot_divider">&#160;•&#160;</string>
     <string name="report_image">Report image</string>
     <string name="report">Report</string>
+    <string name="report_state0">ČEKÁ NA SCHVÁLENÍ</string>
+    <string name="report_state1">SCHVÁLENO</string>
+    <string name="report_state2">VYŘEŠENO</string>
+    <string name="report_state3">ZAMÍTNUTO</string>
+    <string name="reason_for_refusal">Důvod zamítnutí</string>
 
 </resources>

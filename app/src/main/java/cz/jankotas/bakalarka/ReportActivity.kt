@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.bumptech.glide.Glide
@@ -77,6 +78,23 @@ class ReportActivity : AppCompatActivity() {
         report_headline.text = report.title
         report_city.text = report.address
         report_date.text = getDate(report.created_at)
+        report_description.text = report.userNote
+        report_employee_note.text = report.employeeNote
+        setState()
+    }
+
+    private fun setState() {
+        report_state.text = when (report.state){
+            0 -> getString(R.string.report_state0)
+            1 -> getString(R.string.report_state1)
+            2 -> getString(R.string.report_state2)
+            3 -> {
+                report_reason_for_refusal.visibility = View.VISIBLE
+                report_employee_note.visibility = View.VISIBLE
+                getString(R.string.report_state3)
+            }
+            else -> ""
+        }
     }
 
     private fun getDate(date: Date): String {
