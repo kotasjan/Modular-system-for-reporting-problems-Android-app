@@ -81,7 +81,9 @@
 
 
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
-    <string name="appbar_scrolling_view_behavior" translatable="false">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
+    <string name="appbar_scrolling_view_behavior" translatable="false">
+        com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior
+    </string>
     <string name="category_icon">category_icon</string>
     <string name="more_ico_button">more_ico_button</string>
     <string name="dot_divider">&#160;•&#160;</string>
@@ -92,5 +94,6 @@
     <string name="report_state2">VYŘEŠENO</string>
     <string name="report_state3">ZAMÍTNUTO</string>
     <string name="reason_for_refusal">Důvod zamítnutí</string>
+    <string name="title_activity_report_on_map">Map</string>
 
 </resources>
