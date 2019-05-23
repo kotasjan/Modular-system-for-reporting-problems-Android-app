@@ -11,10 +11,13 @@ import com.google.android.material.snackbar.Snackbar
 import cz.jankotas.bakalarka.common.Common
 import cz.jankotas.bakalarka.models.Report
 import kotlinx.android.synthetic.main.activity_report.*
+import kotlinx.android.synthetic.main.scrolling_layout.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ReportActivity : AppCompatActivity() {
 
-    private var report : Report? = null
+    lateinit var report: Report
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,16 +31,16 @@ class ReportActivity : AppCompatActivity() {
         val bundle: Bundle? = intent.extras
         bundle?.let {
             bundle.apply {
-                report = getParcelable("report")
-                if (report != null) {
+                val pom: Report? = getParcelable("report")
+                if (pom != null) {
+                    report = pom
                     Log.d(Common.APP_NAME, "Report: $report")
                 } else finish()
             }
         }
 
-        if (report != null) {
-            if (report!!.photos!!.isNotEmpty()) Glide.with(this).load(report!!.photos?.get(0)).into(header_image)
-        }
+        if (report.photos!!.isNotEmpty()) Glide.with(this).load(report.photos?.get(0)).into(header_image)
+        fillLayout()
 
         fab.setOnClickListener {
             Snackbar.make(it, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show()
@@ -68,5 +71,16 @@ class ReportActivity : AppCompatActivity() {
             2 -> toolbar.setLogo(R.drawable.ic_avatar_garbage)
             3 -> toolbar.setLogo(R.drawable.ic_avatar_traffic)
         }
+    }
+
+    private fun fillLayout() {
+        report_headline.text = report.title
+        report_city.text = report.address
+        report_date.text = getDate(report.created_at)
+    }
+
+    private fun getDate(date: Date): String {
+        val format = SimpleDateFormat("dd/MM/yyy", Locale.GERMANY)
+        return format.format(date)
     }
 }

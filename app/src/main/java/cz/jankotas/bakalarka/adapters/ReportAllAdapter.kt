@@ -18,8 +18,8 @@ import cz.jankotas.bakalarka.models.Report
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ReportAllAdapter(private var mCtx: Context,
-                       private val onClickListener: (View, Report) -> Unit) : PagedListAdapter<Report, ReportAllAdapter.ReportViewHolder>(DIFF_CALLBACK) {
+class ReportAllAdapter(private var mCtx: Context, private val onClickListener: (View, Report) -> Unit) :
+    PagedListAdapter<Report, ReportAllAdapter.ReportViewHolder>(DIFF_CALLBACK) {
 
     @NonNull
     override fun onCreateViewHolder(@NonNull parent: ViewGroup, viewType: Int): ReportViewHolder {
@@ -75,7 +75,6 @@ class ReportAllAdapter(private var mCtx: Context,
     }
 
     companion object {
-
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Report>() {
             override fun areItemsTheSame(oldReport: Report, newReport: Report): Boolean {
                 return oldReport.id == newReport.id

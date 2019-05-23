@@ -1,10 +1,7 @@
 package cz.jankotas.bakalarka.services;
 
 
-import cz.jankotas.bakalarka.models.APILoginResponse
-import cz.jankotas.bakalarka.models.APIReportResponse
-import cz.jankotas.bakalarka.models.Location
-import cz.jankotas.bakalarka.models.User
+import cz.jankotas.bakalarka.models.*
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -29,16 +26,18 @@ interface IMyAPI {
 
     @GET("auth/user")
     fun getUser(
-        @Header("Authorization") auth_token: String
+        @Header("Authorization") auth_token: String,
+        @Query("id") id: Int
     ): Call<APILoginResponse>
 
-    @GET("reports")
+    @FormUrlEncoded
+    @POST("reports")
     fun getReports(
         @Header("Authorization") auth_token: String,
-        @Query("location") location: Location,
-        @Query("page") page: Int,
-        @Query("user") user: Int?,
-        @Query("closed") closed: Boolean?
-    ): Call<APIReportResponse>
-
+        @Field("lat") lat: Double,
+        @Field("lng") lng: Double,
+        @Field("page") page: Int,
+        @Field("closed") closed: Int?,
+        @Field("user") user: Int?
+    ): Call<APIReportsResponse>
 }

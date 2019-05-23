@@ -17,7 +17,6 @@ import cz.jankotas.bakalarka.adapters.ReportAllAdapter
 import cz.jankotas.bakalarka.models.Report
 import cz.jankotas.bakalarka.viewmodels.ReportAllViewModel
 
-
 class MainTabCurrent : Fragment() {
 
     private lateinit var mRecyclerView: RecyclerView

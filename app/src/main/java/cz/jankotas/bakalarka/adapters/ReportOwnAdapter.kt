@@ -38,8 +38,13 @@ class ReportOwnAdapter(private var mCtx: Context,
             holder.city.text = report.address
             holder.date.text = getDate(report.created_at)
 
-            if(report.photos!!.isNotEmpty())
+            if(report.photos!!.isNotEmpty()) {
                 Glide.with(mCtx).load(report.photos[0]).into(holder.image)
+
+                holder.itemView.setOnClickListener { view ->
+                    onClickListener.invoke(view, report)
+                }
+            }
 
         } else {
             Toast.makeText(mCtx, "Item is null", Toast.LENGTH_LONG).show()
