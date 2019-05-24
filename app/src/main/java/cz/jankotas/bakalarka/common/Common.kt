@@ -10,10 +10,10 @@ object Common {
     internal const val APP_NAME = "Bakalarka"
 
     // Kolpinghaus
-    // private const val BASE_URL = "http://192.168.10.193/api/"
+    //private const val BASE_URL = "http://192.168.10.193/api/"
 
     // Uni
-    private const val BASE_URL = "http://172.22.9.112/api/"
+    private const val BASE_URL = "http://172.22.9.72/api/"
 
     internal const val PAGE_SIZE = 5
 
@@ -24,10 +24,6 @@ object Common {
     internal var userID : Int? = null
 
     internal var location = Location(49.9384738, 64.293848)
-
-    //lateinit var mUser: User
-
-    var mReportList: MutableList<Report> = arrayListOf()
 
     internal val api: IMyAPI
         get() = RetrofitClient.getClient(BASE_URL).create(IMyAPI::class.java)

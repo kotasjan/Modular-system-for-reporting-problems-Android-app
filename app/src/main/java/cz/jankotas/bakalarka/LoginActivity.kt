@@ -73,11 +73,9 @@ class LoginActivity : AppCompatActivity() {
 
                         when {
                             response!!.code() == 401 -> {
-
                                 editText_email_sign_in_input?.error = getString(R.string.err_login_3)
                                 editText_password_sign_in_input?.setText("")
                                 hideDialog()
-
                             }
                             response.isSuccessful -> {
 

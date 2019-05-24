@@ -24,11 +24,11 @@ interface IMyAPI {
         @Header("Authorization") auth_token: String
     ): Call<APILoginResponse>
 
-    @GET("auth/user")
+    @GET("users/{id}")
     fun getUser(
         @Header("Authorization") auth_token: String,
-        @Query("id") id: Int
-    ): Call<APILoginResponse>
+        @Path("id") id: Int
+    ): Call<User>
 
     @FormUrlEncoded
     @POST("reports")

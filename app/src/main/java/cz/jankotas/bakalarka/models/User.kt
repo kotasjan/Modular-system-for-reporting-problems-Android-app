@@ -17,5 +17,5 @@ data class User constructor(@PrimaryKey @NonNull var id: Int,
                             @NonNull var isSuperAdmin: Boolean = false,
                             @NonNull var isEmployee: Boolean = false,
                             @NonNull var isSupervisor: Boolean = false,
-                            @NonNull var created_at: String,
-                            @NonNull var updated_at: String)
+                            @NonNull var created_at: String?,
+                            @NonNull var updated_at: String?)

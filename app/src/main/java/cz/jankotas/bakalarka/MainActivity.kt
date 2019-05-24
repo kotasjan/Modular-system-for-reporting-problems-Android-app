@@ -127,13 +127,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         // ViewModel setting observer for User changes
         ViewModelProviders.of(this).get(UserViewModel::class.java).getUser().observe(this, androidx.lifecycle.Observer<User> {user ->
-            // Load image from internal storage
-            val file = File(this.filesDir, "profile.jpg")
-            // Set current profile image of authorized user
-            //headerView.profile_image.setImageDrawable(Drawable.createFromPath(file.toString()))
-
             Glide.with(this).load(user.avatarURL).into(headerView.profile_image)
-
             // Set username and user email
             headerView.username_hamburger.text = user.name
             headerView.email_hamburger.text = user.email

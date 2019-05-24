@@ -95,5 +95,6 @@
     <string name="report_state3">ZAMÍTNUTO</string>
     <string name="reason_for_refusal">Důvod zamítnutí</string>
     <string name="title_activity_report_on_map">Map</string>
+    <string name="users_icon">User\'s icon</string>
 
 </resources>
