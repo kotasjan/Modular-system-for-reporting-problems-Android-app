@@ -1,6 +1,6 @@
 package cz.jankotas.bakalarka
 
-import android.graphics.drawable.Drawable
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -16,7 +16,6 @@ import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import cz.jankotas.bakalarka.common.Common
 import cz.jankotas.bakalarka.common.SharedPrefs
@@ -32,7 +31,6 @@ import kotlinx.android.synthetic.main.nav_header_main.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.File
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -51,8 +49,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         tabs.setupWithViewPager(viewpager_main)
 
         // Set onClickListener for add floating button
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show()
+        fab.setOnClickListener {
+            startActivity(Intent(this, ReportGetLocationActivity::class.java))
         }
     }
 
@@ -126,12 +124,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun setNavigationDrawer(headerView: View) {
 
         // ViewModel setting observer for User changes
-        ViewModelProviders.of(this).get(UserViewModel::class.java).getUser().observe(this, androidx.lifecycle.Observer<User> {user ->
-            Glide.with(this).load(user.avatarURL).into(headerView.profile_image)
-            // Set username and user email
-            headerView.username_hamburger.text = user.name
-            headerView.email_hamburger.text = user.email
-        })
+        ViewModelProviders.of(this).get(UserViewModel::class.java).getUser().observe(this,
+            androidx.lifecycle.Observer<User> { user ->
+                Glide.with(this).load(user.avatarURL).into(headerView.profile_image)
+                // Set username and user email
+                headerView.username_hamburger.text = user.name
+                headerView.email_hamburger.text = user.email
+            })
 
         // Toggle button for menu drawer
         val toggle = ActionBarDrawerToggle(this,
