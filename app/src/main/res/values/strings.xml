@@ -96,5 +96,6 @@
     <string name="reason_for_refusal">Důvod zamítnutí</string>
     <string name="title_activity_report_on_map">Map</string>
     <string name="users_icon">User\'s icon</string>
+    <string name="title_activity_report_get_location">Lokace</string>
 
 </resources>
