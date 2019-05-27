@@ -9,7 +9,7 @@
                  android:layout_width="match_parent"
                  android:layout_height="4dp"
                  android:max="100"
-                 android:progress="15"/>
+                 android:progress="40"/>
 
     <EditText android:id="@+id/report_title"
               android:layout_width="match_parent"
@@ -69,10 +69,12 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:textColor="@color/colorWhitePrimary"
+                android:gravity="start|center"
                 android:text="@string/btn_back"
-                android:background="@android:color/transparent"/>
+                android:background="@android:color/transparent"
+                app:layout_constraintVertical_bias="1.0"/>
 
         <Button android:id="@+id/btn_continue"
                 android:layout_width="wrap_content"

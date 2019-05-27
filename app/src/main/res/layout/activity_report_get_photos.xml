@@ -1,10 +1,50 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ReportGetPhotosActivity">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ProgressBar android:id="@+id/photos_progressBar"
+                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                 android:indeterminate="false"
+                 android:layout_width="match_parent"
+                 android:layout_height="4dp"
+                 android:max="100"
+                 android:progress="70"/>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:id="@+id/bottom_banner"
+            android:layout_height="45dp"
+            android:background="@color/colorPrimary"
+            android:layout_alignParentBottom="true">
+
+        <Button android:id="@+id/btn_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:textColor="@color/colorWhitePrimary"
+                android:gravity="start|center"
+                android:text="@string/btn_back"
+                android:background="@android:color/transparent"/>
+
+        <Button android:id="@+id/btn_continue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:textColor="@color/colorWhitePrimary"
+                android:text="@string/btn_continue"
+                android:background="@android:color/transparent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+            android:text="Get Image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/button_image"/>
+
+</RelativeLayout>

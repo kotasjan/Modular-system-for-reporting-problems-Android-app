@@ -19,8 +19,6 @@ class ReportGetDescriptionActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayShowHomeEnabled(true)
         supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_close_white)
 
-        description_progressBar.progress = 40
-
         report_title.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(s: Editable) {}
@@ -38,6 +36,9 @@ class ReportGetDescriptionActivity : AppCompatActivity() {
                 description_letters.text = "$count/255"
             }
         })
+
+        if (newReport.title != null) report_title.setText(newReport.title)
+        if (newReport.title != null) report_description.setText(newReport.userNote)
 
         btn_continue.setOnClickListener {
             if(checkInputs()){
@@ -64,6 +65,7 @@ class ReportGetDescriptionActivity : AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent)
+            newReport.clearData()
             dialog.cancel()
         }}
 

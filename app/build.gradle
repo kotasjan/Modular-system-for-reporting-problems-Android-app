@@ -68,7 +68,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
 
     // Glide
-    implementation "com.github.bumptech.glide:glide:4.8.0"
+    implementation "com.github.bumptech.glide:glide:4.9.0"
     kapt 'com.github.bumptech.glide:compiler:4.9.0'
 
     //Paging
@@ -86,4 +86,6 @@ dependencies {
     // AirLocation library
     implementation 'com.github.mumayank:AirLocation:1.2'
 
+    // Image picker
+    implementation 'com.github.nguyenhoanglam:ImagePicker:1.3.2'
 }

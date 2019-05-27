@@ -11,4 +11,14 @@ data class NewReport constructor(@Nullable var title: String?,
                                  @Nullable var category_id: Int?,
                                  @Nullable var photos: List<String>?,
                                  @Nullable var location: Location?,
-                                 @Nullable var moduleData: String? ) : Parcelable
+                                 @Nullable var moduleData: String? ) : Parcelable {
+    internal fun clearData() {
+        title = null
+        userNote = null
+        user_id = null
+        category_id = null
+        photos = null
+        location = null
+        moduleData = null
+    }
+}
