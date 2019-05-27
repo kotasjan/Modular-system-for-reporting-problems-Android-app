@@ -1,16 +1,38 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                tools:context=".ReportGetPhotosActivity">
 
-    <ProgressBar android:id="@+id/photos_progressBar"
-                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                 android:indeterminate="false"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/bottom_banner">
+
+        <ProgressBar android:id="@+id/location_progressBar"
+                     style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                     android:indeterminate="false"
+                     android:layout_width="match_parent"
+                     android:layout_height="4dp"
+                     android:max="100"
+                     android:progress="15"/>
+
+        <include layout="@layout/photos_recycler_view"
                  android:layout_width="match_parent"
-                 android:layout_height="4dp"
-                 android:max="100"
-                 android:progress="70"/>
+                 android:layout_height="match_parent"
+                 android:layout_marginTop="@dimen/activity_vertical_margin"
+                 android:layout_marginStart="4dp"
+                 android:layout_marginEnd="4dp"/>
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/photo_fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="@dimen/fab_margin"
+                android:src="@drawable/ic_add"/>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -42,9 +64,5 @@
                 android:text="@string/btn_continue"
                 android:background="@android:color/transparent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
-    <Button
-            android:text="Get Image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/button_image"/>
 
 </RelativeLayout>

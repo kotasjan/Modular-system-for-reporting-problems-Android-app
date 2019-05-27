@@ -2,19 +2,20 @@ package cz.jankotas.bakalarka
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Parcelable
-import android.util.Log
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.nguyenhoanglam.imagepicker.model.Image
-import cz.jankotas.bakalarka.common.Common.newReport
-import kotlinx.android.synthetic.main.activity_report_get_photos.*
-import com.nguyenhoanglam.imagepicker.ui.imagepicker.ImagePicker
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.nguyenhoanglam.imagepicker.model.Config.EXTRA_IMAGES
 import com.nguyenhoanglam.imagepicker.model.Config.RC_PICK_IMAGES
-import cz.jankotas.bakalarka.common.Common
+import com.nguyenhoanglam.imagepicker.model.Image
+import com.nguyenhoanglam.imagepicker.ui.imagepicker.ImagePicker
+import cz.jankotas.bakalarka.adapters.ImageGridAdapter
+import cz.jankotas.bakalarka.common.Common.newReport
+import kotlinx.android.synthetic.main.activity_report_get_photos.*
+import kotlinx.android.synthetic.main.photos_recycler_view.*
 
 class ReportGetPhotosActivity : AppCompatActivity() {
 
@@ -36,10 +37,9 @@ class ReportGetPhotosActivity : AppCompatActivity() {
             finish()
         }
 
-        button_image.setOnClickListener {
+        photo_fab.setOnClickListener {
             getImage()
         }
-
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -48,14 +48,9 @@ class ReportGetPhotosActivity : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == RC_PICK_IMAGES && resultCode == Activity.RESULT_OK && data != null) {
-            var images : ArrayList<Image> = data.getParcelableArrayListExtra(EXTRA_IMAGES)
+        if (requestCode == RC_PICK_IMAGES && resultCode == Activity.RESULT_OK && data != null)
+            pushDataToAdapter(data.getParcelableArrayListExtra(EXTRA_IMAGES))
 
-            for (image in images) {
-
-                Log.d(Common.APP_NAME, "Image: $image")
-            }
-        }
         super.onActivityResult(requestCode, resultCode, data)  // You MUST have this line to be here
         // so ImagePicker can work with fragment mode
     }
@@ -87,6 +82,12 @@ class ReportGetPhotosActivity : AppCompatActivity() {
 
     private fun getColorAsString(resource: Int) : String {
         return "#"+Integer.toHexString(ContextCompat.getColor(this, resource))
+    }
+
+    private fun pushDataToAdapter(imageList: ArrayList<Image>) {
+        photos_recycler_view.adapter = ImageGridAdapter(this, imageList)
+        val layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
+        photos_recycler_view.layoutManager = layoutManager
     }
 
     private fun showDialog() {

@@ -76,7 +76,6 @@
                         android:layout_marginTop="8dp"
                         android:layout_gravity="top|end"
                         android:contentDescription="@string/more_ico_button"/>
-                <!--android:onClick="showPopup"-->
 
             </LinearLayout>
 
@@ -88,19 +87,8 @@
                     android:scaleType="centerCrop"
                     android:contentDescription="@string/report_image"/>
 
-            <!-- TODO doplnit likes a comments-->
-
-
         </LinearLayout>
 
-        <!--
-        <ProgressBar
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:id="@+id/cardProgressDialog"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"/>
-                -->
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
