@@ -106,5 +106,6 @@
     <string name="activity_description">Popis</string>
     <string name="warning_closing_report">Pokud opustíte vytváření nového reportu, ztratíte tím veškerý progres.
     </string>
+    <string name="activity_choosing_photos">Výběr fotografií</string>
 
 </resources>
