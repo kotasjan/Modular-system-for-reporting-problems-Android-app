@@ -3,7 +3,6 @@ package cz.jankotas.bakalarka
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
@@ -93,11 +92,6 @@ class LoginActivity : AppCompatActivity() {
                                 startActivity(Intent(this@LoginActivity, MainActivity::class.java))
 
                                 hideDialog()
-
-                                if (Common.login) {
-                                    Log.d(Common.APP_NAME, "Finishing app")
-                                    finish()
-                                }
                             }
                             else -> {
                                 Toast.makeText(this@LoginActivity,

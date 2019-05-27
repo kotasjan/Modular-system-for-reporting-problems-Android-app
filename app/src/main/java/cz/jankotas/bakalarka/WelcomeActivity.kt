@@ -26,19 +26,16 @@ class WelcomeActivity : AppCompatActivity() {
                 intent.putExtra("password", user.password)
 
                 startActivity(intent)
-                finish()
             })
 
         button_login_welcome.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
-            finish()
         }
 
         button_register_welcome.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
-            finish()
         }
     }
 }

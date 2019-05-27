@@ -1,28 +1,74 @@
-<RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-    <fragment
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/map"
-            tools:context=".ReportGetLocationActivity"
-            android:name="com.google.android.gms.maps.SupportMapFragment"/>
+            android:layout_above="@+id/bottom_banner">
 
-    <View
-            android:id="@+id/anchor"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_centerInParent="true" />
+        <RelativeLayout android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+            <fragment
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/map"
+                    tools:context=".ReportGetLocationActivity"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"/>
 
-    <ImageView
-            android:layout_height="48dp"
-            android:layout_width="30dp"
-            android:layout_above="@id/anchor"
-            android:id="@+id/imgLocationPinUp"
-            android:src="@drawable/ic_map_marker"
-            android:layout_centerHorizontal="true"
-            android:contentDescription="@string/location_marker"/>
+            <View
+                    android:id="@+id/anchor"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_centerInParent="true"/>
+
+            <ImageView
+                    android:layout_height="48dp"
+                    android:layout_width="30dp"
+                    android:layout_above="@id/anchor"
+                    android:id="@+id/imgLocationPinUp"
+                    android:src="@drawable/ic_map_marker"
+                    android:layout_centerHorizontal="true"
+                    android:contentDescription="@string/location_marker"/>
+
+        </RelativeLayout>
+
+        <ProgressBar android:id="@+id/location_progressBar"
+                     style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                     android:indeterminate="false"
+                     android:layout_width="match_parent"
+                     android:layout_height="4dp"
+                     android:max="100"
+                     android:progress="15"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/location_fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="@dimen/fab_margin"
+                android:src="@drawable/ic_location_searching"/>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:id="@+id/bottom_banner"
+            android:layout_height="45dp"
+            android:background="@color/colorPrimary"
+            android:layout_alignParentBottom="true">
+
+        <Button android:id="@+id/btn_continue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:textColor="@color/colorWhitePrimary"
+                android:text="@string/btn_continue"
+                android:background="@android:color/transparent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </RelativeLayout>

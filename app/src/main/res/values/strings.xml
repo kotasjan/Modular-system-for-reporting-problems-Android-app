@@ -98,5 +98,13 @@
     <string name="users_icon">User\'s icon</string>
     <string name="title_activity_report_get_location">Lokace</string>
     <string name="location_marker">Location marker</string>
+    <string name="waiting_for_location">Čekání na polohu...</string>
+    <string name="unsuccessful_searching_for_location">Vyhledávání polohy selhalo, zkuste to znovu.</string>
+    <string name="btn_continue"><![CDATA[POKRAČOVAT >]]></string>
+    <string name="btn_back"><![CDATA[< ZPĚT]]></string>
+    <string name="hint_report_title">Nadpis</string>
+    <string name="activity_description">Popis</string>
+    <string name="warning_closing_report">Pokud opustíte vytváření nového reportu, ztratíte tím veškerý progres.
+    </string>
 
 </resources>

@@ -30,6 +30,7 @@ android {
 repositories {
     mavenCentral()
     google()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -81,5 +82,8 @@ dependencies {
 
     // Joda-Time
     implementation 'joda-time:joda-time:2.10.2'
+
+    // AirLocation library
+    implementation 'com.github.mumayank:AirLocation:1.2'
 
 }

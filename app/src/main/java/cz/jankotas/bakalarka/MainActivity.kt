@@ -1,6 +1,8 @@
 package cz.jankotas.bakalarka
 
+import android.app.Dialog
 import android.content.Intent
+import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -27,26 +29,37 @@ import cz.jankotas.bakalarka.models.User
 import cz.jankotas.bakalarka.viewmodels.UserViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.full_view_progress_bar.*
+import kotlinx.android.synthetic.main.full_view_progress_bar.view.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
+import mumayank.com.airlocationlibrary.AirLocation
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+    private lateinit var dialog: Dialog
+
+    // Declare your airLocation object on top
+    private var airLocation: AirLocation? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         setSupportActionBar(toolbar)
-
         setNavigationDrawer(nav_view.getHeaderView(0))
 
-        // Adapter for connecting viewPager with tabs
-        viewpager_main.adapter = SectionsPageAdapter(supportFragmentManager)
-        viewpager_main.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
-        tabs.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(viewpager_main))
-        tabs.setupWithViewPager(viewpager_main)
+        val view = this.layoutInflater.inflate(R.layout.full_view_progress_bar, null)
+        view.progress_text.text = getString(R.string.waiting_for_location)
+        tabs.visibility = View.GONE
+
+        dialog = Dialog(this, android.R.style.Theme_Translucent_NoTitleBar)
+        dialog.setContentView(view)
+        dialog.setCancelable(false)
+        dialog.show()
+
+        getCurrentLocation()
 
         // Set onClickListener for add floating button
         fab.setOnClickListener {
@@ -64,6 +77,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onDestroy()
         Log.d(Common.APP_NAME, "onDestroy()")
         SharedPrefs.saveAccessToken()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        logoutUser(Common.token)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -119,6 +137,37 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        airLocation?.onActivityResult(requestCode, resultCode, data)
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        airLocation?.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    private fun getCurrentLocation() {
+        airLocation = AirLocation(this, true, true, object : AirLocation.Callbacks {
+            override fun onSuccess(location: Location) {
+                // Adapter for connecting viewPager with tabs
+                Common.location = cz.jankotas.bakalarka.models.Location(location.latitude, location.longitude)
+                viewpager_main.adapter = SectionsPageAdapter(supportFragmentManager)
+                viewpager_main.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
+                tabs.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(viewpager_main))
+                tabs.setupWithViewPager(viewpager_main)
+                tabs.visibility = View.VISIBLE
+                dialog.dismiss()
+            }
+
+            override fun onFailed(locationFailedEnum: AirLocation.LocationFailedEnum) {
+                getCurrentLocation()
+                // either do nothing, or show error which is received as locationFailedEnum
+                Toast.makeText(this@MainActivity, locationFailedEnum.name, Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun setNavigationDrawer(headerView: View) {
