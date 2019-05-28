@@ -80,8 +80,8 @@ class ReportGetPhotosActivity : AppCompatActivity() {
             .setImageTitle("Galleries")         //  Image title (works with FolderMode = false)
             .setDoneTitle(getString(R.string.done))               //  Done button title
             .setLimitMessage(getString(R.string.selection_limit_reached))    // Selection limit message
-            .setMaxSize(5)                     //  Max images can be selected
-            .setSavePath(Common.APP_NAME + "/Images")         //  Image capture folder name
+            .setMaxSize(9)                     //  Max images can be selected
+            .setSavePath(Common.APP_NAME)         //  Image capture folder name
             .setSelectedImages(Common.selectedImages)          //  Selected images
             .setAlwaysShowDoneButton(true)      //  Set always show done button in multiple mode
             .setRequestCode(100)                //  Set request code, default Config.RC_PICK_IMAGES
@@ -89,8 +89,8 @@ class ReportGetPhotosActivity : AppCompatActivity() {
             .start()                            //  Start ImagePicker
     }
 
-    private fun getColorAsString(resource: Int) : String {
-        return "#"+Integer.toHexString(ContextCompat.getColor(this, resource))
+    private fun getColorAsString(resource: Int): String {
+        return "#" + Integer.toHexString(ContextCompat.getColor(this, resource))
     }
 
     private fun showDialog() {
@@ -98,17 +98,21 @@ class ReportGetPhotosActivity : AppCompatActivity() {
         builder1.setMessage(getString(R.string.warning_closing_report))
         builder1.setCancelable(true)
 
-        builder1.setPositiveButton("OK") { dialog, _ -> run {
-            val intent = Intent(this, MainActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            startActivity(intent)
-            Common.newReport.clearData()
-            dialog.cancel()
-        }}
+        builder1.setPositiveButton("OK") { dialog, _ ->
+            run {
+                val intent = Intent(this, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(intent)
+                Common.newReport.clearData()
+                dialog.cancel()
+            }
+        }
 
-        builder1.setNegativeButton("Cancel") { dialog, _ -> run {
-            dialog.cancel()
-        }}
+        builder1.setNegativeButton("Cancel") { dialog, _ ->
+            run {
+                dialog.cancel()
+            }
+        }
 
         val alert11 = builder1.create()
         alert11.show()
