@@ -104,6 +104,7 @@ class ReportGetPhotosActivity : AppCompatActivity() {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(intent)
                 Common.newReport.clearData()
+                Common.selectedImages.clear()
                 dialog.cancel()
             }
         }

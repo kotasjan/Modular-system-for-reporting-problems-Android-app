@@ -3,7 +3,6 @@ package cz.jankotas.bakalarka.common
 import com.nguyenhoanglam.imagepicker.model.Image
 import cz.jankotas.bakalarka.models.Location
 import cz.jankotas.bakalarka.models.NewReport
-import cz.jankotas.bakalarka.models.Report
 import cz.jankotas.bakalarka.services.IMyAPI
 import cz.jankotas.bakalarka.services.RetrofitClient
 

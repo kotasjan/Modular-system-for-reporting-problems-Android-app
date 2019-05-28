@@ -13,10 +13,8 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.snackbar.Snackbar
 import cz.jankotas.bakalarka.common.Common
-import cz.jankotas.bakalarka.common.Common.newReport
 import kotlinx.android.synthetic.main.activity_report_get_location.*
 import mumayank.com.airlocationlibrary.AirLocation
-
 
 class ReportGetLocationActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -71,7 +69,7 @@ class ReportGetLocationActivity : AppCompatActivity(), OnMapReadyCallback {
             // Cleaning all the markers.
             map.clear()
             val location = map.cameraPosition.target
-            newReport.location = cz.jankotas.bakalarka.models.Location(location.latitude, location.longitude)
+            Common.newReport.location = cz.jankotas.bakalarka.models.Location(location.latitude, location.longitude)
         }
 
         btn_continue.setOnClickListener {
@@ -94,7 +92,8 @@ class ReportGetLocationActivity : AppCompatActivity(), OnMapReadyCallback {
             val intent = Intent(this, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent)
-            newReport.clearData()
+            Common.newReport.clearData()
+            Common.selectedImages.clear()
             dialog.cancel()
         }}
 
@@ -119,8 +118,8 @@ class ReportGetLocationActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun getCurrentLocation(view: View) {
         airLocation = AirLocation(this, true, true, object : AirLocation.Callbacks {
             override fun onSuccess(location: Location) {
-                newReport.location = cz.jankotas.bakalarka.models.Location(location.latitude, location.longitude)
-                Common.location = newReport.location!!
+                Common.newReport.location = cz.jankotas.bakalarka.models.Location(location.latitude, location.longitude)
+                Common.location = Common.newReport.location!!
 
                 map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(location.latitude, location.longitude),
                     18.0f), 2000, object : GoogleMap.CancelableCallback {

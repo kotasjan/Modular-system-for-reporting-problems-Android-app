@@ -7,7 +7,7 @@ import kotlinx.android.synthetic.main.activity_report_get_description.*
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.app.AlertDialog
-import cz.jankotas.bakalarka.common.Common.newReport
+import cz.jankotas.bakalarka.common.Common
 
 class ReportGetDescriptionActivity : AppCompatActivity() {
 
@@ -37,8 +37,8 @@ class ReportGetDescriptionActivity : AppCompatActivity() {
             }
         })
 
-        if (newReport.title != null) report_title.setText(newReport.title)
-        if (newReport.title != null) report_description.setText(newReport.userNote)
+        if (Common.newReport.title != null) report_title.setText(Common.newReport.title)
+        if (Common.newReport.title != null) report_description.setText(Common.newReport.userNote)
 
         btn_continue.setOnClickListener {
             if(checkInputs()){
@@ -65,7 +65,8 @@ class ReportGetDescriptionActivity : AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent)
-            newReport.clearData()
+            Common.newReport.clearData()
+            Common.selectedImages.clear()
             dialog.cancel()
         }}
 
@@ -93,8 +94,8 @@ class ReportGetDescriptionActivity : AppCompatActivity() {
     }
 
     private fun startNextActivity() {
-        newReport.title = report_title.text.toString()
-        newReport.userNote = report_description.text.toString()
+        Common.newReport.title = report_title.text.toString()
+        Common.newReport.userNote = report_description.text.toString()
 
         val intent = Intent(this, ReportGetPhotosActivity::class.java)
         startActivity(intent)
