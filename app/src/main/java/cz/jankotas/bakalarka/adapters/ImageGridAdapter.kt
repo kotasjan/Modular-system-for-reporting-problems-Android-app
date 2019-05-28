@@ -12,7 +12,7 @@ import com.nguyenhoanglam.imagepicker.model.Image
 import cz.jankotas.bakalarka.R
 import kotlinx.android.synthetic.main.photo_image_view.view.*
 
-class ImageGridAdapter(private val context: Context, private var images: List<Image>) :
+class ImageGridAdapter(private var context: Context, private var images: List<Image>) :
     RecyclerView.Adapter<ImageGridAdapter.ImageViewHolder>() {
 
     override fun getItemCount(): Int {
@@ -34,6 +34,13 @@ class ImageGridAdapter(private val context: Context, private var images: List<Im
         holder.iv.setOnClickListener {
 
         }
+    }
+
+    fun setData(images: ArrayList<Image>?) {
+        if (images != null) {
+            this.images = images
+        }
+        notifyDataSetChanged()
     }
 
     class ImageViewHolder(view: View) : RecyclerView.ViewHolder(view) {

@@ -1,5 +1,6 @@
 package cz.jankotas.bakalarka.common
 
+import com.nguyenhoanglam.imagepicker.model.Image
 import cz.jankotas.bakalarka.models.Location
 import cz.jankotas.bakalarka.models.NewReport
 import cz.jankotas.bakalarka.models.Report
@@ -29,7 +30,9 @@ object Common {
 
     internal lateinit var location : Location
 
-    internal var newReport = NewReport(null, null, null, null, null, null, null)
+    internal var newReport = NewReport(null, null, null, null, ArrayList(), null, null)
+
+    internal var selectedImages : ArrayList<Image> = ArrayList()
 
     internal val api: IMyAPI
         get() = RetrofitClient.getClient(BASE_URL).create(IMyAPI::class.java)

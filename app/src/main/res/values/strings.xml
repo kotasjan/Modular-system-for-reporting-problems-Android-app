@@ -107,5 +107,8 @@
     <string name="warning_closing_report">Pokud opustíte vytváření nového reportu, ztratíte tím veškerý progres.
     </string>
     <string name="activity_choosing_photos">Výběr fotografií</string>
+    <string name="albums">Alba</string>
+    <string name="done">Hotovo</string>
+    <string name="selection_limit_reached">Byl dosažen limit výběru</string>
 
 </resources>

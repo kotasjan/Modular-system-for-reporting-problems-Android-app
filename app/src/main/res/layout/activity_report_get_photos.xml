@@ -6,6 +6,7 @@
                 tools:context=".ReportGetPhotosActivity">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/coordinator_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/bottom_banner">
@@ -16,7 +17,7 @@
                      android:layout_width="match_parent"
                      android:layout_height="4dp"
                      android:max="100"
-                     android:progress="15"/>
+                     android:progress="70"/>
 
         <include layout="@layout/photos_recycler_view"
                  android:layout_width="match_parent"
