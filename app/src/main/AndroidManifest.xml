@@ -22,18 +22,19 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-
+        <activity android:name=".ReportModuleDataActivity">
+        </activity>
 
         <meta-data
                 android:name="com.google.android.geo.API_KEY"
                 android:value="@string/google_maps_key"/>
 
-        <activity android:name=".ReportGetPhotosActivity"
-                  android:label="@string/activity_choosing_photos"
-                  android:screenOrientation="sensorPortrait"
-                  android:theme="@style/AppTheme.noAnimTheme">
+        <activity
+                android:name=".ReportGetPhotosActivity"
+                android:label="@string/activity_choosing_photos"
+                android:screenOrientation="sensorPortrait"
+                android:theme="@style/AppTheme.noAnimTheme">
         </activity>
-
         <activity
                 android:name=".ReportGetDescriptionActivity"
                 android:label="@string/activity_description"

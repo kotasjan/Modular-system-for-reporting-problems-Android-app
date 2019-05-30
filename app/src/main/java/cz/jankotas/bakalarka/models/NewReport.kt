@@ -11,7 +11,7 @@ data class NewReport constructor(@Nullable var title: String?,
                                  @Nullable var category_id: Int?,
                                  @Nullable var photos: ArrayList<String>,
                                  @Nullable var location: Location?,
-                                 @Nullable var moduleData: String? ) : Parcelable {
+                                 @Nullable var moduleData: ArrayList<ModuleData>? ) : Parcelable {
     internal fun clearData() {
         title = null
         userNote = null
@@ -19,6 +19,6 @@ data class NewReport constructor(@Nullable var title: String?,
         category_id = null
         photos = ArrayList()
         location = null
-        moduleData = null
+        moduleData= null
     }
 }

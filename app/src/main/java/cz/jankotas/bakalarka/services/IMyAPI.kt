@@ -40,4 +40,13 @@ interface IMyAPI {
         @Field("closed") closed: Int?,
         @Field("user") user: Int?
     ): Call<APIReportsResponse>
+
+    @FormUrlEncoded
+    @POST("modules")
+    fun getModules(
+        @Header("Authorization") auth_token: String,
+        @Field("lat") lat: Double,
+        @Field("lng") lng: Double,
+        @Field("category_id") category_id: Int
+    ): Call<Module>
 }
