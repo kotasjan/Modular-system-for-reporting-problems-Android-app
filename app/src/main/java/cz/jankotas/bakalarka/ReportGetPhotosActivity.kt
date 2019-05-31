@@ -28,7 +28,8 @@ class ReportGetPhotosActivity : AppCompatActivity() {
         supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_close_white)
 
         btn_continue.setOnClickListener {
-
+            val intent = Intent(this, ReportGetCategoryActivity::class.java)
+            startActivity(intent)
         }
 
         btn_back.setOnClickListener {

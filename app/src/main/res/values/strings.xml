@@ -110,5 +110,8 @@
     <string name="albums">Alba</string>
     <string name="done">Hotovo</string>
     <string name="selection_limit_reached">Byl dosažen limit výběru</string>
+    <string name="category_greens">Zeleň</string>
+    <string name="category_garbage">Odpad</string>
+    <string name="category_traffic">Doprava</string>
 
 </resources>

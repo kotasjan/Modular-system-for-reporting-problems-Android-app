@@ -48,5 +48,5 @@ interface IMyAPI {
         @Field("lat") lat: Double,
         @Field("lng") lng: Double,
         @Field("category_id") category_id: Int
-    ): Call<Module>
+    ): Call<APIModuleResponse>
 }
