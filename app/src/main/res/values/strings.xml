@@ -113,5 +113,7 @@
     <string name="category_greens">Zeleň</string>
     <string name="category_garbage">Odpad</string>
     <string name="category_traffic">Doprava</string>
+    <string name="category_street_furniture">Mobiliář</string>
+    <string name="category_public_lighting">Veřejné osvětlení</string>
 
 </resources>

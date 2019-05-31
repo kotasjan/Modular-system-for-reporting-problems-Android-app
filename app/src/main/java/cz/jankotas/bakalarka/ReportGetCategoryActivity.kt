@@ -42,8 +42,9 @@ class ReportGetCategoryActivity : AppCompatActivity() {
         btn_back.setOnClickListener {
             finish()
         }
-
-        Category.setCategories(this)
+        
+        if (Category.categories.isEmpty())
+            Category.setCategories(this)
 
         mRecyclerView = findViewById(R.id.recycleView_categories)
         mRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)

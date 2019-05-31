@@ -16,6 +16,8 @@ data class Category constructor(@NonNull val id: Int,
             categories.add(Category(1, context.getString(R.string.category_greens), context.getDrawable(R.drawable.ic_avatar_environment)!!))
             categories.add(Category(2, context.getString(R.string.category_garbage), context.getDrawable(R.drawable.ic_avatar_garbage)!!))
             categories.add(Category(3, context.getString(R.string.category_traffic), context.getDrawable(R.drawable.ic_avatar_traffic)!!))
+            categories.add(Category(4, context.getString(R.string.category_street_furniture), context.getDrawable(R.drawable.ic_avatar_street_furniture)!!))
+            categories.add(Category(5, context.getString(R.string.category_public_lighting), context.getDrawable(R.drawable.ic_avatar_public_lighting)!!))
         }
     }
 }
