@@ -71,8 +71,6 @@ class ReportGetDescriptionActivity : AppCompatActivity() {
         btn_continue.setOnClickListener {
             if (checkInputs()) {
                 startNextActivity()
-                Common.newReport.moduleData = getModuleDataList()
-                Log.d(Common.APP_NAME, Common.newReport.moduleData.toString())
             }
         }
 
@@ -131,6 +129,8 @@ class ReportGetDescriptionActivity : AppCompatActivity() {
     private fun startNextActivity() {
         Common.newReport.title = report_title.text.toString()
         Common.newReport.userNote = report_description.text.toString()
+        Common.newReport.moduleData = getModuleDataList()
+        Log.d(Common.APP_NAME, Common.newReport.toString())
 
         /*val intent = Intent(this, ReportGetPhotosActivity::class.java)
         startActivity(intent)*/

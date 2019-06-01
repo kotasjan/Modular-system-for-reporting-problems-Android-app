@@ -40,6 +40,7 @@
             android:id="@+id/bottom_banner"
             android:layout_height="45dp"
             android:background="@color/colorPrimary"
+            android:visibility="gone"
             android:layout_alignParentBottom="true">
 
         <Button android:id="@+id/btn_continue"

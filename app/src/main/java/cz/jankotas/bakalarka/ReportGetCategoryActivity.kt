@@ -106,7 +106,7 @@ class ReportGetCategoryActivity : AppCompatActivity() {
     }
 
     private fun startNextActivity(modules: ArrayList<Module>?) {
-        Log.d(Common.APP_NAME, modules.toString())
+        Common.newReport.category_id = selectedCategory!!.id
         val intent = Intent(this, ReportGetDescriptionActivity::class.java)
         intent.putParcelableArrayListExtra("modules", modules)
         startActivity(intent)

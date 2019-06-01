@@ -9,10 +9,17 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.nguyenhoanglam.imagepicker.model.Image
 import cz.jankotas.bakalarka.common.Common
+import kotlinx.android.synthetic.main.activity_report_get_photos.view.*
 import kotlinx.android.synthetic.main.photo_image_view.view.*
+import android.R
+import android.app.Activity
+import android.widget.Button
+import android.widget.TextView
 
-class ImageGridAdapter(private var context: Context, private var images: List<Image>) :
-    RecyclerView.Adapter<ImageGridAdapter.ImageViewHolder>() {
+
+
+class PhotoGridAdapter(private var context: Context, private val view: View, private var images: List<Image>) :
+    RecyclerView.Adapter<PhotoGridAdapter.ImageViewHolder>() {
 
     override fun getItemCount(): Int {
         return images.size
@@ -33,6 +40,7 @@ class ImageGridAdapter(private var context: Context, private var images: List<Im
         holder.reportPhotoLayout.delete_photo_iv.setOnClickListener {
             Common.selectedImages.remove(image)
             this.images = Common.selectedImages
+            if (images.isEmpty()) view.visibility = View.GONE
             notifyDataSetChanged()
         }
     }

@@ -3,6 +3,7 @@ package cz.jankotas.bakalarka
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -10,24 +11,27 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.nguyenhoanglam.imagepicker.model.Config.EXTRA_IMAGES
 import com.nguyenhoanglam.imagepicker.model.Config.RC_PICK_IMAGES
 import com.nguyenhoanglam.imagepicker.ui.imagepicker.ImagePicker
-import cz.jankotas.bakalarka.adapters.ImageGridAdapter
+import cz.jankotas.bakalarka.adapters.PhotoGridAdapter
 import cz.jankotas.bakalarka.common.Common
 import kotlinx.android.synthetic.main.activity_report_get_photos.*
 import kotlinx.android.synthetic.main.photos_recycler_view.*
 
 class ReportGetPhotosActivity : AppCompatActivity() {
 
-    private val adapter = ImageGridAdapter(this, Common.selectedImages)
+    private lateinit var adapter: PhotoGridAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_report_get_photos)
+
+        adapter = PhotoGridAdapter(this, bottom_banner, Common.selectedImages)
 
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
         supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_close_white)
 
         btn_continue.setOnClickListener {
+            Common.newReport.user_id = Common.userID
             val intent = Intent(this, ReportGetLocationActivity::class.java)
             startActivity(intent)
         }
@@ -43,6 +47,8 @@ class ReportGetPhotosActivity : AppCompatActivity() {
 
         val layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
         photos_recycler_view.layoutManager = layoutManager
+
+        getImages()
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -54,6 +60,7 @@ class ReportGetPhotosActivity : AppCompatActivity() {
         if (requestCode == RC_PICK_IMAGES && resultCode == Activity.RESULT_OK && data != null) {
             Common.selectedImages = data.getParcelableArrayListExtra(EXTRA_IMAGES)
             adapter.setData(Common.selectedImages)
+            if (Common.selectedImages.isNotEmpty()) bottom_banner.visibility = View.VISIBLE else bottom_banner.visibility = View.GONE
             photos_recycler_view.adapter = adapter
         }
 
