@@ -115,5 +115,7 @@
     <string name="category_traffic">Doprava</string>
     <string name="category_street_furniture">Mobiliář</string>
     <string name="category_public_lighting">Veřejné osvětlení</string>
+    <string name="activity_additional_data">Doplňující data</string>
+    <string name="activity_categories">Kategorie</string>
 
 </resources>

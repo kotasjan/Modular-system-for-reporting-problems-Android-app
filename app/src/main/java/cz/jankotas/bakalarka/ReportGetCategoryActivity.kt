@@ -1,7 +1,6 @@
 package cz.jankotas.bakalarka
 
 import android.content.Intent
-import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -22,8 +21,6 @@ class ReportGetCategoryActivity : AppCompatActivity() {
 
     private lateinit var mRecyclerView: RecyclerView
 
-    private var modules: ArrayList<Module>? = null
-
     private var selectedCategory: Category? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,16 +32,14 @@ class ReportGetCategoryActivity : AppCompatActivity() {
         supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_close_white)
 
         btn_continue.setOnClickListener {
-            modules = getModules()
-            startActivity(modules)
+            getModules()
         }
 
         btn_back.setOnClickListener {
             finish()
         }
-        
-        if (Category.categories.isEmpty())
-            Category.setCategories(this)
+
+        if (Category.categories.isEmpty()) Category.setCategories(this)
 
         mRecyclerView = findViewById(R.id.recycleView_categories)
         mRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
@@ -61,38 +56,36 @@ class ReportGetCategoryActivity : AppCompatActivity() {
     }
 
 
-    private fun getModules(): ArrayList<Module>? {
+    private fun getModules() {
 
-        var modules: ArrayList<Module>? = null
-
-        Common.api.getModules(Common.token, Common.newReport.location!!.lat, Common.newReport.location!!.lng, selectedCategory!!.id).enqueue(object :
-            Callback<APIModuleResponse> {
+        Common.api.getModules(Common.token,
+            Common.newReport.location!!.lat,
+            Common.newReport.location!!.lng,
+            selectedCategory!!.id).enqueue(object : Callback<APIModuleResponse> {
             override fun onResponse(call: Call<APIModuleResponse>, response: Response<APIModuleResponse>) {
-
                 if (response.body() != null) {
-                    modules = response.body()!!.modules
-
+                    val modules = response.body()!!.modules
                     Log.d(Common.APP_NAME, "All modules data: " + modules.toString())
+                    startActivityModules(modules)
                 }
             }
 
             override fun onFailure(call: Call<APIModuleResponse>, t: Throwable) {
                 Log.d(Common.APP_NAME, "Failure during getting modules data.")
                 t.printStackTrace()
+                startActivityFinish()
             }
         })
-        return modules
     }
 
-    private fun startActivity(modules: ArrayList<Module>?) {
-        if (modules != null) {
-                val intent = Intent(this, ReportModuleDataActivity::class.java)
-                intent.putExtra("modules", modules)
-                startActivity(intent)
-        } else {
-            /*val intent = Intent(this, ::class.java)
-            startActivity(intent)*/
-        }
+    private fun startActivityModules(modules: ArrayList<Module>) {
+        Log.d(Common.APP_NAME, modules.toString())
+        val intent = Intent(this, ReportModuleDataActivity::class.java)
+        intent.putParcelableArrayListExtra("modules", modules)
+        startActivity(intent)
+    }
+
+    private fun startActivityFinish() {
 
     }
 }

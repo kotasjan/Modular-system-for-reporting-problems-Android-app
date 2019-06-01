@@ -1,7 +1,10 @@
 package cz.jankotas.bakalarka.models
 
+import android.os.Parcelable
 import androidx.annotation.NonNull
+import kotlinx.android.parcel.Parcelize
 
-data class Module constructor(@NonNull var module_id: Int,
+@Parcelize
+data class Module constructor(@NonNull var id: Int,
                               @NonNull var name: String,
-                              @NonNull var inputs: ArrayList<Input>)
+                              @NonNull var inputs: ArrayList<Input>) : Parcelable

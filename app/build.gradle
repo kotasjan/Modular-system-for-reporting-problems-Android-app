@@ -42,8 +42,8 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:16.1.0'
     testImplementation 'junit:junit:4.12'
     implementation 'android.arch.work:work-runtime-ktx:1.0.1'
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     // ViewModel Kotlin support
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-alpha01"
@@ -55,9 +55,9 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.0'
 
     // Room components
-    implementation "androidx.room:room-runtime:2.1.0-beta01"
-    implementation "androidx.room:room-ktx:2.1.0-beta01"
-    kapt "androidx.room:room-compiler:2.1.0-beta01"
+    implementation "androidx.room:room-runtime:2.1.0-rc01"
+    implementation "androidx.room:room-ktx:2.1.0-rc01"
+    kapt "androidx.room:room-compiler:2.1.0-rc01"
     androidTestImplementation "androidx.room:room-testing:2.0.0"
 
     // Retrofit
