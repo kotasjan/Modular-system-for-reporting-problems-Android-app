@@ -41,7 +41,7 @@
                      android:layout_width="match_parent"
                      android:layout_height="4dp"
                      android:max="100"
-                     android:progress="15"/>
+                     android:progress="30"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/location_fab"
@@ -58,6 +58,18 @@
             android:layout_height="45dp"
             android:background="@color/colorPrimary"
             android:layout_alignParentBottom="true">
+
+        <Button android:id="@+id/btn_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:textColor="@color/colorWhitePrimary"
+                android:gravity="start|center"
+                android:text="@string/btn_back"
+                android:background="@android:color/transparent"/>
 
         <Button android:id="@+id/btn_continue"
                 android:layout_width="wrap_content"

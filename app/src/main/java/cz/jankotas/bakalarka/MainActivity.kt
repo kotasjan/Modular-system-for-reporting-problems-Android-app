@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         // Set onClickListener for add floating button
         fab.setOnClickListener {
-            startActivity(Intent(this, ReportGetLocationActivity::class.java))
+            startActivity(Intent(this, ReportGetPhotosActivity::class.java))
         }
     }
 

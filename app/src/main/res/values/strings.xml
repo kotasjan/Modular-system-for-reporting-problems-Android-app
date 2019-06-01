@@ -117,5 +117,6 @@
     <string name="category_public_lighting">Veřejné osvětlení</string>
     <string name="activity_additional_data">Doplňující data</string>
     <string name="activity_categories">Kategorie</string>
+    <string name="hint_report_description">Popis podnětu</string>
 
 </resources>

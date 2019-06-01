@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -55,6 +56,32 @@ class ReportGetCategoryActivity : AppCompatActivity() {
         recycleView_categories.adapter = adapter
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        showDialog()
+        return true
+    }
+
+    private fun showDialog() {
+        val builder1 = AlertDialog.Builder(this)
+        builder1.setMessage(getString(R.string.warning_closing_report))
+        builder1.setCancelable(true)
+
+        builder1.setPositiveButton("OK") { dialog, id -> run {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(intent)
+            Common.newReport.clearData()
+            Common.selectedImages.clear()
+            dialog.cancel()
+        }}
+
+        builder1.setNegativeButton("Cancel") { dialog, id -> run {
+            dialog.cancel()
+        }}
+
+        val alert11 = builder1.create()
+        alert11.show()
+    }
 
     private fun getModules() {
 
@@ -66,26 +93,22 @@ class ReportGetCategoryActivity : AppCompatActivity() {
                 if (response.body() != null) {
                     val modules = response.body()!!.modules
                     Log.d(Common.APP_NAME, "All modules data: " + modules.toString())
-                    startActivityModules(modules)
+                    startNextActivity(modules)
                 }
             }
 
             override fun onFailure(call: Call<APIModuleResponse>, t: Throwable) {
                 Log.d(Common.APP_NAME, "Failure during getting modules data.")
                 t.printStackTrace()
-                startActivityFinish()
+                startNextActivity(null)
             }
         })
     }
 
-    private fun startActivityModules(modules: ArrayList<Module>) {
+    private fun startNextActivity(modules: ArrayList<Module>?) {
         Log.d(Common.APP_NAME, modules.toString())
-        val intent = Intent(this, ReportModuleDataActivity::class.java)
+        val intent = Intent(this, ReportGetDescriptionActivity::class.java)
         intent.putParcelableArrayListExtra("modules", modules)
         startActivity(intent)
-    }
-
-    private fun startActivityFinish() {
-
     }
 }

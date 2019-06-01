@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.startActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -13,6 +14,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.snackbar.Snackbar
 import cz.jankotas.bakalarka.common.Common
+import cz.jankotas.bakalarka.common.Common.location
 import kotlinx.android.synthetic.main.activity_report_get_location.*
 import mumayank.com.airlocationlibrary.AirLocation
 
@@ -40,6 +42,15 @@ class ReportGetLocationActivity : AppCompatActivity(), OnMapReadyCallback {
         location_fab.setOnClickListener {
             getCurrentLocation(it)
         }
+
+        btn_back.setOnClickListener {
+            finish()
+        }
+
+        btn_continue.setOnClickListener {
+            val intent = Intent(this, ReportGetCategoryActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     /**
@@ -54,12 +65,12 @@ class ReportGetLocationActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
 
-        val center = CameraUpdateFactory.newLatLng(LatLng(Common.location.lat, Common.location.lng))
-        val zoom = CameraUpdateFactory.zoomTo(18f)
-
-        map.moveCamera(center)
-        map.animateCamera(zoom)
-
+        if (Common.newReport.location == null) {
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(Common.location.lat, Common.location.lng), 18f))
+        } else {
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(Common.newReport.location!!.lat, Common.newReport.location!!.lng), 18f))
+            location_fab.setImageResource(R.drawable.ic_location_current)
+        }
 
         map.setOnCameraMoveStartedListener {
             location_fab.setImageResource(R.drawable.ic_location_searching)
@@ -70,11 +81,6 @@ class ReportGetLocationActivity : AppCompatActivity(), OnMapReadyCallback {
             map.clear()
             val location = map.cameraPosition.target
             Common.newReport.location = cz.jankotas.bakalarka.models.Location(location.latitude, location.longitude)
-        }
-
-        btn_continue.setOnClickListener {
-            val intent = Intent(this, ReportGetDescriptionActivity::class.java)
-            startActivity(intent)
         }
     }
 
@@ -88,18 +94,22 @@ class ReportGetLocationActivity : AppCompatActivity(), OnMapReadyCallback {
         builder1.setMessage(getString(R.string.warning_closing_report))
         builder1.setCancelable(true)
 
-        builder1.setPositiveButton("OK") { dialog, id -> run {
-            val intent = Intent(this, MainActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            startActivity(intent)
-            Common.newReport.clearData()
-            Common.selectedImages.clear()
-            dialog.cancel()
-        }}
+        builder1.setPositiveButton("OK") { dialog, id ->
+            run {
+                val intent = Intent(this, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(intent)
+                Common.newReport.clearData()
+                Common.selectedImages.clear()
+                dialog.cancel()
+            }
+        }
 
-        builder1.setNegativeButton("Cancel") { dialog, id -> run {
-            dialog.cancel()
-        }}
+        builder1.setNegativeButton("Cancel") { dialog, id ->
+            run {
+                dialog.cancel()
+            }
+        }
 
         val alert11 = builder1.create()
         alert11.show()
