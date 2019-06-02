@@ -49,7 +49,7 @@ class ReportActivity : AppCompatActivity() {
 
         fab.setOnClickListener {
             val intent = Intent(this, ReportOnMapActivity::class.java)
-            intent.putExtra("report", report)
+            intent.putExtra("location", report.location)
             startActivity(intent)
         }
     }

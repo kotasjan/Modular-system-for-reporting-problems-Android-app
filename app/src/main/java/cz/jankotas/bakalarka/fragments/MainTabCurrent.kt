@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import cz.jankotas.bakalarka.MainActivity
 import cz.jankotas.bakalarka.R
 import cz.jankotas.bakalarka.ReportActivity
 import cz.jankotas.bakalarka.adapters.ReportAllAdapter

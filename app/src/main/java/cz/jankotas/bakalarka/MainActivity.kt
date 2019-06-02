@@ -29,7 +29,6 @@ import cz.jankotas.bakalarka.models.User
 import cz.jankotas.bakalarka.viewmodels.UserViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.full_view_progress_bar.*
 import kotlinx.android.synthetic.main.full_view_progress_bar.view.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
 import mumayank.com.airlocationlibrary.AirLocation

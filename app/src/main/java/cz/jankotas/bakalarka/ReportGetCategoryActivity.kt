@@ -22,7 +22,7 @@ class ReportGetCategoryActivity : AppCompatActivity() {
 
     private lateinit var mRecyclerView: RecyclerView
 
-    private var selectedCategory: Category? = null
+    private var category_id: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,11 +32,18 @@ class ReportGetCategoryActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayShowHomeEnabled(true)
         supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_close_white)
 
+        category_id = Common.newReport.category_id
+
         btn_continue.setOnClickListener {
+            if (Common.newReport.category_id != category_id) {
+                Common.newReport.moduleData?.clear()
+                Common.newReport.category_id = category_id
+            }
             getModules()
         }
 
         btn_back.setOnClickListener {
+            Common.newReport.category_id = category_id
             finish()
         }
 
@@ -44,9 +51,9 @@ class ReportGetCategoryActivity : AppCompatActivity() {
         mRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         mRecyclerView.setHasFixedSize(true)
 
-        val adapter = CategoryAdapter(this, Category.categories, onClickListener = { viewCard, category ->
+        val adapter = CategoryAdapter(this, Category.categories, onClickListener = { _, category ->
             run {
-                selectedCategory = category
+                category_id = category.id
                 btn_continue.visibility = View.VISIBLE
             }
         })
@@ -64,16 +71,15 @@ class ReportGetCategoryActivity : AppCompatActivity() {
         builder1.setMessage(getString(R.string.warning_closing_report))
         builder1.setCancelable(true)
 
-        builder1.setPositiveButton("OK") { dialog, id -> run {
+        builder1.setPositiveButton("OK") { dialog, _ -> run {
             val intent = Intent(this, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent)
             Common.newReport.clearData()
-            Common.selectedImages.clear()
             dialog.cancel()
         }}
 
-        builder1.setNegativeButton("Cancel") { dialog, id -> run {
+        builder1.setNegativeButton("Cancel") { dialog, _ -> run {
             dialog.cancel()
         }}
 
@@ -86,11 +92,11 @@ class ReportGetCategoryActivity : AppCompatActivity() {
         Common.api.getModules(Common.token,
             Common.newReport.location!!.lat,
             Common.newReport.location!!.lng,
-            selectedCategory!!.id).enqueue(object : Callback<APIModuleResponse> {
+            Common.newReport.category_id!!).enqueue(object : Callback<APIModuleResponse> {
             override fun onResponse(call: Call<APIModuleResponse>, response: Response<APIModuleResponse>) {
                 if (response.body() != null) {
                     val modules = response.body()!!.modules
-                    Log.d(Common.APP_NAME, "All modules data: " + modules.toString())
+                    Log.d(Common.APP_NAME, "All modules data: $modules")
                     startNextActivity(modules)
                 }
             }
@@ -104,7 +110,6 @@ class ReportGetCategoryActivity : AppCompatActivity() {
     }
 
     private fun startNextActivity(modules: ArrayList<Module>?) {
-        Common.newReport.category_id = selectedCategory!!.id
         val intent = Intent(this, ReportGetDescriptionActivity::class.java)
         intent.putParcelableArrayListExtra("modules", modules)
         startActivity(intent)

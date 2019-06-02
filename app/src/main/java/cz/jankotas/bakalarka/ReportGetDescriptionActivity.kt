@@ -15,7 +15,6 @@ import androidx.appcompat.app.AlertDialog
 import cz.jankotas.bakalarka.common.Common
 import cz.jankotas.bakalarka.models.Input
 import cz.jankotas.bakalarka.models.Module
-import java.util.ArrayList
 import android.text.InputFilter
 import android.text.InputType
 import android.util.Log
@@ -27,6 +26,8 @@ import android.widget.Spinner
 import android.widget.TableLayout
 import cz.jankotas.bakalarka.models.InputData
 import cz.jankotas.bakalarka.models.ModuleData
+import kotlin.collections.ArrayList
+
 
 class ReportGetDescriptionActivity : AppCompatActivity() {
 
@@ -47,7 +48,7 @@ class ReportGetDescriptionActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable) {}
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                title_letters.text = "$count/80"
+                title_letters.text = "${report_title.text.length}/80"
             }
         })
 
@@ -56,12 +57,12 @@ class ReportGetDescriptionActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable) {}
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                description_letters.text = "$count/255"
+                description_letters.text = "${report_description.text.length}/255"
             }
         })
 
         if (Common.newReport.title != null) report_title.setText(Common.newReport.title)
-        if (Common.newReport.title != null) report_description.setText(Common.newReport.userNote)
+        if (Common.newReport.userNote != null) report_description.setText(Common.newReport.userNote)
 
         linearLayout = findViewById(R.id.generated_layout)
 
@@ -69,11 +70,13 @@ class ReportGetDescriptionActivity : AppCompatActivity() {
 
         btn_continue.setOnClickListener {
             if (checkInputs()) {
+                saveState()
                 startNextActivity()
             }
         }
 
         btn_back.setOnClickListener {
+            saveState()
             finish()
         }
 
@@ -90,18 +93,17 @@ class ReportGetDescriptionActivity : AppCompatActivity() {
         builder1.setMessage(getString(R.string.warning_closing_report))
         builder1.setCancelable(true)
 
-        builder1.setPositiveButton("OK") { dialog, id ->
+        builder1.setPositiveButton("OK") { dialog, _ ->
             run {
                 val intent = Intent(this, MainActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(intent)
                 Common.newReport.clearData()
-                Common.selectedImages.clear()
                 dialog.cancel()
             }
         }
 
-        builder1.setNegativeButton("Cancel") { dialog, id ->
+        builder1.setNegativeButton("Cancel") { dialog, _ ->
             run {
                 dialog.cancel()
             }
@@ -126,18 +128,20 @@ class ReportGetDescriptionActivity : AppCompatActivity() {
     }
 
     private fun startNextActivity() {
-        Common.newReport.title = report_title.text.toString()
-        Common.newReport.userNote = report_description.text.toString()
-        Common.newReport.moduleData = getModuleDataList()
-        Log.d(Common.APP_NAME, Common.newReport.toString())
-
         val intent = Intent(this, NewReportDetailActivity::class.java)
         startActivity(intent)
     }
 
+    private fun saveState() {
+        Common.newReport.title = report_title.text.toString()
+        Common.newReport.userNote = report_description.text.toString()
+        Common.newReport.moduleData = getModuleDataList()
+        Log.d(Common.APP_NAME, Common.newReport.toString())
+    }
+
     private fun setLayout() {
 
-        for (module in modules) {
+        for ((index, module) in modules.withIndex()) {
             // Line separator
             addLineSeparator()
 
@@ -147,21 +151,24 @@ class ReportGetDescriptionActivity : AppCompatActivity() {
             linearLayout.addView(textView)
 
             // Add module's inputs
-            setModuleInputs(module.inputs)
+            if (Common.newReport.moduleData != null && Common.newReport.moduleData!!.isNotEmpty())
+                setModuleInputs(module.inputs, Common.newReport.moduleData?.get(index)?.inputs)
+            else
+                setModuleInputs(module.inputs, null)
         }
     }
 
-    private fun setModuleInputs(inputs: List<Input>) {
-        for (input in inputs) {
+    private fun setModuleInputs(inputs: List<Input>, inputsData: ArrayList<InputData>?) {
+        for ((index, input) in inputs.withIndex()) {
             when (input.inputType) {
-                "string" -> addEditText(input)
-                "number" -> addEditText(input)
-                "spinner" -> addSpinner(input)
+                "string" -> addEditText(input, inputsData?.get(index))
+                "number" -> addEditText(input, inputsData?.get(index))
+                "spinner" -> addSpinner(input, inputsData?.get(index))
             }
         }
     }
 
-    private fun addEditText(input: Input) {
+    private fun addEditText(input: Input, inputData: InputData?) {
         val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT)
 
@@ -192,9 +199,10 @@ class ReportGetDescriptionActivity : AppCompatActivity() {
                 override fun afterTextChanged(s: Editable) {}
                 override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
                 override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                    textView.text = "$count/${input.characters}"
+                    textView.text = "${editText.text.length}/${input.characters}"
                 }
             })
+            editText.setText(inputData?.value)
             editTextLayout.addView(textView)
         }
     }
@@ -214,7 +222,7 @@ class ReportGetDescriptionActivity : AppCompatActivity() {
         textView.gravity = Gravity.END
     }
 
-    private fun addSpinner(input: Input) {
+    private fun addSpinner(input: Input, inputData: InputData?) {
         val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT)
 
@@ -228,7 +236,7 @@ class ReportGetDescriptionActivity : AppCompatActivity() {
         linearLayout.addView(spinnerLayout)
 
         val textView = TextView(this)
-        setSpinner(textView, input.title)
+        setSpinnerName(textView, input.title)
         spinnerLayout.addView(textView)
 
         val spinner = Spinner(this)
@@ -245,10 +253,11 @@ class ReportGetDescriptionActivity : AppCompatActivity() {
                 override fun onNothingSelected(parent: AdapterView<*>) {}
             }
         }
+        inputData?.let { spinner.setSelection((spinner.adapter as ArrayAdapter<String>).getPosition(inputData.value)) }
         spinnerLayout.addView(spinner)
     }
 
-    private fun setSpinner(textView: TextView, name: String) {
+    private fun setSpinnerName(textView: TextView, name: String) {
         val params = TableLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
 
         params.setMargins(0, convertDpToPixel(8f), 0, 0)
@@ -294,7 +303,7 @@ class ReportGetDescriptionActivity : AppCompatActivity() {
         for (module in modules) {
             moduleDataList.add(getModuleData(module))
         }
-        return if(moduleDataList.isNotEmpty()) moduleDataList else null
+        return if (moduleDataList.isNotEmpty()) moduleDataList else null
     }
 
     private fun getModuleData(module: Module): ModuleData {

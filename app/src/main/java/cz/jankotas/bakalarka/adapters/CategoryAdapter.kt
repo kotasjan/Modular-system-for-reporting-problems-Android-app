@@ -10,6 +10,7 @@ import androidx.annotation.NonNull
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import cz.jankotas.bakalarka.R
+import cz.jankotas.bakalarka.common.Common
 import cz.jankotas.bakalarka.models.Category
 
 class CategoryAdapter(private var mCtx: Context, private var categories: List<Category>, private val onClickListener: (View, Category) -> Unit) :
@@ -32,6 +33,13 @@ class CategoryAdapter(private var mCtx: Context, private var categories: List<Ca
 
         holder.icon.setImageDrawable(category.icon)
         holder.name.text = category.name
+
+        Common.newReport.category_id?.let {id ->
+            if (category.id == id) {
+                holder.card.setBackgroundColor(holder.itemView.context.getColor(R.color.colorPrimary))
+                lastHolder = holder
+            }
+        }
 
         holder.itemView.setOnClickListener { view ->
             if (lastHolder != null) lastHolder!!.card.setBackgroundColor(view.context.getColor(R.color.colorWhitePrimary))

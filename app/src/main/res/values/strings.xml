@@ -119,5 +119,6 @@
     <string name="activity_categories">Kategorie</string>
     <string name="hint_report_description">Popis podnětu</string>
     <string name="activity_new_report">Nový report</string>
+    <string name="send">Odeslat</string>
 
 </resources>

@@ -31,8 +31,6 @@ object Common {
 
     internal var newReport = NewReport(null, null, null, null, ArrayList(), null, null,null)
 
-    internal var selectedImages : ArrayList<Image> = ArrayList()
-
     internal val api: IMyAPI
         get() = RetrofitClient.getClient(BASE_URL).create(IMyAPI::class.java)
 }

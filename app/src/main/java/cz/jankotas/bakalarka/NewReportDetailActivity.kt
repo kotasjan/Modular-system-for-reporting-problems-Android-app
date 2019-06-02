@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import cz.jankotas.bakalarka.common.Common
-import cz.jankotas.bakalarka.models.NewReport
 import cz.jankotas.bakalarka.models.Report
 import cz.jankotas.bakalarka.models.User
 import cz.jankotas.bakalarka.viewmodels.UserViewModel
@@ -18,10 +17,7 @@ import kotlinx.android.synthetic.main.scrolling_layout_new_report.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 class NewReportDetailActivity : AppCompatActivity() {
-
-    var report: Report? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,14 +29,22 @@ class NewReportDetailActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayShowHomeEnabled(true)
         supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_close_white)
 
-        if (setReport(Common.newReport)) fillLayout()
+        fillLayout()
 
-        if (Common.selectedImages.isNotEmpty()) Glide.with(this).load(Common.selectedImages[0].path).placeholder(R.drawable.photo_placeholder).into(header_image)
+        if (Common.newReport.photos.isNotEmpty()) Glide.with(this).load(Common.newReport.photos[0].path).placeholder(R.drawable.photo_placeholder).into(header_image)
 
         fab.setOnClickListener {
             val intent = Intent(this, ReportOnMapActivity::class.java)
-            intent.putExtra("report", report)
+            intent.putExtra("location", Common.newReport.location)
             startActivity(intent)
+        }
+
+        btn_send.setOnClickListener {
+            sendReport()
+        }
+
+        btn_back.setOnClickListener {
+            finish()
         }
     }
 
@@ -73,7 +77,6 @@ class NewReportDetailActivity : AppCompatActivity() {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(intent)
                 Common.newReport.clearData()
-                Common.selectedImages.clear()
                 dialog.cancel()
             }
         }
@@ -88,43 +91,11 @@ class NewReportDetailActivity : AppCompatActivity() {
         alert11.show()
     }
 
-    private fun setReport(newReport: NewReport) : Boolean{
-        report = newReport.title?.let { it0 ->
-            newReport.user_id?.let { it1 ->
-                newReport.category_id?.let { it2 ->
-                    newReport.location?.let { it3 ->
-                        newReport.address?.let { it4 ->
-                            Report(0,
-                                Date(),
-                                Date(),
-                                it0,
-                                0,
-                                newReport.userNote,
-                                null,
-                                it4,
-                                it1,
-                                null,
-                                it2,
-                                1,
-                                0.0,
-                                null,
-                                it3,
-                                0,
-                                0,
-                                false)
-                        }
-                    }
-                }
-            }
-        }
-        return report != null
-    }
-
     private fun fillLayout() {
-        report_headline.text = report!!.title
-        report_city.text = report!!.address
-        report_date.text = getDate(report!!.created_at)
-        report_description.text = report!!.userNote
+        report_headline.text = Common.newReport.title
+        report_city.text = Common.newReport.address
+        report_date.text = getDate(Date())
+        report_description.text = Common.newReport.userNote
         report_state.text = getString(R.string.report_state0)
 
         ViewModelProviders.of(this).get(UserViewModel::class.java).getUser().observe(this,
@@ -137,5 +108,13 @@ class NewReportDetailActivity : AppCompatActivity() {
     private fun getDate(date: Date): String {
         val format = SimpleDateFormat("dd/MM/yyy", Locale.GERMANY)
         return format.format(date)
+    }
+
+    private fun sendReport() {
+
+        val intent = Intent(this, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(intent)
+        Common.newReport.clearData()
     }
 }

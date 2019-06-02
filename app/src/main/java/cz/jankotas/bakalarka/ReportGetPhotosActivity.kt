@@ -24,7 +24,7 @@ class ReportGetPhotosActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_report_get_photos)
 
-        adapter = PhotoGridAdapter(this, bottom_banner, Common.selectedImages)
+        adapter = PhotoGridAdapter(this, bottom_banner, Common.newReport.photos)
 
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
@@ -40,8 +40,8 @@ class ReportGetPhotosActivity : AppCompatActivity() {
             getImages()
         }
 
-        if (Common.selectedImages.isNotEmpty()) {
-            adapter.setData(Common.selectedImages)
+        if (Common.newReport.photos.isNotEmpty()) {
+            adapter.setData(Common.newReport.photos)
             photos_recycler_view.adapter = adapter
         }
 
@@ -58,9 +58,9 @@ class ReportGetPhotosActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == RC_PICK_IMAGES && resultCode == Activity.RESULT_OK && data != null) {
-            Common.selectedImages = data.getParcelableArrayListExtra(EXTRA_IMAGES)
-            adapter.setData(Common.selectedImages)
-            if (Common.selectedImages.isNotEmpty()) bottom_banner.visibility = View.VISIBLE else bottom_banner.visibility = View.GONE
+            Common.newReport.photos = data.getParcelableArrayListExtra(EXTRA_IMAGES)
+            adapter.setData(Common.newReport.photos)
+            if (Common.newReport.photos.isNotEmpty()) bottom_banner.visibility = View.VISIBLE else bottom_banner.visibility = View.GONE
             photos_recycler_view.adapter = adapter
         }
 
@@ -86,7 +86,7 @@ class ReportGetPhotosActivity : AppCompatActivity() {
             .setLimitMessage(getString(R.string.selection_limit_reached))    // Selection limit message
             .setMaxSize(9)                     //  Max images can be selected
             .setSavePath(Common.APP_NAME)         //  Image capture folder name
-            .setSelectedImages(Common.selectedImages)          //  Selected images
+            .setSelectedImages(Common.newReport.photos)          //  Selected images
             .setAlwaysShowDoneButton(true)      //  Set always show done button in multiple mode
             .setRequestCode(100)                //  Set request code, default Config.RC_PICK_IMAGES
             .setKeepScreenOn(true)              //  Keep screen on when selecting images
@@ -108,7 +108,6 @@ class ReportGetPhotosActivity : AppCompatActivity() {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(intent)
                 Common.newReport.clearData()
-                Common.selectedImages.clear()
                 dialog.cancel()
             }
         }

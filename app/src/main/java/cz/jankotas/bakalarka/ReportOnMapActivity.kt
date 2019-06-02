@@ -12,13 +12,14 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import cz.jankotas.bakalarka.common.Common
 import cz.jankotas.bakalarka.common.Common.location
+import cz.jankotas.bakalarka.models.Location
 import cz.jankotas.bakalarka.models.Report
 
 class ReportOnMapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var map: GoogleMap
 
-    private lateinit var report: Report
+    private lateinit var location: Location
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,10 +36,10 @@ class ReportOnMapActivity : AppCompatActivity(), OnMapReadyCallback {
         val bundle: Bundle? = intent.extras
         bundle?.let {
             bundle.apply {
-                val pom: Report? = getParcelable("report")
-                if (pom != null) {
-                    report = pom
-                    Log.d(Common.APP_NAME, "Report: $report")
+                val loc: Location? = getParcelable("location")
+                if (loc != null) {
+                    location = loc
+                    Log.d(Common.APP_NAME, "Location: $location")
                 } else finish()
             }
         }
@@ -57,9 +58,9 @@ class ReportOnMapActivity : AppCompatActivity(), OnMapReadyCallback {
         map = googleMap
 
         // Add a marker in Sydney and move the camera
-        val loc = LatLng(report.location.lat, report.location.lng)
-        map.addMarker(MarkerOptions().position(loc).title(report.title))
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(loc.latitude, loc.longitude), 12.0f))
+        val loc = LatLng(location.lat, location.lng)
+        map.addMarker(MarkerOptions().position(loc))
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(loc.latitude, loc.longitude), 18.0f))
     }
 
     override fun onSupportNavigateUp(): Boolean {

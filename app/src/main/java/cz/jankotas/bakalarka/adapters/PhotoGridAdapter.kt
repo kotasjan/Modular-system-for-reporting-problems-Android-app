@@ -16,8 +16,6 @@ import android.app.Activity
 import android.widget.Button
 import android.widget.TextView
 
-
-
 class PhotoGridAdapter(private var context: Context, private val view: View, private var images: List<Image>) :
     RecyclerView.Adapter<PhotoGridAdapter.ImageViewHolder>() {
 
@@ -39,8 +37,8 @@ class PhotoGridAdapter(private var context: Context, private val view: View, pri
             .into(holder.reportPhotoLayout.report_photo_iv)
 
         holder.reportPhotoLayout.delete_photo_iv.setOnClickListener {
-            Common.selectedImages.remove(image)
-            this.images = Common.selectedImages
+            Common.newReport.photos.remove(image)
+            this.images = Common.newReport.photos
             if (images.isEmpty()) view.visibility = View.GONE
             notifyDataSetChanged()
         }

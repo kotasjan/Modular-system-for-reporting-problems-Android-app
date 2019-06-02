@@ -50,6 +50,7 @@ class ReportGetLocationActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         btn_continue.setOnClickListener {
+            Common.newReport.address = getAddress(Common.newReport.location!!)
             val intent = Intent(this, ReportGetCategoryActivity::class.java)
             startActivity(intent)
         }
@@ -69,6 +70,7 @@ class ReportGetLocationActivity : AppCompatActivity(), OnMapReadyCallback {
 
         if (Common.newReport.location == null) {
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(Common.location.lat, Common.location.lng), 18f))
+            Common.newReport.location = Common.location
         } else {
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(Common.newReport.location!!.lat, Common.newReport.location!!.lng), 18f))
             location_fab.setImageResource(R.drawable.ic_location_current)
@@ -102,7 +104,6 @@ class ReportGetLocationActivity : AppCompatActivity(), OnMapReadyCallback {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(intent)
                 Common.newReport.clearData()
-                Common.selectedImages.clear()
                 dialog.cancel()
             }
         }
@@ -131,7 +132,6 @@ class ReportGetLocationActivity : AppCompatActivity(), OnMapReadyCallback {
         airLocation = AirLocation(this, true, true, object : AirLocation.Callbacks {
             override fun onSuccess(location: Location) {
                 Common.newReport.location = cz.jankotas.bakalarka.models.Location(location.latitude, location.longitude)
-                Common.newReport.address = getAddress(Common.newReport.location!!)
                 Common.location = Common.newReport.location!!
 
                 map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(location.latitude, location.longitude),
