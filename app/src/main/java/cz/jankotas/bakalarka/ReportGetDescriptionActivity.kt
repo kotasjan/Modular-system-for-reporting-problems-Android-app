@@ -28,7 +28,6 @@ import android.widget.TableLayout
 import cz.jankotas.bakalarka.models.InputData
 import cz.jankotas.bakalarka.models.ModuleData
 
-
 class ReportGetDescriptionActivity : AppCompatActivity() {
 
     private lateinit var modules: ArrayList<Module>
@@ -132,10 +131,9 @@ class ReportGetDescriptionActivity : AppCompatActivity() {
         Common.newReport.moduleData = getModuleDataList()
         Log.d(Common.APP_NAME, Common.newReport.toString())
 
-        /*val intent = Intent(this, ReportGetPhotosActivity::class.java)
-        startActivity(intent)*/
+        val intent = Intent(this, NewReportDetailActivity::class.java)
+        startActivity(intent)
     }
-
 
     private fun setLayout() {
 

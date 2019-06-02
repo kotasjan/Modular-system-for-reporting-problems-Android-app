@@ -10,12 +10,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.bumptech.glide.Glide
 import cz.jankotas.bakalarka.common.Common
-import cz.jankotas.bakalarka.models.APILoginResponse
 import cz.jankotas.bakalarka.models.Report
 import cz.jankotas.bakalarka.models.User
 import kotlinx.android.synthetic.main.activity_report.*
-import kotlinx.android.synthetic.main.nav_header_main.view.*
-import kotlinx.android.synthetic.main.scrolling_layout.*
+import kotlinx.android.synthetic.main.scrolling_layout_report.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -72,14 +70,6 @@ class ReportActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
-    }
-
-    private fun setIcon(category: Int, toolbar: Toolbar) {
-        when (category) {
-            1 -> toolbar.setLogo(R.drawable.ic_avatar_environment)
-            2 -> toolbar.setLogo(R.drawable.ic_avatar_garbage)
-            3 -> toolbar.setLogo(R.drawable.ic_avatar_traffic)
-        }
     }
 
     private fun fillLayout() {

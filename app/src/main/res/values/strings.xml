@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- General app strings -->
     <string name="app_name">Bakalářka</string>
     <string name="title_activity_login">Přihlášení</string>
@@ -118,5 +118,6 @@
     <string name="activity_additional_data">Doplňující data</string>
     <string name="activity_categories">Kategorie</string>
     <string name="hint_report_description">Popis podnětu</string>
+    <string name="activity_new_report">Nový report</string>
 
 </resources>

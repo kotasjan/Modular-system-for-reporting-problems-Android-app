@@ -8,12 +8,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.NonNull
-import androidx.core.content.ContextCompat
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import cz.jankotas.bakalarka.R
+import cz.jankotas.bakalarka.models.Category
 import cz.jankotas.bakalarka.models.Report
 import java.text.SimpleDateFormat
 import java.util.*
@@ -39,7 +39,7 @@ class ReportClosedAdapter(private var mCtx: Context, private val onClickListener
             holder.date.text = getDate(report.created_at)
 
             if (report.photos!!.isNotEmpty()) {
-                Glide.with(mCtx).load(report.photos[0]).into(holder.image)
+                Glide.with(mCtx).load(report.photos[0]).placeholder(R.drawable.photo_placeholder).into(holder.image)
 
                 holder.itemView.setOnClickListener { view ->
                     onClickListener.invoke(view, report)
@@ -49,17 +49,14 @@ class ReportClosedAdapter(private var mCtx: Context, private val onClickListener
         } else {
             Toast.makeText(mCtx, "Item is null", Toast.LENGTH_LONG).show()
         }
-
     }
 
     private fun setIcon(report: Report, holder: ReportViewHolder) {
-        when (report.category_id) {
-            1 -> holder.icon.setImageDrawable(ContextCompat.getDrawable(holder.icon.context,
-                R.drawable.ic_avatar_environment))
-            2 -> holder.icon.setImageDrawable(ContextCompat.getDrawable(holder.icon.context,
-                R.drawable.ic_avatar_garbage))
-            3 -> holder.icon.setImageDrawable(ContextCompat.getDrawable(holder.icon.context,
-                R.drawable.ic_avatar_traffic))
+        for (category in Category.categories) {
+            if (category.id == report.category_id) {
+                holder.icon.setImageDrawable(category.icon)
+                break
+            }
         }
     }
 

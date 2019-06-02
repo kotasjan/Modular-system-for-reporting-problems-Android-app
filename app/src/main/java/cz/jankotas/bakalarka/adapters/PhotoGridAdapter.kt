@@ -35,6 +35,7 @@ class PhotoGridAdapter(private var context: Context, private val view: View, pri
             .load(image.path)
             .centerCrop()
             .apply(RequestOptions().placeholder(cz.jankotas.bakalarka.R.drawable.image_placeholder).error(cz.jankotas.bakalarka.R.drawable.image_placeholder))
+            .placeholder(cz.jankotas.bakalarka.R.drawable.photo_placeholder)
             .into(holder.reportPhotoLayout.report_photo_iv)
 
         holder.reportPhotoLayout.delete_photo_iv.setOnClickListener {

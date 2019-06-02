@@ -27,6 +27,12 @@
                 android:name="com.google.android.geo.API_KEY"
                 android:value="@string/google_maps_key"/>
 
+
+        <activity android:name=".NewReportDetailActivity"
+                  android:label="@string/activity_new_report"
+                  android:screenOrientation="sensorPortrait"
+                  android:theme="@style/AppTheme.noAnimThemeReportDetail">
+        </activity>
         <activity
                 android:name=".ReportModuleDataActivity"
                 android:label="@string/activity_additional_data"

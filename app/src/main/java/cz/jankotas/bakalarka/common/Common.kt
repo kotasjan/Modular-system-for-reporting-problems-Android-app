@@ -29,7 +29,7 @@ object Common {
 
     internal lateinit var location : Location
 
-    internal var newReport = NewReport(null, null, null, null, ArrayList(), null, null)
+    internal var newReport = NewReport(null, null, null, null, ArrayList(), null, null,null)
 
     internal var selectedImages : ArrayList<Image> = ArrayList()
 

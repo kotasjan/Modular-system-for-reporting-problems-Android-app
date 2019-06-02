@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import cz.jankotas.bakalarka.common.SharedPrefs
+import cz.jankotas.bakalarka.models.Category
 import cz.jankotas.bakalarka.models.User
 import cz.jankotas.bakalarka.viewmodels.UserViewModel
 import kotlinx.android.synthetic.main.activity_welcome.*
@@ -16,6 +17,8 @@ class WelcomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_welcome)
 
         SharedPrefs.initializeSharedPreferences(this)
+
+        Category.setCategories(this)
 
         ViewModelProviders.of(this).get(UserViewModel::class.java).getUser().observe(this,
             androidx.lifecycle.Observer<User> { user ->

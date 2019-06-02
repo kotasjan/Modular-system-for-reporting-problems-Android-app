@@ -1,12 +1,13 @@
 package cz.jankotas.bakalarka
 
 import android.content.Intent
+import android.location.Address
+import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -14,9 +15,10 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.snackbar.Snackbar
 import cz.jankotas.bakalarka.common.Common
-import cz.jankotas.bakalarka.common.Common.location
 import kotlinx.android.synthetic.main.activity_report_get_location.*
 import mumayank.com.airlocationlibrary.AirLocation
+import java.io.IOException
+import java.util.*
 
 class ReportGetLocationActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -94,7 +96,7 @@ class ReportGetLocationActivity : AppCompatActivity(), OnMapReadyCallback {
         builder1.setMessage(getString(R.string.warning_closing_report))
         builder1.setCancelable(true)
 
-        builder1.setPositiveButton("OK") { dialog, id ->
+        builder1.setPositiveButton("OK") { dialog, _ ->
             run {
                 val intent = Intent(this, MainActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -105,7 +107,7 @@ class ReportGetLocationActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }
 
-        builder1.setNegativeButton("Cancel") { dialog, id ->
+        builder1.setNegativeButton("Cancel") { dialog, _ ->
             run {
                 dialog.cancel()
             }
@@ -129,6 +131,7 @@ class ReportGetLocationActivity : AppCompatActivity(), OnMapReadyCallback {
         airLocation = AirLocation(this, true, true, object : AirLocation.Callbacks {
             override fun onSuccess(location: Location) {
                 Common.newReport.location = cz.jankotas.bakalarka.models.Location(location.latitude, location.longitude)
+                Common.newReport.address = getAddress(Common.newReport.location!!)
                 Common.location = Common.newReport.location!!
 
                 map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(location.latitude, location.longitude),
@@ -155,5 +158,20 @@ class ReportGetLocationActivity : AppCompatActivity(), OnMapReadyCallback {
 
         snackbar = Snackbar.make(view, getString(R.string.waiting_for_location), Snackbar.LENGTH_SHORT)
         snackbar.show()
+    }
+
+    private fun getAddress(location: cz.jankotas.bakalarka.models.Location): String {
+        val gcd = Geocoder(this, Locale.getDefault())
+        var addresses: List<Address>? = null
+        try {
+            addresses = gcd.getFromLocation(location.lat, location.lng, 1)
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
+        if (addresses != null && addresses.isNotEmpty()) {
+            return addresses[0].locality
+        }
+        return ""
     }
 }
