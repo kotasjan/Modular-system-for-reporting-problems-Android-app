@@ -120,5 +120,7 @@
     <string name="hint_report_description">Popis podnětu</string>
     <string name="activity_new_report">Nový report</string>
     <string name="send">Odeslat</string>
+    <string name="user_logged_in">Uživatel přihlášen!</string>
+    <string name="loggin_in_running">Probíhá přihlašování..</string>
 
 </resources>

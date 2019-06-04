@@ -49,4 +49,24 @@ interface IMyAPI {
         @Field("lng") lng: Double,
         @Field("category_id") category_id: Int
     ): Call<APIModuleResponse>
+
+    @POST("report")
+    fun sendReport(
+        @Header("Authorization") auth_token: String,
+        @Body report: NewReportToSend
+    ): Call<APIReportResponse>
+
+
+/*    @FormUrlEncoded
+    @POST("report")
+    fun sendReport(
+        @Header("Authorization") auth_token: String,
+        @Field("title") title: String,
+        @Field("userNote") userNote: String,
+        @Field("address") address: String,
+        @Field("category_id") category_id: Int,
+        @Field("location") location: Location,
+        @Field("photos") photos: List<String>,
+        @Field("moduleData") moduleData: List<ModuleData>?
+    ): Call<APIReportResponse>*/
 }

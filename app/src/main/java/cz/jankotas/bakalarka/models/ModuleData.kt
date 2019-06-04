@@ -6,4 +6,4 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class ModuleData constructor(@NonNull var module_id: Int,
-                                  @NonNull var inputs: ArrayList<InputData>?) : Parcelable
+                                  @NonNull var inputData: ArrayList<InputData>?) : Parcelable

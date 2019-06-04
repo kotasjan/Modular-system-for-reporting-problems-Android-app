@@ -10,6 +10,7 @@ import cz.jankotas.bakalarka.common.Common
 import cz.jankotas.bakalarka.models.APILoginResponse
 import cz.jankotas.bakalarka.viewmodels.UserViewModel
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.full_view_progress_bar.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -26,8 +27,6 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        dialog = Dialog(this, android.R.style.Theme_Translucent_NoTitleBar)
-
         button_login_login.setOnClickListener {
             loginUser(editText_email_sign_in_input.text.toString(), editText_password_sign_in_input.text.toString())
         }
@@ -35,6 +34,11 @@ class LoginActivity : AppCompatActivity() {
         create_new_account_text.setOnClickListener {
             startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
         }
+
+        val view = this.layoutInflater.inflate(R.layout.full_view_progress_bar, null)
+        dialog = Dialog(this, android.R.style.Theme_Translucent_NoTitleBar)
+        dialog.setContentView(view)
+        dialog.setCancelable(false)
 
         if (intent.extras != null) {
             val email = intent.getStringExtra("email")
@@ -57,12 +61,13 @@ class LoginActivity : AppCompatActivity() {
 
             else -> {
 
-                showDialog()
+                dialog.progress_text.text = getString(R.string.loggin_in_running)
+                dialog.show()
 
                 Common.api.loginUser(email, password).enqueue(object : Callback<APILoginResponse> {
                     override fun onFailure(call: Call<APILoginResponse>?, t: Throwable?) {
 
-                        hideDialog()
+                        dialog.dismiss()
 
                         Toast.makeText(this@LoginActivity, t!!.message, Toast.LENGTH_SHORT).show()
 
@@ -74,11 +79,11 @@ class LoginActivity : AppCompatActivity() {
                             response!!.code() == 401 -> {
                                 editText_email_sign_in_input?.error = getString(R.string.err_login_3)
                                 editText_password_sign_in_input?.setText("")
-                                hideDialog()
+                                dialog.dismiss()
                             }
                             response.isSuccessful -> {
 
-                                Toast.makeText(this@LoginActivity, response.body()!!.message, Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this@LoginActivity, getString(R.string.user_logged_in), Toast.LENGTH_SHORT).show()
 
                                 val user = response.body()!!.user
                                 user.password = password
@@ -91,15 +96,14 @@ class LoginActivity : AppCompatActivity() {
 
                                 startActivity(Intent(this@LoginActivity, MainActivity::class.java))
 
-                                hideDialog()
                             }
                             else -> {
                                 Toast.makeText(this@LoginActivity,
                                     getString(R.string.err_login_4),
                                     Toast.LENGTH_SHORT).show()
-                                hideDialog()
                             }
                         }
+                        dialog.dismiss()
                     }
                 })
             }
@@ -123,16 +127,5 @@ class LoginActivity : AppCompatActivity() {
             }
         }
         return false
-    }
-
-    private fun showDialog() {
-        val view = this.layoutInflater.inflate(R.layout.full_view_progress_bar, null)
-        dialog.setContentView(view)
-        dialog.setCancelable(false)
-        dialog.show()
-    }
-
-    fun hideDialog() {
-        dialog.dismiss()
     }
 }

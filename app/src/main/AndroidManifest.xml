@@ -21,23 +21,25 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
-            tools:ignore="GoogleAppIndexingWarning">
+            tools:ignore="GoogleAppIndexingWarning"
+            android:name=".MyApplication">
 
         <meta-data
                 android:name="com.google.android.geo.API_KEY"
                 android:value="@string/google_maps_key"/>
 
+        <meta-data
+                android:name="preloaded_fonts"
+                android:resource="@array/preloaded_fonts"/>
+
+        <meta-data
+                android:name="CLOUDINARY_URL"
+                android:value="cloudinary://@kotik" />
 
         <activity android:name=".NewReportDetailActivity"
                   android:label="@string/activity_new_report"
                   android:screenOrientation="sensorPortrait"
                   android:theme="@style/AppTheme.noAnimThemeReportDetail">
-        </activity>
-        <activity
-                android:name=".ReportModuleDataActivity"
-                android:label="@string/activity_additional_data"
-                android:screenOrientation="sensorPortrait"
-                android:theme="@style/AppTheme.noAnimTheme">
         </activity>
         <activity
                 android:name=".ReportGetCategoryActivity"
@@ -101,9 +103,6 @@
             </intent-filter>
         </activity>
 
-        <meta-data
-                android:name="preloaded_fonts"
-                android:resource="@array/preloaded_fonts"/>
     </application>
 
 </manifest>

@@ -29,7 +29,7 @@ object Common {
 
     internal lateinit var location : Location
 
-    internal var newReport = NewReport(null, null, null, null, ArrayList(), null, null,null)
+    internal var newReport = NewReport(null, null, null, ArrayList(), null, null,null)
 
     internal val api: IMyAPI
         get() = RetrofitClient.getClient(BASE_URL).create(IMyAPI::class.java)

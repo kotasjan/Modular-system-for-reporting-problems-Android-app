@@ -152,7 +152,7 @@ class ReportGetDescriptionActivity : AppCompatActivity() {
 
             // Add module's inputs
             if (Common.newReport.moduleData != null && Common.newReport.moduleData!!.isNotEmpty())
-                setModuleInputs(module.inputs, Common.newReport.moduleData?.get(index)?.inputs)
+                setModuleInputs(module.inputs, Common.newReport.moduleData?.get(index)?.inputData)
             else
                 setModuleInputs(module.inputs, null)
         }

@@ -31,7 +31,6 @@ class ReportGetPhotosActivity : AppCompatActivity() {
         supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_close_white)
 
         btn_continue.setOnClickListener {
-            Common.newReport.user_id = Common.userID
             val intent = Intent(this, ReportGetLocationActivity::class.java)
             startActivity(intent)
         }

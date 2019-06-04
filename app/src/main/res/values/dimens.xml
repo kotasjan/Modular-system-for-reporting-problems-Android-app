@@ -4,6 +4,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="activity_horizontal_margin_half">8dp</dimen>
     <dimen name="activity_vertical_margin_half">8dp</dimen>
+    <dimen name="activity_horizontal_margin_double">32dp</dimen>
 
     <!-- Buttons -->
     <dimen name="btn_main_radius">10dp</dimen>
