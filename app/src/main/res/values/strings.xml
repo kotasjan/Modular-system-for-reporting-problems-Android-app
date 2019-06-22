@@ -122,5 +122,19 @@
     <string name="send">Odeslat</string>
     <string name="user_logged_in">Uživatel přihlášen!</string>
     <string name="loggin_in_running">Probíhá přihlašování..</string>
+    <string name="show_report_detail">Zobrazit detail</string>
+    <string name="registration_is_running">Probíhá registrace..</string>
+    <string name="reports">Podněty</string>
+    <string name="help">Nápověda</string>
+    <string name="about_app">O aplikaci</string>
+    <string name="about_app_text">Tato aplikace je součástí bakalářské práce Jana Kotase na Fakultě informačních
+        technologií Vysokého učení technického v Brně. Cílem aplikace je demonstrovat možnosti využití široce
+        používaných moderních technologií k zkvalitnění správy veřejných prostor v obcích. Aplikace je založena na
+        principu přímé interakce občanů se správci měst. Pomocí této aplikace mají občané možnost nahlásit problémy z
+        jejich okolí, kterými by se mělo město zabývat. Na druhou stranu města mají díky hlášením od občanů dobrý
+        přehled o tom, jaké problémy občany jejich měst trápí a díky dlouhodobé evidenci v systému mohou analyzovat,
+        které části měst jsou nejvíce problematické.
+    </string>
+    <string name="activity_help">Nápověda</string>
 
 </resources>

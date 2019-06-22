@@ -24,14 +24,14 @@ interface IMyAPI {
         @Header("Authorization") auth_token: String
     ): Call<APILoginResponse>
 
-    @GET("users/{id}")
+    @GET("mobile/users/{id}")
     fun getUser(
         @Header("Authorization") auth_token: String,
         @Path("id") id: Int
     ): Call<User>
 
     @FormUrlEncoded
-    @POST("reports")
+    @POST("mobile/reports")
     fun getReports(
         @Header("Authorization") auth_token: String,
         @Field("lat") lat: Double,
@@ -42,7 +42,7 @@ interface IMyAPI {
     ): Call<APIReportsResponse>
 
     @FormUrlEncoded
-    @POST("modules")
+    @POST("mobile/modules")
     fun getModules(
         @Header("Authorization") auth_token: String,
         @Field("lat") lat: Double,
@@ -50,23 +50,9 @@ interface IMyAPI {
         @Field("category_id") category_id: Int
     ): Call<APIModuleResponse>
 
-    @POST("report")
+    @POST("mobile/report")
     fun sendReport(
         @Header("Authorization") auth_token: String,
         @Body report: NewReportToSend
     ): Call<APIReportResponse>
-
-
-/*    @FormUrlEncoded
-    @POST("report")
-    fun sendReport(
-        @Header("Authorization") auth_token: String,
-        @Field("title") title: String,
-        @Field("userNote") userNote: String,
-        @Field("address") address: String,
-        @Field("category_id") category_id: Int,
-        @Field("location") location: Location,
-        @Field("photos") photos: List<String>,
-        @Field("moduleData") moduleData: List<ModuleData>?
-    ): Call<APIReportResponse>*/
 }

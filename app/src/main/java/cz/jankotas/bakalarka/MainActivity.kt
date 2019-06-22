@@ -94,9 +94,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
          * automatically handle clicks on the Home/Up button, so long
          * as you specify a parent activity in AndroidManifest.xml.*/
         return when (item.itemId) {
-            R.id.action_filter -> true
-            R.id.action_sort -> true
-            R.id.action_refresh -> true
+            R.id.action_refresh -> {
+                getCurrentLocation()
+                true
+            }
             R.id.action_logout -> {
                 logoutUser(Common.token)
                 true
@@ -111,20 +112,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.menu_home -> {
                 // Handle home menu action
             }
-            R.id.menu_map -> {
-
-            }
-            R.id.menu_stats -> {
-
-            }
-            R.id.menu_profile -> {
-
-            }
-            R.id.menu_messages -> {
-
-            }
+            /*
+            R.id.menu_map -> {}
+            R.id.menu_stats -> {}
+            R.id.menu_profile -> {}
+            R.id.menu_messages -> {}
+            */
             R.id.menu_settings -> {
-
+                startActivity(Intent(this, HelpActivity::class.java))
             }
             R.id.menu_help -> {
 

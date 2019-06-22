@@ -32,6 +32,7 @@ class UserRepository(application: Application) {
     private class InsertUserAsyncTask(val userDao: UserDao) : AsyncTask<User, Unit, Unit>() {
 
         override fun doInBackground(vararg p0: User?) {
+            userDao.deleteAll()
             userDao.insert(p0[0]!!)
         }
     }

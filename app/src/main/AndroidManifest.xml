@@ -15,31 +15,32 @@
     <dist:module dist:instant="true"/>
 
     <application
-            android:allowBackup="true"
+            android:name=".MyApplication"
+            android:allowBackup="false"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning"
-            android:name=".MyApplication">
+            android:fullBackupContent="false"
+            tools:replace="android:fullBackupContent">
 
         <meta-data
                 android:name="com.google.android.geo.API_KEY"
                 android:value="@string/google_maps_key"/>
-
         <meta-data
                 android:name="preloaded_fonts"
                 android:resource="@array/preloaded_fonts"/>
-
         <meta-data
                 android:name="CLOUDINARY_URL"
-                android:value="cloudinary://@kotik" />
+                android:value="cloudinary://@kotik"/>
 
-        <activity android:name=".NewReportDetailActivity"
-                  android:label="@string/activity_new_report"
-                  android:screenOrientation="sensorPortrait"
-                  android:theme="@style/AppTheme.noAnimThemeReportDetail">
+        <activity
+                android:name=".NewReportDetailActivity"
+                android:label="@string/activity_new_report"
+                android:screenOrientation="sensorPortrait"
+                android:theme="@style/AppTheme.noAnimThemeReportDetail">
         </activity>
         <activity
                 android:name=".ReportGetCategoryActivity"
@@ -92,6 +93,10 @@
                 android:label="@string/title_activity_login"
                 android:screenOrientation="sensorPortrait">
         </activity>
+        <activity android:name=".HelpActivity"
+                  android:label="@string/activity_help"
+                  android:screenOrientation="sensorPortrait">
+        </activity>
         <activity
                 android:name=".WelcomeActivity"
                 android:noHistory="true"
@@ -102,7 +107,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

@@ -7,23 +7,24 @@
     <RelativeLayout android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:background="@color/colorWhitePrimary"
-                    android:padding="@dimen/activity_horizontal_margin_double">
+                    android:background="@drawable/relative_layout_progressbar"
+                    android:padding="@dimen/activity_horizontal_margin_double"
+                    android:layout_margin="@dimen/activity_horizontal_margin">
 
-            <ProgressBar
-                    android:id="@+id/login_progress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"/>
+        <ProgressBar
+                android:id="@+id/login_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"/>
 
-            <TextView android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:id="@+id/progress_text"
-                      android:textSize="22sp"
-                      android:gravity="center"
-                      android:layout_marginTop="@dimen/activity_vertical_margin"
-                      android:textColor="@color/colorPrimaryText"
-                      android:layout_below="@+id/login_progress"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/progress_text"
+                  android:textSize="22sp"
+                  android:gravity="center"
+                  android:layout_marginTop="@dimen/activity_vertical_margin"
+                  android:textColor="@color/colorPrimaryText"
+                  android:layout_below="@+id/login_progress"/>
 
     </RelativeLayout>
 

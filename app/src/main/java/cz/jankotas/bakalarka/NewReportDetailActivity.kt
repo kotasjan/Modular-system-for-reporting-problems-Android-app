@@ -164,10 +164,13 @@ class NewReportDetailActivity : AppCompatActivity() {
 
                     override fun onError(requestId: String, error: ErrorInfo) {
                         dialog.dismiss()
-                        showErrorDialogPhotos()
+                        showErrorDialogPhotos("Nahrávání fotografií na server bylo neúspěšné.")
                     }
 
-                    override fun onReschedule(requestId: String, error: ErrorInfo) {}
+                    override fun onReschedule(requestId: String, error: ErrorInfo) {
+                        dialog.dismiss()
+                        showErrorDialogPhotos("Nahrávání fotografií se nezdařilo.")
+                    }
                 }).dispatch(this)
         }
     }
@@ -175,6 +178,8 @@ class NewReportDetailActivity : AppCompatActivity() {
     private fun uploadReport(photoUrlList: List<String>) {
         dialog.progress_text.text = "Nahrávání zbylých dat.."
         Log.d(Common.APP_NAME, photoUrlList.toString())
+
+        if (!dialog.isShowing) dialog.show()
 
         val newReportToSend = NewReportToSend(Common.newReport.title!!, Common.newReport.userNote!!, Common.newReport.category_id!!, photoUrlList, Common.newReport.location!!, Common.newReport.address!!, Common.newReport.moduleData!!)
 
@@ -188,6 +193,7 @@ class NewReportDetailActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call<APIReportResponse>, t: Throwable) {
                 Log.d(Common.APP_NAME, "Failure during sending report.")
+                dialog.dismiss()
                 showErrorDialogReportSent(photoUrlList)
             }
         })
@@ -202,9 +208,9 @@ class NewReportDetailActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun showErrorDialogPhotos() {
+    private fun showErrorDialogPhotos(message: String) {
         val builder1 = AlertDialog.Builder(this)
-        builder1.setMessage("Nahrávání fotografií na server bylo neúspěšné.")
+        builder1.setMessage(message)
         builder1.setCancelable(true)
 
         builder1.setPositiveButton("Opakovat") { dialog, _ ->

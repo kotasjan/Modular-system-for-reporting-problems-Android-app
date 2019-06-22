@@ -8,6 +8,7 @@
                 android:id="@+id/menu_home"
                 android:icon="@drawable/ic_menu_home"
                 android:title="@string/menu_home"/>
+        <!--
         <item
                 android:id="@+id/menu_map"
                 android:icon="@drawable/ic_menu_map"
@@ -24,6 +25,8 @@
                 android:id="@+id/menu_messages"
                 android:icon="@drawable/ic_menu_question_answer"
                 android:title="@string/menu_messages"/>
+
+                -->
     </group>
 
     <item android:title="@string/menu_others">

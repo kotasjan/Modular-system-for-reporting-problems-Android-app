@@ -15,7 +15,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-
 /**
  * A login screen that offers login via email/password.
  */

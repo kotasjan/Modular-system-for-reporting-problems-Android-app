@@ -1,13 +1,13 @@
 package cz.jankotas.bakalarka.adapters
 
 import android.content.Context
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.NonNull
+import androidx.appcompat.widget.PopupMenu
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -18,8 +18,8 @@ import cz.jankotas.bakalarka.models.Report
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ReportOwnAdapter(private var mCtx: Context,
-                       private val onClickListener: (View, Report) -> Unit) : PagedListAdapter<Report, ReportOwnAdapter.ReportViewHolder>(DIFF_CALLBACK) {
+class ReportOwnAdapter(private var mCtx: Context, private val onClickListener: (View, Report) -> Unit) :
+    PagedListAdapter<Report, ReportOwnAdapter.ReportViewHolder>(DIFF_CALLBACK) {
 
     @NonNull
     override fun onCreateViewHolder(@NonNull parent: ViewGroup, viewType: Int): ReportViewHolder {
@@ -38,12 +38,28 @@ class ReportOwnAdapter(private var mCtx: Context,
             holder.city.text = report.address
             holder.date.text = getDate(report.created_at)
 
-            if(report.photos!!.isNotEmpty()) {
-                Glide.with(mCtx).load(report.photos[0]).placeholder(R.drawable.photo_placeholder).into(holder.image)
+            if (report.photos!!.isNotEmpty()) Glide.with(mCtx).load(report.photos[0]).placeholder(R.drawable.photo_placeholder).into(
+                holder.image)
 
-                holder.itemView.setOnClickListener { view ->
-                    onClickListener.invoke(view, report)
+            holder.itemView.setOnClickListener { view ->
+                onClickListener.invoke(view, report)
+            }
+
+            holder.btnMenu.setOnClickListener { view ->
+                val popupMenu = PopupMenu(view.context, holder.btnMenu, Gravity.START)
+                popupMenu.menuInflater.inflate(R.menu.menu_cardview_report, popupMenu.menu)
+                popupMenu.setOnMenuItemClickListener { item: MenuItem ->
+                    when (item.itemId) {
+                        R.id.action_detail -> {
+                            onClickListener.invoke(view, report)
+                            true
+                        }
+                        else -> {
+                            false
+                        }
+                    }
                 }
+                popupMenu.show()
             }
 
         } else {
@@ -72,6 +88,7 @@ class ReportOwnAdapter(private var mCtx: Context,
         internal var city: TextView = itemView.findViewById<View>(R.id.card_city) as TextView
         internal var date: TextView = itemView.findViewById<View>(R.id.card_elapsed_time) as TextView
         internal val image: ImageView = itemView.findViewById(R.id.report_card_image) as ImageView
+        internal val btnMenu: ImageButton = itemView.findViewById(R.id.card_more_button) as ImageButton
     }
 
     companion object {

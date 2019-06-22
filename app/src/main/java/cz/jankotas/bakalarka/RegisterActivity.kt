@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import cz.jankotas.bakalarka.common.Common
 import cz.jankotas.bakalarka.models.APILoginResponse
 import kotlinx.android.synthetic.main.activity_register.*
+import kotlinx.android.synthetic.main.full_view_progress_bar.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,7 +21,10 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
+        val view = this.layoutInflater.inflate(R.layout.full_view_progress_bar, null)
         dialog = Dialog(this, android.R.style.Theme_Translucent_NoTitleBar)
+        dialog.setContentView(view)
+        dialog.setCancelable(false)
 
         button_register_sign_in.setOnClickListener {
             registerUser(editText_name_sign_up_input.text.toString(),
@@ -35,7 +39,7 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    fun registerUser(name: String, email: String, telephone: String, password: String, password_confirmation: String) {
+    private fun registerUser(name: String, email: String, telephone: String, password: String, password_confirmation: String) {
 
         when {
 
@@ -43,6 +47,7 @@ class RegisterActivity : AppCompatActivity() {
 
             else -> {
 
+                dialog.progress_text.text = getString(R.string.registration_is_running)
                 showDialog()
 
                 Common.api.registerUser(name, email, telephone.toInt(), password, password_confirmation).enqueue(object :

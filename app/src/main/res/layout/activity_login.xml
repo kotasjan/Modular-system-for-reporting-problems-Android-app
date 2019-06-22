@@ -68,46 +68,6 @@
                 android:textColor="@color/colorText"
                 android:background="@drawable/btn_wide_primary"/>
 
-        <TextView
-                android:text="@string/or"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView_or"
-                android:layout_marginTop="20dp"
-                app:layout_constraintTop_toBottomOf="@+id/button_login_login"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
-
-        <Button
-                android:text="@string/login_facebook"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:id="@+id/button_facebook"
-                android:layout_marginTop="10dp"
-                app:layout_constraintTop_toBottomOf="@+id/button_google"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/btn_wide_facebook"
-                android:textColor="@color/colorText"/>
-
-        <Button
-                android:text="@string/login_google"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:id="@+id/button_google"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                app:layout_constraintTop_toBottomOf="@+id/textView_or"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/btn_wide_google"
-                android:textColor="@color/colorText"/>
-
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="0dp"
@@ -117,7 +77,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="20dp"
                 android:layout_marginTop="20dp"
-                app:layout_constraintTop_toBottomOf="@+id/button_facebook"
+                app:layout_constraintTop_toBottomOf="@+id/button_login_login"
                 android:id="@+id/linearLayout">
 
             <TextView
