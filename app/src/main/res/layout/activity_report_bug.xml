@@ -1,0 +1,41 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                     android:id="@+id/bug_description"
+                                                     android:layout_width="match_parent"
+                                                     android:layout_height="wrap_content"
+                                                     android:layout_marginBottom="@dimen/activity_vertical_margin"
+                                                     android:layout_marginTop="@dimen/activity_vertical_margin"
+                                                     android:layout_marginStart="@dimen/activity_horizontal_margin"
+                                                     android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                                                     android:orientation="vertical">
+<LinearLayout android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <EditText android:id="@+id/description_text"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:textSize="16sp"
+              android:hint="@string/bug_description"
+              android:inputType="textMultiLine"
+              android:maxLength="255"/>
+
+    <TextView android:id="@+id/bug_description_letters"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="end"
+              android:textSize="14sp"
+              android:textColor="@color/colorSecondaryText"
+              android:text="0/255"/>
+</LinearLayout>
+
+    <Button android:text="@string/send_bug"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/send_bug"
+            android:layout_alignParentBottom="true"
+            android:fontFamily="@font/roboto_medium"
+            android:background="@drawable/btn_wide_primary"
+            android:textColor="@color/colorText"
+            android:elevation="10dp"/>
+
+</RelativeLayout>

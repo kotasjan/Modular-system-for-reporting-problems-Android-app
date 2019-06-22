@@ -32,9 +32,9 @@
     <item android:title="@string/menu_others">
         <menu>
             <item
-                    android:id="@+id/menu_settings"
-                    android:icon="@drawable/ic__menu_settings"
-                    android:title="@string/menu_settings"/>
+                    android:id="@+id/menu_about"
+                    android:icon="@drawable/ic_baseline_info"
+                    android:title="@string/about_app"/>
             <item
                     android:id="@+id/menu_help"
                     android:icon="@drawable/ic_menu_help"

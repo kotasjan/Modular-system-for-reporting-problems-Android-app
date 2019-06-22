@@ -118,14 +118,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.menu_profile -> {}
             R.id.menu_messages -> {}
             */
-            R.id.menu_settings -> {
-                startActivity(Intent(this, HelpActivity::class.java))
+            R.id.menu_about -> {
+                startActivity(Intent(this, AboutActivity::class.java))
             }
             R.id.menu_help -> {
-
+                startActivity(Intent(this, HelpActivity::class.java))
             }
             R.id.menu_report_bug -> {
-
+                startActivity(Intent(this, ReportBugActivity::class.java))
             }
         }
 

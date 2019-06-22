@@ -2,7 +2,6 @@ package cz.jankotas.bakalarka
 
 import android.app.Dialog
 import android.content.Intent
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -19,14 +18,12 @@ import com.cloudinary.android.preprocess.BitmapEncoder
 import com.cloudinary.android.preprocess.ImagePreprocessChain
 import com.nguyenhoanglam.imagepicker.model.Image
 import cz.jankotas.bakalarka.common.Common
-import cz.jankotas.bakalarka.models.APIModuleResponse
 import cz.jankotas.bakalarka.models.APIReportResponse
 import cz.jankotas.bakalarka.models.NewReportToSend
 import cz.jankotas.bakalarka.models.User
 import cz.jankotas.bakalarka.viewmodels.UserViewModel
 import kotlinx.android.synthetic.main.activity_new_report_detail.*
 import kotlinx.android.synthetic.main.full_view_progress_bar.*
-import kotlinx.android.synthetic.main.full_view_progress_bar.view.*
 import kotlinx.android.synthetic.main.scrolling_layout_new_report.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -34,7 +31,6 @@ import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
-
 
 class NewReportDetailActivity : AppCompatActivity() {
 
@@ -142,7 +138,6 @@ class NewReportDetailActivity : AppCompatActivity() {
         val view = this.layoutInflater.inflate(R.layout.full_view_progress_bar, null)
         dialog = Dialog(this, android.R.style.Theme_Translucent_NoTitleBar)
         dialog.setContentView(view)
-        dialog.setCancelable(false)
         dialog.progress_text.text = "Nahrávání fotografií: 1/${photoList.size}"
         dialog.show()
 
@@ -181,7 +176,7 @@ class NewReportDetailActivity : AppCompatActivity() {
 
         if (!dialog.isShowing) dialog.show()
 
-        val newReportToSend = NewReportToSend(Common.newReport.title!!, Common.newReport.userNote!!, Common.newReport.category_id!!, photoUrlList, Common.newReport.location!!, Common.newReport.address!!, Common.newReport.moduleData!!)
+        val newReportToSend = NewReportToSend(Common.newReport.title!!, Common.newReport.userNote!!, Common.newReport.category_id!!, photoUrlList, Common.newReport.location!!, Common.newReport.address!!, Common.newReport.moduleData)
 
         Common.api.sendReport(Common.token, newReportToSend).enqueue(object : Callback<APIReportResponse> {
             override fun onResponse(call: Call<APIReportResponse>, response: Response<APIReportResponse>) {

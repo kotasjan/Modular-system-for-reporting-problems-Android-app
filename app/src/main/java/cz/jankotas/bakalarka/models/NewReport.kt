@@ -31,4 +31,4 @@ data class NewReportToSend constructor(@NonNull val title: String,
                                        @NonNull val photos: List<String>,
                                        @NonNull val location: Location,
                                        @NonNull val address: String,
-                                       @NonNull val moduleData: ArrayList<ModuleData>)
+                                       @Nullable val moduleData: ArrayList<ModuleData>?)

@@ -7,9 +7,15 @@
 
     <!-- Strings related to welcome -->
     <string name="welcome_header">Vítejte!</string>
-    <string name="welcome_text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Fusce tellus odio, dapibus id
-        fermentum quis, suscipit id erat. Cras pede libero, dapibus nec, pretium sit amet, tempor quis. Etiam sapien
-        elit, consequat eget, tristique non, venenatis quis, ante.
+    <string name="welcome_text">Tato aplikace je součástí bakalářské práce Jana Kotase pod vedením Ing. Lukáše
+        Semeráda na Fakultě informačních technologií Vysokého učení technického v Brně. Cílem aplikace je demonstrovat
+        možnosti využití masově používaných moderních technologií k zkvalitnění správy veřejných prostor v obcích.
+        Aplikace je založena na
+        principu přímé interakce občanů se správci měst. Díky aplikaci mají občané možnost během několika minut nahlásit
+        problémy z
+        jejich okolí, kterými by se mělo město zabývat. Na druhou stranu města mají díky hlášením od občanů dobrý
+        přehled o tom, jaké problémy občany jejich měst trápí a díky dlouhodobé evidenci v systému mohou analyzovat,
+        které části měst jsou nejvíce problematické.
     </string>
     <string name="sign_in_welcome">Přihlásit se</string>
     <string name="sign_up_welcome">Registrovat se</string>
@@ -127,14 +133,19 @@
     <string name="reports">Podněty</string>
     <string name="help">Nápověda</string>
     <string name="about_app">O aplikaci</string>
-    <string name="about_app_text">Tato aplikace je součástí bakalářské práce Jana Kotase na Fakultě informačních
-        technologií Vysokého učení technického v Brně. Cílem aplikace je demonstrovat možnosti využití široce
-        používaných moderních technologií k zkvalitnění správy veřejných prostor v obcích. Aplikace je založena na
-        principu přímé interakce občanů se správci měst. Pomocí této aplikace mají občané možnost nahlásit problémy z
+    <string name="about_app_text">Tato aplikace je součástí bakalářské práce Jana Kotase pod vedením Ing. Lukáše
+        Semeráda na Fakultě informačních technologií Vysokého učení technického v Brně. Cílem aplikace je demonstrovat
+        možnosti využití masově používaných moderních technologií k zkvalitnění správy veřejných prostor v obcích.
+        Aplikace je založena na
+        principu přímé interakce občanů se správci měst. Díky aplikaci mají občané možnost během několika minut nahlásit
+        problémy z
         jejich okolí, kterými by se mělo město zabývat. Na druhou stranu města mají díky hlášením od občanů dobrý
         přehled o tom, jaké problémy občany jejich měst trápí a díky dlouhodobé evidenci v systému mohou analyzovat,
         které části měst jsou nejvíce problematické.
     </string>
     <string name="activity_help">Nápověda</string>
+    <string name="bug_description">Zde popište chybu</string>
+    <string name="send_bug">Odeslat hlášení</string>
+    <string name="activity_report_bug">Hlášení chyby</string>
 
 </resources>

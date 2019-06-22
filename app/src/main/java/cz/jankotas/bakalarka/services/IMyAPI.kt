@@ -55,4 +55,9 @@ interface IMyAPI {
         @Header("Authorization") auth_token: String,
         @Body report: NewReportToSend
     ): Call<APIReportResponse>
+
+    @POST("bugs")
+    fun sendBugReport(
+        @Body bug: BugPOJO
+    ): Call<APIBugResponse>
 }
