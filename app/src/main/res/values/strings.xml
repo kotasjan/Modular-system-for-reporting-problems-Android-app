@@ -77,6 +77,7 @@
     <!-- Vedlejsi menu vpravo -->
     <string name="action_filter">Fitrovat</string>
     <string name="action_sort">Řadit</string>
+    <string name="action_report_bug">Nahlásit chybu</string>
     <string name="action_refresh">Aktualizovat</string>
     <string name="action_logout">Odhlásit se</string>
     <string name="currrentTabTitle">AKTUÁLNÍ</string>
@@ -147,5 +148,49 @@
     <string name="bug_description">Zde popište chybu</string>
     <string name="send_bug">Odeslat hlášení</string>
     <string name="activity_report_bug">Hlášení chyby</string>
+    <string name="help_report_list">V sekci podněty se zobrazují všechny dosud přidané podněty od uživatelů aplikace. V
+        horní části můžete filtrovat podněty na aktulní, uzavřené a vlastní. Po kliknutí na kartu podnětu se vám otevře
+        jeho detail. Každá karta obsahuje ikonu kategorie, titulek, místo, datum a titulní fotografii. V pravé spodní
+        části obrazovky si můžete povšimnout modrého tlačítka se symbolem plus. Tohle tlačítko zahájí proces přidání
+        nového podnětu. Pokud se vám podněty nezobrazují, pravděpodobně nejste připojeni k internetu nebo ještě žádné
+        podněty nebyly přidány.
+    </string>
+    <string name="help_report_list_header">Seznam podnětů</string>
+    <string name="help_new_report_header">Proces přidávání nového podnětu</string>
+    <string name="help_choosing_photos_header">Výběr fotografií</string>
+    <string name="help_choosing_photos">Po zahájení procesu přidávání nového podnětu se vám zobrazí obrazovka s výběrem
+        fotografií. Abyste mohli fotografie vybrat, musíte povolit aplikaci přístup k úložišti. Můžete vybrat již
+        existující fotografie nebo můžete pořídit nové. V případě, že budete chtít výběr upravit, můžete se kdykoliv do
+        výběru vrátit pomocí modrého tlačítka se symbolem plus. Odebrat fotografie z výběru lze kliknutím na křížek v
+        pravém horním rohu každé fotografie. Pro pokračování v procesu přidávání nového podnětu musí být vybrána alespoň
+        jedna fotografie. Maximálním počtem je 9 fotografií. Poté, co dokončíte výběr fotografií, klikněte na tlačítko
+        pokračovat.
+    </string>
+    <string name="help_setting_location_header">Určení lokace</string>
+    <string name="help_setting_location">K přesnému určení lokace problému můžete využít GPS vašeho telefonu (kliknutím
+        na modré tlačítko) nebo polohu určit ručně pomocí posunutí ukazatele na místo v mapě. Určení přesné polohy je
+        esenciální pro řešitele problému.
+    </string>
+    <string name="help_choosing_category_header">Výběr kategorie</string>
+    <string name="help_choosing_category">Každé hlášení spadá do určité kategorie, která posléze pomáhá problém směrovat
+        ke kompetentním řešitelům. Zvolení kategorie provedete jednoduše jejím označením pomocí klikutí a výběr
+        potvrdíte stiskem tlačítka pokračovat.
+    </string>
+    <string name="help_report_description_header">Popis problému</string>
+    <string name="help_report_description">Tato sekce slouží k dalšímu specifikování problému. Snažte se, aby titulek i
+        popis jasně a stručně popisoval problém. Formu, kterou při vysvětlení problému použijete značně ovlivní, zda se
+        správci města budou problémem zabývat či nikoliv. Správci měst mají právo nahlásit uživatele, kteří při v popisu
+        používají sprostá slova nebo v popisu jakkoliv uraží správce měst. Takový uživatel může být posléze zablokován.
+    </string>
+    <string name="help_report_description_modules">Součástí této sekce mohou být také tzv. moduly. Cílem modůlů je ještě
+        více zkonkretizovat problém obvykle v závislosti na kategorii, kterou uživatel vybere. U každého modulu najdete
+        instrukce, jaké data v nich máte vyplnit.
+    </string>
+    <string name="help_report_detail_header">Detail hlášení</string>
+    <string name="help_report_detail">Poslední sekce přidání podnětu. Jedná se o ukázku, jak bude vámi nahlášený podnět
+        v aplikaci vypadat. Zde máte poslední možnost zkontrolovat správnost vámi zadaných údajů. Pokud s něčím nejste
+        spokojeni, vždy se můžete vrátit pomocí tlačítka zpět a údaje dodatečně upravit. Po kliknutí na tlačítko odeslat
+        se podnět předá ke zpracování správě obce.\n
+    </string>
 
 </resources>

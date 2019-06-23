@@ -98,6 +98,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 getCurrentLocation()
                 true
             }
+            R.id.action_report_bug -> {
+                startActivity(Intent(this, ReportBugActivity::class.java))
+                true
+            }
             R.id.action_logout -> {
                 logoutUser(Common.token)
                 true

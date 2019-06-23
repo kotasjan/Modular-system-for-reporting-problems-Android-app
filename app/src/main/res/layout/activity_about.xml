@@ -15,17 +15,17 @@
 
         <TextView android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:textSize="18sp"
-                  android:text="@string/about_app"
-                  android:textColor="@color/colorPrimaryText"
-                  android:layout_marginBottom="@dimen/activity_vertical_margin_half"/>
+                  android:textSize="14sp"
+                  android:textColor="@color/colorSecondaryText"
+                  android:layout_marginBottom="@dimen/activity_vertical_margin"
+                  android:text="@string/about_app_text"/>
 
         <TextView android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:textSize="14sp"
                   android:textColor="@color/colorSecondaryText"
                   android:layout_marginBottom="@dimen/activity_vertical_margin"
-                  android:text="@string/about_app_text"/>
+                  android:text="Aktuální verze aplikace: 0.0.1"/>
 
     </LinearLayout>
 </ScrollView>
