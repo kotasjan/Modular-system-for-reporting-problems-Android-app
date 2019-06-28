@@ -17,7 +17,7 @@ class ReportOwnDataSource : PageKeyedDataSource<Int, Report>() {
     override fun loadInitial(@NonNull params: LoadInitialParams<Int>, @NonNull callback: LoadInitialCallback<Int, Report>) {
 
         if (Common.userID != null) {
-            Common.api.getReports(Common.token, Common.location.lat, Common.location.lng, FIRST_PAGE, 0, Common.userID).enqueue(object :
+            Common.api.getReports(Common.token, Common.location.lat, Common.location.lng, FIRST_PAGE, null, Common.userID).enqueue(object :
                 Callback<APIReportsResponse> {
                 override fun onResponse(call: Call<APIReportsResponse>, response: Response<APIReportsResponse>) {
 
@@ -40,7 +40,7 @@ class ReportOwnDataSource : PageKeyedDataSource<Int, Report>() {
     override fun loadBefore(@NonNull params: LoadParams<Int>, @NonNull callback: LoadCallback<Int, Report>) {
 
         if (Common.userID != null) {
-            Common.api.getReports(Common.token, Common.location.lat, Common.location.lng, params.key, 0, Common.userID).enqueue(object :
+            Common.api.getReports(Common.token, Common.location.lat, Common.location.lng, params.key, null, Common.userID).enqueue(object :
                 Callback<APIReportsResponse> {
                 override fun onResponse(call: Call<APIReportsResponse>, response: Response<APIReportsResponse>) {
 
@@ -64,7 +64,7 @@ class ReportOwnDataSource : PageKeyedDataSource<Int, Report>() {
     override fun loadAfter(@NonNull params: LoadParams<Int>, @NonNull callback: LoadCallback<Int, Report>) {
 
         if (Common.userID != null) {
-            Common.api.getReports(Common.token, Common.location.lat, Common.location.lng, params.key, 0, Common.userID).enqueue(object :
+            Common.api.getReports(Common.token, Common.location.lat, Common.location.lng, params.key, null, Common.userID).enqueue(object :
                 Callback<APIReportsResponse> {
                 override fun onResponse(call: Call<APIReportsResponse>, response: Response<APIReportsResponse>) {
 
