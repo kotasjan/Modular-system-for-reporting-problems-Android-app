@@ -10,7 +10,7 @@ import cz.jankotas.bakalarka.models.Report
 import cz.jankotas.bakalarka.services.reportFetcher.ReportAllDataSource
 import cz.jankotas.bakalarka.services.reportFetcher.factories.ReportAllDataSourceFactory
 
-class ReportAllViewModel : ViewModel() {
+class ReportCurrentViewModel : ViewModel() {
 
     internal var itemPagedList: LiveData<PagedList<Report>>
     private var liveDataSource: LiveData<PageKeyedDataSource<Int, Report>>

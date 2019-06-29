@@ -18,8 +18,8 @@ import cz.jankotas.bakalarka.models.Report
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ReportAllAdapter(private var mCtx: Context, private val onClickListener: (View, Report) -> Unit) :
-    PagedListAdapter<Report, ReportAllAdapter.ReportViewHolder>(DIFF_CALLBACK) {
+class ReportCurrentAdapter(private var mCtx: Context, private val onClickListener: (View, Report) -> Unit) :
+    PagedListAdapter<Report, ReportCurrentAdapter.ReportViewHolder>(DIFF_CALLBACK) {
 
     @NonNull
     override fun onCreateViewHolder(@NonNull parent: ViewGroup, viewType: Int): ReportViewHolder {

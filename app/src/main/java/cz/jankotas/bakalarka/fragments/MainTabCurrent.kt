@@ -12,9 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cz.jankotas.bakalarka.R
 import cz.jankotas.bakalarka.ReportActivity
-import cz.jankotas.bakalarka.adapters.ReportAllAdapter
+import cz.jankotas.bakalarka.adapters.ReportCurrentAdapter
 import cz.jankotas.bakalarka.models.Report
-import cz.jankotas.bakalarka.viewmodels.ReportAllViewModel
+import cz.jankotas.bakalarka.viewmodels.ReportCurrentViewModel
 
 class MainTabCurrent : Fragment() {
 
@@ -28,7 +28,7 @@ class MainTabCurrent : Fragment() {
         mRecyclerView.layoutManager = LinearLayoutManager(view.context, RecyclerView.VERTICAL, false)
         mRecyclerView.setHasFixedSize(true)
 
-        val adapter = ReportAllAdapter(view.context, onClickListener = { viewCard, report ->
+        val adapter = ReportCurrentAdapter(view.context, onClickListener = { viewCard, report ->
             run {
                 val intent = Intent(viewCard.context, ReportActivity::class.java)
                 intent.putExtra("report", report)
@@ -36,7 +36,7 @@ class MainTabCurrent : Fragment() {
             }
         })
 
-        val reportViewModel = ViewModelProviders.of(this).get(ReportAllViewModel::class.java)
+        val reportViewModel = ViewModelProviders.of(this).get(ReportCurrentViewModel::class.java)
 
         reportViewModel.itemPagedList.observe(this, androidx.lifecycle.Observer<PagedList<Report>> { pagedList ->
             adapter.submitList(pagedList)

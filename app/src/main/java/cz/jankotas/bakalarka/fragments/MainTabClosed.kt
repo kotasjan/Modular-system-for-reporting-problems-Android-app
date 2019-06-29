@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cz.jankotas.bakalarka.R
 import cz.jankotas.bakalarka.ReportActivity
-import cz.jankotas.bakalarka.adapters.ReportAllAdapter
 import cz.jankotas.bakalarka.adapters.ReportClosedAdapter
 import cz.jankotas.bakalarka.models.Report
 import cz.jankotas.bakalarka.viewmodels.ReportClosedViewModel
