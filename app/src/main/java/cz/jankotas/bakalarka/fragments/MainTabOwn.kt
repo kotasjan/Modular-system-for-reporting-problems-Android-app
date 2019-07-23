@@ -16,32 +16,41 @@ import cz.jankotas.bakalarka.adapters.ReportOwnAdapter
 import cz.jankotas.bakalarka.models.Report
 import cz.jankotas.bakalarka.viewmodels.ReportOwnViewModel
 
+/**
+ * Fragment hlavní aktivity, který zobrazuje vlastní podněty
+ */
 class MainTabOwn : Fragment() {
 
+    // RecyclerView, který zobrazuje seznam podnětů
     private lateinit var mRecyclerView: RecyclerView
 
+    // inicializace fragmentu (stejné jako na počátku každé aktivity)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        val view = inflater.inflate(R.layout.tab_own, container, false)
+        val view = inflater.inflate(R.layout.tab_own, container, false) // view fragmentu, které se předá rodičovské aktivitě
 
-        mRecyclerView = view.findViewById(R.id.recycleViewOwn)
+        mRecyclerView = view.findViewById(R.id.recycleViewOwn) // přiřazení komponenty z layoutu
         mRecyclerView.layoutManager = LinearLayoutManager(view.context, RecyclerView.VERTICAL, false)
         mRecyclerView.setHasFixedSize(true)
 
+        // přidělení adaptéru k RecyclerView, po kliknutí na položku podnětu zobrazit aktivitu jeho detailu
         val adapter = ReportOwnAdapter(view.context, onClickListener = { viewCard, report ->
             run {
                 val intent = Intent(viewCard.context, ReportActivity::class.java)
-                intent.putExtra("report", report)
+                intent.putExtra("report", report) // poslání objektu podnětu aktivitě detailu
                 startActivity(intent)
             }
         })
 
+        // přiřazení viewmodelu obsahujího data podnětů
         val reportViewModel = ViewModelProviders.of(this).get(ReportOwnViewModel::class.java)
 
+        // naslouchání změnám dat ve viewmodelu
         reportViewModel.itemPagedList.observe(this, androidx.lifecycle.Observer<PagedList<Report>> { pagedList ->
-            adapter.submitList(pagedList)
+            adapter.submitList(pagedList) // v případě změny dat je předat adapteru
         })
 
+        // přiřazení adaptéru k recylerview
         mRecyclerView.adapter = adapter
 
         return view

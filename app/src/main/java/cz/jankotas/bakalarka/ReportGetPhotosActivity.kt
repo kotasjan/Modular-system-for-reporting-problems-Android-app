@@ -18,50 +18,60 @@ import cz.jankotas.bakalarka.common.Common
 import kotlinx.android.synthetic.main.activity_report_get_photos.*
 import kotlinx.android.synthetic.main.photos_recycler_view.*
 
+/**
+ * První aktivita, která je součástí procesu přidávání podnětu. Uživatel vybere fotografie, které dokumentují místo
+ * problému. K výběru fotografií se používá knihovna ImagePicker.
+ */
 class ReportGetPhotosActivity : AppCompatActivity() {
 
+    // reference na adaptér pro zobrazování vybraných fotografií
     private lateinit var adapter: PhotoGridAdapter
 
+    // onCreate metoda inicializuje aktivitu (nastavení view)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_report_get_photos)
 
+        // vytvoření adaptéru pro předání fotografií komponentě recyclerView
         adapter = PhotoGridAdapter(this, bottom_banner, Common.newReport.photos)
 
+        // nastavení toolbaru a tlačítka zrušit (close icon)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
         supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_close_white)
 
+        // zlačítko pokaračovat v procesu přidávání nového podnětu
         btn_continue.setOnClickListener {
             val intent = Intent(this, ReportGetLocationActivity::class.java)
             startActivity(intent)
         }
 
+        // po kliknutí na Fab tlačítko se uživatel ocitne v galerii, kde může vybrat fotografie
         photo_fab.setOnClickListener {
             getImages()
         }
 
+        // pokud již byly v minulosti vybrány fotografie, je nutné je přidat do adaptéru
         if (Common.newReport.photos.isNotEmpty()) {
             adapter.setData(Common.newReport.photos)
             photos_recycler_view.adapter = adapter
         }
 
+        // vytvoření tabukového layoutu pro umístění fotografií
         val layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
         photos_recycler_view.layoutManager = layoutManager
 
         getImages()
     }
 
+    // zobrazení menu po kliknutí na ikonu tří teček v pravém horním rohu
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu. This adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_report_bug, menu)
         return true
     }
 
+    // definování akcí vzhledem k výběru položky z menu
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        /* Handle action bar item clicks here. The action bar will
-         * automatically handle clicks on the Home/Up button, so long
-         * as you specify a parent activity in AndroidManifest.xml.*/
         return when (item.itemId) {
             R.id.action_report_bug -> {
                 startActivity(Intent(this, ReportBugActivity::class.java))
@@ -71,25 +81,27 @@ class ReportGetPhotosActivity : AppCompatActivity() {
         }
     }
 
+    // zobrazení dialogu zda si uživatel opravdu přeje opustit proces přidávání podnětu
     override fun onSupportNavigateUp(): Boolean {
         showDialog()
         return true
     }
 
+    // získání odpovědi v podobě vybraných fotografií
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == RC_PICK_IMAGES && resultCode == Activity.RESULT_OK && data != null) {
-            Common.newReport.photos = data.getParcelableArrayListExtra(EXTRA_IMAGES)
-            adapter.setData(Common.newReport.photos)
+            Common.newReport.photos = data.getParcelableArrayListExtra(EXTRA_IMAGES) // vložení získaných obrazků do atributu objektu
+            adapter.setData(Common.newReport.photos) // vložení fotografií do adaptéru
+            // pokud nejsou vybrány žádné fotografie, musí se skrýt tlačítko "Pokračovat", aby uživatel musel vybrat alespoň jednu fotografii
             if (Common.newReport.photos.isNotEmpty()) bottom_banner.visibility = View.VISIBLE else bottom_banner.visibility = View.GONE
-            photos_recycler_view.adapter = adapter
+            photos_recycler_view.adapter = adapter // připojení adaptéru
         }
 
-        super.onActivityResult(requestCode, resultCode, data)  // You MUST have this line to be here
-        // so ImagePicker can work with fragment mode
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun getImages() {
-        ImagePicker.with(this)                         //  Initialize ImagePicker with activity or fragment context
+        ImagePicker.with(this)            //  Initialize ImagePicker with activity or fragment context
             .setToolbarColor(getColorAsString(R.color.colorPrimary))         //  Toolbar color
             .setStatusBarColor(getColorAsString(R.color.colorPrimaryDark))       //  StatusBar color (works with SDK >= 21  )
             .setToolbarTextColor(getColorAsString(R.color.colorWhitePrimary))     //  Toolbar text color (Title and Done button)
@@ -113,15 +125,18 @@ class ReportGetPhotosActivity : AppCompatActivity() {
             .start()                            //  Start ImagePicker
     }
 
+    // převod definované barvy do řetězcové podoby
     private fun getColorAsString(resource: Int): String {
         return "#" + Integer.toHexString(ContextCompat.getColor(this, resource))
     }
 
+    // zobrazení dialogu před opuštěním procesu přidávání nového hlášení
     private fun showDialog() {
         val builder1 = AlertDialog.Builder(this)
         builder1.setMessage(getString(R.string.warning_closing_report))
         builder1.setCancelable(true)
 
+        // potvrzení akce
         builder1.setPositiveButton("OK") { dialog, _ ->
             run {
                 val intent = Intent(this, MainActivity::class.java)
@@ -132,6 +147,7 @@ class ReportGetPhotosActivity : AppCompatActivity() {
             }
         }
 
+        // zrušení akce
         builder1.setNegativeButton("Cancel") { dialog, _ ->
             run {
                 dialog.cancel()

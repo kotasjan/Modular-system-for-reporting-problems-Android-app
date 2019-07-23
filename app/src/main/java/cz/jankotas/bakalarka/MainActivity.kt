@@ -36,80 +36,91 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+/**
+ * Hlavní aktivita aplikace, která se spouští po úspěšném přihlášení. Obsahuje tři fragmenty se seznamy nahlášených podnětů,
+ * postranní menu a Fab tlačítko pro přidání nového podnětu.
+ */
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+    // dialog pro načítání
     private lateinit var dialog: Dialog
 
-    // Declare your airLocation object on top
+    // objekt pro uchování aktuální polohy uživatele
     private var airLocation: AirLocation? = null
 
+    // onCreate metoda inicializuje aktivitu (nastavení view)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         setNavigationDrawer(nav_view.getHeaderView(0))
 
+        // zobrazit dialog s progress barem
         val view = this.layoutInflater.inflate(R.layout.full_view_progress_bar, null)
         view.progress_text.text = getString(R.string.waiting_for_location)
-        tabs.visibility = View.GONE
+        tabs.visibility = View.GONE // v průvěhy načítání skrýt taby pro přepínání se mezi fragmenty
 
         dialog = Dialog(this, android.R.style.Theme_Translucent_NoTitleBar)
         dialog.setContentView(view)
         dialog.setCancelable(false)
         dialog.show()
 
-        getCurrentLocation()
+        getCurrentLocation() // požadavek na získání aktuální polohy uživatele
 
-        // Set onClickListener for add floating button
+        // po kliknutí na fab tlačítko spustit proces přidávání nového podnětu
         fab.setOnClickListener {
             startActivity(Intent(this, ReportGetPhotosActivity::class.java))
         }
     }
 
+    // onStop metoda se volá na konci životního cyklu aktivity a lze v ní uložit aplikační data
     override fun onStop() {
         super.onStop()
         Log.d(Common.APP_NAME, "onStop()")
         SharedPrefs.saveAccessToken()
     }
 
+    // onDestroy metoda se volá stejně jako onStop na konci životního cyklu aktivity s tím, že je volána i v případě pádu
+    // aplikace, proto je dobré se pojistit i touto metodou
     override fun onDestroy() {
         super.onDestroy()
         Log.d(Common.APP_NAME, "onDestroy()")
         SharedPrefs.saveAccessToken()
     }
 
+    // při stisknutí tlačítka zpět se volá tato funkce
+    // v mém případě jsem chtěl zajistit, aby se uživatel odhlásil
     override fun onBackPressed() {
         super.onBackPressed()
         logoutUser(Common.token)
     }
 
+    // zobrazení menu po kliknutí na ikonu tří teček v pravém horním rohu
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu. This adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
         return true
     }
 
+    // definování akcí vzhledem k výběru položky z menu
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        /* Handle action bar item clicks here. The action bar will
-         * automatically handle clicks on the Home/Up button, so long
-         * as you specify a parent activity in AndroidManifest.xml.*/
         return when (item.itemId) {
             R.id.action_refresh -> {
-                getCurrentLocation()
+                getCurrentLocation() // refresh
                 true
             }
             R.id.action_report_bug -> {
-                startActivity(Intent(this, ReportBugActivity::class.java))
+                startActivity(Intent(this, ReportBugActivity::class.java)) // hlášení chyby
                 true
             }
             R.id.action_logout -> {
-                logoutUser(Common.token)
+                logoutUser(Common.token) // logout
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
+    // definování akcí po výběru jedné z položek v postraním menu
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
@@ -137,20 +148,25 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
+    // metoda se volá po získání aktuální polohy
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         airLocation?.onActivityResult(requestCode, resultCode, data)
         super.onActivityResult(requestCode, resultCode, data)
     }
 
+    // požadavek na získání povolení k získávání polohy
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         airLocation?.onRequestPermissionsResult(requestCode, permissions, grantResults)
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
+    // volání knihovní funkce k získání aktuální polohy zařízení
     private fun getCurrentLocation() {
+        // k získání polohy se používá knihovna AirLocation, která kombinuje všechny metody k rychlému určení přesné polohy zařízení
         airLocation = AirLocation(this, true, true, object : AirLocation.Callbacks {
+
+            // v případě úspěchy se data zpracují
             override fun onSuccess(location: Location) {
-                // Adapter for connecting viewPager with tabs
                 Common.location = cz.jankotas.bakalarka.models.Location(location.latitude, location.longitude)
                 viewpager_main.adapter = SectionsPageAdapter(supportFragmentManager)
                 viewpager_main.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
@@ -160,26 +176,26 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 dialog.dismiss()
             }
 
+            // v případě neúspěchu následuje další pokus
             override fun onFailed(locationFailedEnum: AirLocation.LocationFailedEnum) {
                 getCurrentLocation()
-                // either do nothing, or show error which is received as locationFailedEnum
                 Toast.makeText(this@MainActivity, locationFailedEnum.name, Toast.LENGTH_SHORT).show()
             }
         })
     }
 
+    // nastavení postranního menu
     private fun setNavigationDrawer(headerView: View) {
 
-        // ViewModel setting observer for User changes
+        // nastavení observeru pro data uživatele (pro získání ikony fotografie, emailu a jména)
         ViewModelProviders.of(this).get(UserViewModel::class.java).getUser().observe(this,
             androidx.lifecycle.Observer<User> { user ->
                 Glide.with(this).load(user.avatarURL).into(headerView.profile_image)
-                // Set username and user email
                 headerView.username_hamburger.text = user.name
                 headerView.email_hamburger.text = user.email
             })
 
-        // Toggle button for menu drawer
+        // přidání tlačítka na otevírání menu
         val toggle = ActionBarDrawerToggle(this,
             drawer_layout,
             toolbar,
@@ -188,10 +204,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
 
-        // Setting active menu item
+        // nastavení aktivné položky v menu
         nav_view.setNavigationItemSelectedListener(this)
     }
 
+    // odhlášení uživatele
     private fun logoutUser(token: String) {
         Common.api.logoutUser(token).enqueue(object : Callback<APILoginResponse> {
             override fun onFailure(call: Call<APILoginResponse>, t: Throwable) {
@@ -200,13 +217,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             override fun onResponse(call: Call<APILoginResponse>, response: Response<APILoginResponse>) {
 
-                // If response code is success, logout was successful
+                // v případě HTTP 200 bylo odhlášení úspěšné
                 if (response.code() == 200) {
-
                     Common.login = false
                     Toast.makeText(this@MainActivity, getString(R.string.successful_logout), Toast.LENGTH_LONG).show()
-                    finish()
-
+                    finish() // ukončení aktivity
                 } else {
                     Toast.makeText(this@MainActivity, getString(R.string.err_login_4), Toast.LENGTH_LONG).show()
                 }
@@ -214,8 +229,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         })
     }
 
+    // nastavení přepínání sekcí / fragmentů
     inner class SectionsPageAdapter(fm: FragmentManager?) : FragmentPagerAdapter(fm) {
 
+        // určení názvů sekcí pro dané indexy
         override fun getPageTitle(position: Int): CharSequence? {
             return when (position) {
                 0 -> getString(R.string.currrentTabTitle)
@@ -225,6 +242,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         }
 
+        // určení fragmentů pro dané indexy sekcí
         override fun getItem(position: Int): Fragment? {
             return when (position) {
                 0 -> MainTabCurrent()
@@ -234,6 +252,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         }
 
+        // funkce vrací celkový počet sekcí
         override fun getCount(): Int {
             return 3
         }

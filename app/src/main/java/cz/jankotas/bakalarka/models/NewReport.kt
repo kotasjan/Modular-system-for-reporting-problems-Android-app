@@ -6,6 +6,9 @@ import androidx.annotation.Nullable
 import com.nguyenhoanglam.imagepicker.model.Image
 import kotlinx.android.parcel.Parcelize
 
+/**
+ * Datová třída pro ukládání dat nového podnětu
+ */
 @Parcelize
 data class NewReport constructor(@Nullable var title: String?,
                                  @Nullable var userNote: String?,
@@ -25,6 +28,9 @@ data class NewReport constructor(@Nullable var title: String?,
     }
 }
 
+/**
+ * Datová třída pro finálně připravený podnět k odeslání serveru
+ */
 data class NewReportToSend constructor(@NonNull val title: String,
                                        @NonNull val userNote: String,
                                        @NonNull val category_id: Int,

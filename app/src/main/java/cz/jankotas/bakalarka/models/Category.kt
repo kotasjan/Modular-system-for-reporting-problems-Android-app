@@ -5,6 +5,9 @@ import android.graphics.drawable.Drawable
 import androidx.annotation.NonNull
 import cz.jankotas.bakalarka.R
 
+/**
+ * Datová třída pro kategorie, obsahuje i globální objekt obsahující seznam kategorií
+ */
 data class Category constructor(@NonNull val id: Int,
                                 @NonNull val name: String,
                                 @NonNull val icon: Drawable) {

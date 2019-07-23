@@ -6,6 +6,9 @@ import androidx.annotation.Nullable
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
+/**
+ * Datová třída pro uchování detailních informacích o nahlášeném podnětu
+ */
 @Parcelize
 data class Report constructor(@NonNull val id: Int,
                               @NonNull val created_at: Date,

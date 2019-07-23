@@ -7,9 +7,12 @@ import androidx.paging.PageKeyedDataSource
 import androidx.paging.PagedList
 import cz.jankotas.bakalarka.common.Common
 import cz.jankotas.bakalarka.models.Report
-import cz.jankotas.bakalarka.services.reportFetcher.ReportAllDataSource
 import cz.jankotas.bakalarka.services.reportFetcher.factories.ReportAllDataSourceFactory
 
+/**
+ * Třída, která slouží jako ViewModel v architektuře MVVM. Cílem třídy je držet data seznamu podnětů pro RecyclerView
+ * a zasílat observerům upozornění na změnu svých dat.
+ */
 class ReportCurrentViewModel : ViewModel() {
 
     internal var itemPagedList: LiveData<PagedList<Report>>

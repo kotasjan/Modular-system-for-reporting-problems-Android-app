@@ -15,19 +15,25 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+/**
+ * Aktivita sloužící k registraci uživatele.
+ */
 class RegisterActivity : AppCompatActivity() {
 
-    lateinit var dialog: Dialog
+    lateinit var dialog: Dialog // dialog načítání
 
+    // onCreate metoda inicializuje aktivitu (nastavení view)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
+        // nastavení dialogu s progress barem
         val view = this.layoutInflater.inflate(R.layout.full_view_progress_bar, null)
         dialog = Dialog(this, android.R.style.Theme_Translucent_NoTitleBar)
         dialog.setContentView(view)
         dialog.setCancelable(false)
 
+        // nastavení listeneru na zmáčknutí tlačítka "Registrovat se"
         button_register_sign_in.setOnClickListener {
             registerUser(editText_name_sign_up_input.text.toString(),
                 editText_email_sign_up_input.text.toString(),
@@ -36,23 +42,23 @@ class RegisterActivity : AppCompatActivity() {
                 editText_password_confirm_sign_up_input.text.toString())
         }
 
-        textView_create_new_account.setOnClickListener {
+        // pokud uživatel již má účet, může se přihlásit
+        textView_login_user.setOnClickListener {
             startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
         }
     }
 
+    // zobrazení menu po kliknutí na ikonu tří teček v pravém horním rohu
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu. This adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_report_bug, menu)
         return true
     }
 
+    // definování akcí vzhledem k výběru položky z menu
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        /* Handle action bar item clicks here. The action bar will
-         * automatically handle clicks on the Home/Up button, so long
-         * as you specify a parent activity in AndroidManifest.xml.*/
         return when (item.itemId) {
             R.id.action_report_bug -> {
+                // spustit aktivitu ReportBugActivity
                 startActivity(Intent(this, ReportBugActivity::class.java))
                 true
             }
@@ -60,31 +66,35 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
+    // registrace uživatele
     private fun registerUser(name: String, email: String, telephone: String, password: String, password_confirmation: String) {
 
         when {
 
+            // kontrola vstupů, zda jsou ve správném tvaru
             checkErrors(name, email, telephone, password, password_confirmation) -> return
 
             else -> {
 
-                dialog.progress_text.text = getString(R.string.registration_is_running)
-                showDialog()
+                dialog.progress_text.text = getString(R.string.registration_is_running) // nastavení textu dialogu
+                showDialog() // zobrazení dialogu načítání
 
+                // zaslání požadavku na registraci uživatele
                 Common.api.registerUser(name, email, telephone.toInt(), password, password_confirmation).enqueue(object :
                     Callback<APILoginResponse> {
+
+                    // v případě selhání ukončit dialog a zobrazit chybu uživateli
                     override fun onFailure(call: Call<APILoginResponse>?, t: Throwable?) {
-
                         hideDialog()
-
                         Toast.makeText(this@RegisterActivity, t!!.message, Toast.LENGTH_SHORT).show()
-
                     }
 
+                    // v případě úspěchu spustit aktivitu LoginActivity a pokusit se přihlásit do aplikace
                     override fun onResponse(call: Call<APILoginResponse>?, response: Response<APILoginResponse>?) {
 
                         hideDialog()
 
+                        // pokud byl uživatel vytvořen, dát info uživateli a spustit přihlašování
                         if (response!!.code() == 201) {
                             Toast.makeText(this@RegisterActivity, response.body()!!.message, Toast.LENGTH_SHORT).show()
 
@@ -102,6 +112,7 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
+    // kontrola vstupů, zda jsou ve správném tvaru
     private fun checkErrors(name: String, email: String, telephone: String, password: String, password_confirmation: String): Boolean {
 
         editText_name_sign_up_input.error = null
@@ -111,41 +122,42 @@ class RegisterActivity : AppCompatActivity() {
         editText_password_confirm_sign_up_input.error = null
         checkBox_sign_in.error = null
 
+        // kontrola chyb a zobrazení chybových hlášek uvnitř inputů
         when {
-            name.isEmpty() -> {
+            name.isEmpty() -> { // pokud je pole jména prázdné
                 editText_name_sign_up_input.error = "Jméno musí být vyplněno"
                 return true
             }
-            email.isEmpty() -> {
+            email.isEmpty() -> { // pokud je pole email prázdné
                 editText_email_sign_up_input.error = "Email musí být vyplněn"
                 return true
             }
-            !isEmailValid(email) -> {
+            !isEmailValid(email) -> { // pokud je email ve správném formátu
                 editText_email_sign_up_input.error = "Email nemá požadovaný formát (např. email@email.cz)"
                 return true
             }
-            !telephoneIsValid(telephone) -> {
+            !telephoneIsValid(telephone) -> { // kontrola telefoního čísla, zda je v odpovídajícím tvaru
                 editText_telephone_sign_up_input.error = "Telefon není v požadovaném formátu (např. 111111111)"
                 return true
             }
-            password.isEmpty() -> {
+            password.isEmpty() -> { // pokud je pole hesla prázdné
                 editText_password_sign_up_input.error = "Heslo musí být vyplněno a musí mít nejméně 8 znaků"
                 return true
             }
-            password.length < 8 -> {
+            password.length < 8 -> { // pokud délka hesla je menší než 8 znaků
                 editText_password_sign_up_input.error = "Délka hesla musí být minimálně 8 znaků"
                 return true
             }
-            password_confirmation.isEmpty() -> {
+            password_confirmation.isEmpty() -> { // pokud je pole potvrzení hesla prázdné
                 editText_password_confirm_sign_up_input.error = "Heslo musí být potvrzeno"
                 return true
             }
-            password != password_confirmation -> {
+            password != password_confirmation -> { // pokud se hesla neshodují
                 editText_password_sign_up_input.error = "Zadaná hesla se neshodují"
                 editText_password_confirm_sign_up_input.error = "Zadaná hesla se neshodují"
                 return true
             }
-            !checkBox_sign_in.isChecked -> {
+            !checkBox_sign_in.isChecked -> { // pokud je checkbox prázdný
                 checkBox_sign_in.error = "Pro registraci je nutné souhlasit s podmínkami"
                 return true
             }
@@ -153,18 +165,21 @@ class RegisterActivity : AppCompatActivity() {
         return false
     }
 
+    // kotrola telefoního čísla
     fun telephoneIsValid(telephone: String): Boolean {
-        val v = telephone.toIntOrNull()
+        val v = telephone.toIntOrNull() // kontrola, zda se jedná o číslo
         return when (v) {
             null -> false
-            else -> telephone.length == 9
+            else -> telephone.length == 9 // délka českého číslaa musí být 9 znaků
         }
     }
 
+    // kontrola validity emailu
     private fun isEmailValid(email: String): Boolean {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
+    // zobrazení dialogu s progress barem
     fun showDialog() {
         val view = this.layoutInflater.inflate(R.layout.full_view_progress_bar, null)
         dialog.setContentView(view)
@@ -172,6 +187,7 @@ class RegisterActivity : AppCompatActivity() {
         dialog.show()
     }
 
+    // skrytí dialogu
     fun hideDialog() {
         dialog.dismiss()
     }

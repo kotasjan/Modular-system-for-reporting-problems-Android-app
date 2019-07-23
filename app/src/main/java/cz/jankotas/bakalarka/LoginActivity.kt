@@ -18,50 +18,54 @@ import retrofit2.Callback
 import retrofit2.Response
 
 /**
- * A login screen that offers login via email/password.
+ * Aktivita sloužící k přihlašování uživatele.
  */
 class LoginActivity : AppCompatActivity() {
 
-    lateinit var dialog: Dialog
+    lateinit var dialog: Dialog // dialog načítání
 
+    // onCreate metoda inicializuje aktivitu (nastavení view)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.activity_login) // nastavení layoutu aktivity
 
+        // nastavení listeneru na zmáčknutí tlačítka "Přihlásit se"
         button_login_login.setOnClickListener {
             loginUser(editText_email_sign_in_input.text.toString(), editText_password_sign_in_input.text.toString())
         }
 
+        // nastavení listeneru na zmáčknutí tlačítka "Vytvořit nový účet"
         create_new_account_text.setOnClickListener {
             startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
         }
 
+        // nastavení dialogu s progress barem
         val view = this.layoutInflater.inflate(R.layout.full_view_progress_bar, null)
         dialog = Dialog(this, android.R.style.Theme_Translucent_NoTitleBar)
         dialog.setContentView(view)
         dialog.setCancelable(false)
 
+        // pokud aktivita přijímá data z předchozí aktivity
         if (intent.extras != null) {
             val email = intent.getStringExtra("email")
             val password = intent.getStringExtra("password")
-            editText_email_sign_in_input.setText(email)
-            editText_password_sign_in_input.setText(password)
-            loginUser(email, password)
+            editText_email_sign_in_input.setText(email) // vložit uložený email do pole s emailem
+            editText_password_sign_in_input.setText(password) // vložit uložené heslo do pole s heslem
+            loginUser(email, password) // přihlásit uživatele
         }
     }
 
+    // zobrazení menu po kliknutí na ikonu tří teček v pravém horním rohu
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu. This adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_report_bug, menu)
         return true
     }
 
+    // definování akcí vzhledem k výběru položky z menu
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        /* Handle action bar item clicks here. The action bar will
-         * automatically handle clicks on the Home/Up button, so long
-         * as you specify a parent activity in AndroidManifest.xml.*/
         return when (item.itemId) {
             R.id.action_report_bug -> {
+                // spustit aktivitu ReportBugActivity
                 startActivity(Intent(this, ReportBugActivity::class.java))
                 true
             }
@@ -69,52 +73,55 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    // kontrola, zda je email validní
     private fun isEmailValid(email: String): Boolean {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
+    // přihlášení uživatele
     private fun loginUser(email: String, password: String) {
 
         when {
-
+            // kontrola vstupů
             checkErrors(email, password) -> return
 
             else -> {
 
-                dialog.progress_text.text = getString(R.string.loggin_in_running)
-                dialog.show()
+                dialog.progress_text.text = getString(R.string.loggin_in_running) // nastavení textu dialogu
+                dialog.show() // zobrazení dialogu načítání
 
+                // zaslání požadavku na přihlášení
                 Common.api.loginUser(email, password).enqueue(object : Callback<APILoginResponse> {
+
+                    // v případě selhání ukončit dialog a zobrazit chybu uživateli
                     override fun onFailure(call: Call<APILoginResponse>?, t: Throwable?) {
-
                         dialog.dismiss()
-
                         Toast.makeText(this@LoginActivity, t!!.message, Toast.LENGTH_SHORT).show()
-
                     }
 
                     override fun onResponse(call: Call<APILoginResponse>?, response: Response<APILoginResponse>?) {
 
                         when {
+                            // pokud HTTP status kód 401, uživatel není autorizován
                             response!!.code() == 401 -> {
                                 editText_email_sign_in_input?.error = getString(R.string.err_login_3)
                                 editText_password_sign_in_input?.setText("")
                                 dialog.dismiss()
                             }
-                            response.isSuccessful -> {
+                            response.isSuccessful -> { // úspěch
 
                                 Toast.makeText(this@LoginActivity, getString(R.string.user_logged_in), Toast.LENGTH_SHORT).show()
 
                                 val user = response.body()!!.user
                                 user.password = password
 
-                                ViewModelProviders.of(this@LoginActivity).get(UserViewModel::class.java).insert(user)
+                                ViewModelProviders.of(this@LoginActivity).get(UserViewModel::class.java).insert(user) // uložení uživatele
 
-                                Common.token = "Bearer " + response.body()!!.access_token
+                                Common.token = "Bearer " + response.body()!!.access_token // uložení tokenu
                                 Common.userID = user.id
                                 Common.login = true
 
-                                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                                startActivity(Intent(this@LoginActivity, MainActivity::class.java)) // spuštění hlavní aktivity
 
                             }
                             else -> {
@@ -123,13 +130,14 @@ class LoginActivity : AppCompatActivity() {
                                     Toast.LENGTH_SHORT).show()
                             }
                         }
-                        dialog.dismiss()
+                        dialog.dismiss() // skrytí dialogu
                     }
                 })
             }
         }
     }
 
+    // kontrola vstupů, zda jsou ve správném tvaru
     private fun checkErrors(email: String, password: String): Boolean {
 
         editText_email_sign_in_input.error = null

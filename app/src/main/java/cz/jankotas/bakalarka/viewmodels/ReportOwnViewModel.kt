@@ -9,6 +9,10 @@ import cz.jankotas.bakalarka.common.Common
 import cz.jankotas.bakalarka.models.Report
 import cz.jankotas.bakalarka.services.reportFetcher.factories.ReportOwnDataSourceFactory
 
+/**
+ * Třída, která slouží jako ViewModel v architektuře MVVM. Cílem třídy je držet data seznamu podnětů pro RecyclerView
+ * a zasílat observerům upozornění na změnu svých dat.
+ */
 class ReportOwnViewModel : ViewModel() {
 
     internal var itemPagedList: LiveData<PagedList<Report>>

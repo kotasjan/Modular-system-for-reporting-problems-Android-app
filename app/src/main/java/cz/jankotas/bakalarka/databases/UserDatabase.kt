@@ -9,6 +9,9 @@ import cz.jankotas.bakalarka.databases.converters.DateTypeConverter
 import cz.jankotas.bakalarka.databases.daos.UserDao
 import cz.jankotas.bakalarka.models.User
 
+/**
+ * Databáze v rámci knihovny Room. Tato abstraktní třída inicializuje databázi.
+ */
 @Database(entities = [User::class], version = 2, exportSchema = false)
 @TypeConverters(DateTypeConverter::class)
 abstract class UserDatabase : RoomDatabase() {

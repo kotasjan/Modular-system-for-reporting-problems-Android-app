@@ -7,19 +7,23 @@ import com.google.gson.Gson
 import cz.jankotas.bakalarka.models.Report
 import cz.jankotas.bakalarka.models.User
 
+/**
+ * Objekt, který se stará o ukládání informací do SharedPreferences.
+ */
 object SharedPrefs {
 
-    private const val PREFS_FILE = "cz.jankotas.bakalarka.mPrefs"
+    private const val PREFS_FILE = "cz.jankotas.bakalarka.mPrefs" // jméno souboru, kde jsou data uložena
     private const val ACCESS_TOKEN = "access_token"
 
     private var prefs: SharedPreferences? = null
 
-    // load content of shared preferences to variable
+    // načte obsah uloženého souboru do proměnné prefs
     fun initializeSharedPreferences(context: Context) {
         prefs = context.getSharedPreferences(PREFS_FILE, 0)
         loadAccessToken()
     }
 
+    // získání přístupového tokenu uloženého ve sdílených preferencích
     private fun loadAccessToken() {
         if (prefs != null && prefs!!.contains(ACCESS_TOKEN) && prefs!!.getString(ACCESS_TOKEN, null) != null) {
             Common.token = prefs?.getString(ACCESS_TOKEN, null)!!
@@ -27,6 +31,7 @@ object SharedPrefs {
         }
     }
 
+    // uložení tokenu do sdílených preferencí
     fun saveAccessToken() {
         if (prefs != null) {
             val editor = prefs!!.edit()

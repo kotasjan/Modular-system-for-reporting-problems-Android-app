@@ -159,7 +159,7 @@
                       tools:layout_editor_absoluteY="447dp"
                       tools:layout_editor_absoluteX="210dp"
                       android:layout_weight="1"
-                      android:id="@+id/textView_create_new_account"
+                      android:id="@+id/textView_login_user"
                       android:layout_marginStart="5dp"
                       android:textColor="@color/colorPrimary"/>
         </LinearLayout>

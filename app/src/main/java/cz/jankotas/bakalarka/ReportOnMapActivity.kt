@@ -18,24 +18,32 @@ import cz.jankotas.bakalarka.common.Common.location
 import cz.jankotas.bakalarka.models.Location
 import cz.jankotas.bakalarka.models.Report
 
+/**
+ * Aktivita zobrazuje pozici podnětu na mapě
+ */
 class ReportOnMapActivity : AppCompatActivity(), OnMapReadyCallback {
 
+    // vytvoření reference na objekt mapy knihovny GoogleMap
     private lateinit var map: GoogleMap
 
+    // vytvoření reference na objekt se souřadnicemi
     private lateinit var location: Location
 
+    // onCreate metoda inicializuje aktivitu (nastavení view)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_report_on_map)
 
+        // nastavení toolbaru a tlačítka zpět
         supportActionBar!!.setDisplayShowTitleEnabled(false)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        // získání podpůrného fragmentu a získání notifikace, když je mapa připravena
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
+        // získání lokace z předchozí aktivity
         val bundle: Bundle? = intent.extras
         bundle?.let {
             bundle.apply {
@@ -48,23 +56,28 @@ class ReportOnMapActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    // zobrazení menu po kliknutí na ikonu tří teček v pravém horním rohu
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu. This adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_report_bug, menu)
         return true
     }
 
+    // definování akcí vzhledem k výběru položky z menu
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        /* Handle action bar item clicks here. The action bar will
-         * automatically handle clicks on the Home/Up button, so long
-         * as you specify a parent activity in AndroidManifest.xml.*/
         return when (item.itemId) {
             R.id.action_report_bug -> {
+                // spustit aktivitu ReportBugActivity
                 startActivity(Intent(this, ReportBugActivity::class.java))
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    // ukončení aktivity po stisku tlačítka zpět
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
     }
 
     /**
@@ -79,14 +92,11 @@ class ReportOnMapActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
 
-        // Add a marker in Sydney and move the camera
+        // přidání značky s místem podnětu do mapy
         val loc = LatLng(location.lat, location.lng)
         map.addMarker(MarkerOptions().position(loc))
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(loc.latitude, loc.longitude), 18.0f))
-    }
 
-    override fun onSupportNavigateUp(): Boolean {
-        finish()
-        return true
+        // vycentrování kamery na místo podnětu
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(loc.latitude, loc.longitude), 18.0f))
     }
 }

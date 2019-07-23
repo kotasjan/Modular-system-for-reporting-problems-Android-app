@@ -5,6 +5,9 @@ import androidx.annotation.NonNull
 import androidx.annotation.Nullable
 import kotlinx.android.parcel.Parcelize
 
+/**
+ * Datová třída s informacemi o vstupech modulů
+ */
 @Parcelize
 data class Input constructor(@NonNull var id: Int,
                              @NonNull var inputType: String,

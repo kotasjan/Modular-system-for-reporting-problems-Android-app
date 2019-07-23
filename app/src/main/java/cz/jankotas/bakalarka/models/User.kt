@@ -6,6 +6,9 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.*
 
+/**
+ * Datová třída pro přihlášeného uživatele. Data se ukládají též do databáze, aby byla uchována i po ukončení aplikace.
+ */
 @Entity(tableName = "users")
 data class User constructor(@PrimaryKey @NonNull var id: Int,
                             @Nullable var avatarURL: String?,
